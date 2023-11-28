@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
 import './Navbar.css';
 import Sidebar from '../Sidebar/Sidebar';
 
@@ -11,10 +12,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-        <button className="nav-item" onClick={toggleSidebar}>
-         =
-        </button>
       <div className="logo">Your Logo</div>
+            <div className="menu-icon" onClick={toggleSidebar}>
+        <MenuIcon />
+      </div>
       <ul className="nav-list">
         <li className="nav-item">Home</li>
         <li className="nav-item">Posts</li>

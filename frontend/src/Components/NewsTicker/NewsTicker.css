@@ -1,0 +1,27 @@
+/* NewsTicker.css */
+.news-ticker {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    overflow: hidden;
+  }
+  
+  .news-container {
+    display: flex;
+    animation: scrollNews linear infinite;
+    animation-duration: 50s; 
+  }
+  
+  .news-item {
+    padding: 0 20px;
+  }
+  
+  @keyframes scrollNews {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  

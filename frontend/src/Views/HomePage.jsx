@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PostList from '../Components/PostsLists';
 import Navbar from '../Components/NavBar/Nav';
-
+import NewsTicker from '../Components/NewsTicker/NewsTicker';
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -18,7 +18,7 @@ const HomePage = () => {
   return (
     <div>
       <Navbar/>
-      <h1>My Blog Posts</h1>
+      <NewsTicker />
       <PostList posts={posts} />
     </div>
   );
