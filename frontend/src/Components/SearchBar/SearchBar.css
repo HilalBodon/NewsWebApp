@@ -12,9 +12,9 @@ input {
 }
 
 button {
-    margin-left: 8px;
+    font-size: x-large;
     padding: 5px;
-    background-color: #007bff;
+    /* background-color: #007bff; */
     color: #fff;
     border: none;
     border-radius: 4px;
