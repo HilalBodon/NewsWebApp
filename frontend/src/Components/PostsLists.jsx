@@ -8,6 +8,7 @@ const PostList = ({ posts }) => {
         <PostCard key={post._id} title={post.title} content={post.content} author={post.author} />
       ))}
     </div>
+    
   );
 };
 

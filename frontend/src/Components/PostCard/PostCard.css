@@ -1,0 +1,35 @@
+/* PostCard.css */
+.post-card {
+    width: 300px;
+    margin: 16px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .post-header {
+    margin-bottom: 12px;
+  }
+  
+  .post-title {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+  
+  .post-meta {
+    color: #555;
+    margin: 4px 0;
+  }
+  
+  .post-content {
+    color: #333;
+    line-height: 1.4;
+  }
+  
