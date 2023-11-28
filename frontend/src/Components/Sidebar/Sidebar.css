@@ -9,21 +9,15 @@
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
+    z-index: 1;
+
   }
   
   .sidebar.open {
     width: 250px;
   }
   
-  /* .close-button {
-    font-size: 1.5rem;
-    background-color: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    margin-left: 10px;
-  } */
-  
+ 
   .sidebar-list {
     list-style: none;
     padding: 0;
@@ -36,7 +30,6 @@
     cursor: pointer;
   }
   
-  /* Sidebar.css */
 .overlay {
     display: none;
     position: fixed;
