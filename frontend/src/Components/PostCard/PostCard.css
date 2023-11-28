@@ -1,8 +1,7 @@
-/* PostCard.css */
 .post-card {
-    width: 300px;
-    margin: 16px;
-    padding: 16px;
+    width: 25vw;
+    max-width: 250px;
+    min-width: 150px;
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;
@@ -13,19 +12,25 @@
   .post-card:hover {
     transform: scale(1.05);
   }
-  
+
+  .post-image {
+    width: 100%; 
+    height: auto;
+    margin-bottom: 10px;
+  }
+
   .post-header {
-    margin-bottom: 12px;
+    margin: 7px;
   }
   
   .post-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin: 0;
   }
   
   .post-meta {
     color: #555;
-    margin: 4px 0;
+    margin: 4px;
   }
   
   .post-content {

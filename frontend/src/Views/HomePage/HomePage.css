@@ -13,5 +13,11 @@
     width: 80%;
     height: 80%;
   }
+
+  .cards-div{
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+  }
   
   

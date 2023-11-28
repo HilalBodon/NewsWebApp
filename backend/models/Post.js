@@ -9,6 +9,7 @@ const postSchema = new Schema({
   important: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  imageUrl: { type: String },
 });
 
 const Post = mongoose.model('Post', postSchema);

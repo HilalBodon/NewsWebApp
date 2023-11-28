@@ -19,15 +19,16 @@ const NewsTicker = () => {
   }, []);
 
   return (
+
     <div className="news-ticker">
       <div className="news-container" id="news-container">
         {importantPosts.map((post) => (
-          <div className="news-item" key={post._id}>
+            <div className="news-item" key={post._id}>
             {post.content}
-            <span className="live-word">Live</span> {post.title}
           </div>
         ))}
       </div>
+        <p className='live-word'>آخر المستجدات</p>
     </div>
   );
 };

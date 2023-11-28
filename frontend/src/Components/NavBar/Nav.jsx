@@ -20,7 +20,7 @@ const Navbar = () => {
         <div className="menu-icon" onClick={toggleSidebar}>
         <MenuIcon />
       </div>
-      <div className="logo">Al-Bared News</div>
+      <div className="logo">شبكة أخبار مخيم البارد</div>
       <ul className="nav-list">
         <li className="nav-item">Home</li>
         <li className="nav-item">Posts</li>
