@@ -31,3 +31,9 @@
     margin-right: 10px; 
   }
   
+  .searchBar-div{
+    display: flex;
+    justify-content: flex-end;
+    width: 40vw;
+    /* background-color: #ffffff60; */
+  }

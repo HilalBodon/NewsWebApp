@@ -26,7 +26,7 @@ const Navbar = () => {
         <li className="nav-item">Posts</li>
       </ul>
 
-      <SearchBar onSearch={handleSearch} />
+      <div className="searchBar-div"><SearchBar onSearch={handleSearch} /></div>
 
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
     </nav>

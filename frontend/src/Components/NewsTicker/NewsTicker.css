@@ -12,7 +12,7 @@
   .news-container {
     display: flex;
     animation: scrollNews linear infinite;
-    animation-duration: 50s; 
+    animation-duration: 20s; 
   }
   
   .news-item {

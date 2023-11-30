@@ -1,10 +1,11 @@
+// models/post.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
-  category: { type: String },
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   important: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },

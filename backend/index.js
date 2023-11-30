@@ -2,8 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+// const bodyParser = require('body-parser');
 const postsRouter = require('./routes/posts');
 const authRouter = require('./routes/auth');
+const categoryRouter = require('./routes/categories');
 
 dotenv.config();
 
@@ -17,8 +19,10 @@ mongoose.set('strictQuery', true);
 const CONNECTION_URL = process.env.DB;
 const PORT = process.env.PORT || 8080;
 
-app.use('/api', postsRouter);
+app.use('/api/', postsRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/', categoryRouter);
+
 
 app.listen (console.log(`Listening on port ${PORT}...`));
 
