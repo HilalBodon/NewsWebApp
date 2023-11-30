@@ -86,6 +86,7 @@ import PostList from '../../Components/PostsLists';
 import Footer from '../../Components/Footer/Footer';
 import PostCard from '../../Components/PostCard/PostCard';
 import CategoryComponent from '../Category/CategoryComponent';
+import PostComponent from '../Post/PostComponent';
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -179,6 +180,7 @@ const HomePage = () => {
           <CategoryComponent />
         </div>
       )}
+      <PostComponent/>
       <Footer />
     </div>
   );

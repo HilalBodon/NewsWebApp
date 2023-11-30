@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './PostComponent.css'; // Import your CSS file
 
 const PostComponent = () => {
   const [posts, setPosts] = useState([]);
@@ -6,7 +7,6 @@ const PostComponent = () => {
   const [postData, setPostData] = useState({
     title: '',
     content: '',
-    // Add other fields as needed
   });
 
   useEffect(() => {
@@ -25,24 +25,22 @@ const PostComponent = () => {
 
   const handleCreateOrUpdate = async () => {
     try {
-      if (editingPost) {
-        await fetch(`http://localhost:8080/api/posts/${editingPost._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(postData),
-        });
-      } else {
-        await fetch('http://localhost:8080/api/posts', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(postData),
-        });
+      const url = editingPost ? `http://localhost:8080/api/posts/${editingPost._id}` : 'http://localhost:8080/api/posts';
+  
+      const response = await fetch(url, {
+        method: editingPost ? 'PATCH' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+  
+      if (!response.ok) {
+        // Handle error response
+        console.error('Error:', response.status, response.statusText);
+        return;
       }
-
+  
       fetchPosts();
       setEditingPost(null);
       setPostData({
@@ -68,9 +66,9 @@ const PostComponent = () => {
   };
 
   return (
-    <div>
+    <div className="post-container">
       <h2>All Posts</h2>
-      <div>
+      <div className="post-form">
         <input
           type="text"
           placeholder="Enter post title"
@@ -86,13 +84,19 @@ const PostComponent = () => {
         <button onClick={handleCreateOrUpdate}>{editingPost ? 'Update Post' : 'Create Post'}</button>
       </div>
 
-      <ul>
+      <ul className="post-list">
         {posts.map((post) => (
-          <li key={post._id}>
+          <li key={post._id} className="post-item">
             <div>
               <span>{post.title}</span>
-              <button onClick={() => setEditingPost(post)}>Edit</button>
-              <button onClick={() => handleDelete(post._id)}>Delete</button>
+              <div className="button-container">
+                <button className="edit-button" onClick={() => setEditingPost(post)}>
+                  Edit
+                </button>
+                <button className="delete-button" onClick={() => handleDelete(post._id)}>
+                  Delete
+                </button>
+              </div>
             </div>
           </li>
         ))}
