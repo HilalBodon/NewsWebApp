@@ -1,6 +1,8 @@
 // SearchBar.jsx
 import React, { useState } from 'react';
 import './SearchBar.css';
+import { FaMagnifyingGlass } from "react-icons/fa6";
+
 
 const SearchBar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +19,7 @@ const SearchBar = ({ onSearch }) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <button onClick={handleSearch}>🔍</button>
+      <button onClick={handleSearch}><FaMagnifyingGlass  className='text-2xl'/></button>
     </div>
   );
 };

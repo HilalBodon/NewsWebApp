@@ -76,7 +76,7 @@ const CategoryComponent = () => {
       <h1 className='text-4xl'> Manage All Categories</h1>
 
       <div className="category-form">
-        <input
+        <input 
           type="text"
           placeholder="Enter category name"
           value={categoryName}
