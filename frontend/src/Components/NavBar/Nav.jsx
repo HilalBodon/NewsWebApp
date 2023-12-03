@@ -44,7 +44,7 @@ import './Navbar.css';
 import Sidebar from '../Sidebar/Sidebar';
 import SearchBar from '../SearchBar/SearchBar';
 
-const Navbar = ({ onCategoryToggle }) => {
+const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -62,9 +62,9 @@ const Navbar = ({ onCategoryToggle }) => {
       </div>
       <div className="logo">شبكة أخبار مخيم البارد</div>
       <ul className="nav-list">
-        <li className="nav-item">Home</li>
-        <li className="nav-item">Posts</li>
-        <li onClick={onCategoryToggle}>Categories</li>
+        <li className="nav-item" onClick={onHomePageToggle}>Home</li>
+        <li className="nav-item" onClick={onPostComponentToggle}>Posts</li>
+        <li className="nav-item" onClick={onCategoryToggle}>Categories</li>
 
       </ul>
 

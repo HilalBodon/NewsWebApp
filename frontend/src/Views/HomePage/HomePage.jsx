@@ -92,8 +92,13 @@ const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [isCategoryVisible, setCategoryVisible] = useState(false);
-  const [isNewsTickerVisible, setNewsTickerVisible] = useState(true);
-  const [isIframeVisible, setIframeVisible] = useState(true);
+  // const [isNewsTickerVisible, setNewsTickerVisible] = useState(true);
+  // const [isIframeVisible, setIframeVisible] = useState(true);
+  const [isPostComponentVisible, setPostComponentVisible] = useState(false);
+  const [isHomePageVisible, setHomePageVisible] = useState(true);
+
+
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -114,31 +119,49 @@ const HomePage = () => {
   };
 
   const handleCategoryToggle = () => {
-    setCategoryVisible(!isCategoryVisible);
-    setNewsTickerVisible(true);
-    setIframeVisible(true);
+    // setNewsTickerVisible(true);
+    // setIframeVisible(true);
+    setCategoryVisible(true);
+    setPostComponentVisible(false);
+    setHomePageVisible(false);
     setOverlayVisible(false);
   };
 
-  const handleNewsTickerToggle = () => {
-    setNewsTickerVisible(!isNewsTickerVisible);
+  // const handleNewsTickerToggle = () => {
+  //   setNewsTickerVisible(!isNewsTickerVisible);
+  // };
+
+  // const handleIframeToggle = () => {
+  //   setIframeVisible(!isIframeVisible);
+  // };
+
+  const handlePostComponentToggle = () => {
+    setPostComponentVisible(true);
+    setCategoryVisible(false);
+    setHomePageVisible(false);
+    setOverlayVisible(false);
   };
 
-  const handleIframeToggle = () => {
-    setIframeVisible(!isIframeVisible);
+  const handleHomePageToggle = () => {
+    setHomePageVisible(true);
+    setPostComponentVisible(false);
+    setCategoryVisible(false);
+    setOverlayVisible(false);
   };
 
   return (
     <div>
       <Navbar
+        onHomePageToggle={handleHomePageToggle}
         onCategoryToggle={handleCategoryToggle}
-        onNewsTickerToggle={handleNewsTickerToggle}
-        onIframeToggle={handleIframeToggle}
+        // onNewsTickerToggle={handleNewsTickerToggle}
+        // onIframeToggle={handleIframeToggle}
+        onPostComponentToggle={handlePostComponentToggle}
       />
-      {isNewsTickerVisible && !isCategoryVisible && (
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
         <NewsTicker />
       )}
-      {isIframeVisible && !isCategoryVisible && (
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
         <div className="video-container">
           <iframe
             src="https://www.youtube.com/embed/bNyUyrR0PHo"
@@ -149,13 +172,9 @@ const HomePage = () => {
         </div>
       )}
       <hr />
-      {!isCategoryVisible && (
-        <div>
-          <div className='cards-div'>
-            <PostList posts={posts} onCardClick={handleOverlayToggle} />
-          </div>
-          <div>
-            {/* <div className="text-2xl">All Posts</div>
+  
+          {/* <div>
+            <div className="text-2xl">All Postssss</div>
             {posts.map((post) => (
               <div className="flex justify-center text-gray-400" key={post._id}>
                 <h3>{post.title}</h3>
@@ -164,7 +183,7 @@ const HomePage = () => {
                 <p>Created At: {new Date(post.createdAt).toLocaleString()}</p>
                 <p>{post.imgUrl}</p>
               </div>
-            ))} */}
+            ))}
             {isOverlayVisible && (
               <div className="overlay" onClick={handleOverlayToggle}>
                 <div className="overlay-content">
@@ -172,15 +191,27 @@ const HomePage = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
+
+
+        { isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
+        <div>
+          <div className='cards-div'>
+            <PostList posts={posts} onCardClick={handleOverlayToggle} />
+          </div>     
         </div>
-      )}
-      {isCategoryVisible && (
+        )}
+
+      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && (
         <div>
           <CategoryComponent />
         </div>
       )}
+
+    {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible &&(
       <PostComponent/>
+    )}
+
       <Footer />
     </div>
   );
