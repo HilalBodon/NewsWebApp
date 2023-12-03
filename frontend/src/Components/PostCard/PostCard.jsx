@@ -8,10 +8,11 @@ const PostCard = ({ title, content, category, createdAt, imgUrl }) => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/categories");
-        console.log(response);
+        const response = await fetch(`http://localhost:8080/api/categories/${category}`);
         const categoryData = await response.json();
         setCategoryName(categoryData.name);
+        console.log(categoryData);
+
       } catch (error) {
         console.error('Error fetching category:', error);
       }
