@@ -6,29 +6,38 @@ const User = require('../models/User');
 
 router.post('/posts', async (req, res) => {
     try {
-      const token = req.header('Authorization').replace('Bearer ', '');
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  
-      // Find the user making the request
-      const user = await User.findById(decoded.userId);
-      // Check if the user has the 'admin' role
-      if (user.role !== 'admin') {
-        return res.status(403).json({ message: 'Permission denied. Only admin users can create posts.' });
+      const token = req.header('Authorization')?.replace('Bearer ', '');
+      if (!token) {
+        return res.status(401).json({ error: 'Unauthorized. Missing token.' });
       }
   
-      const { title, content, category, important } = req.body;
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.userId);
+  
+      if (!user || user.role !== 'admin') {
+        return res.status(403).json({ error: 'Permission denied. Only admin users can create posts.' });
+      }
+  
+      const { title, content, category, important, imgUrl } = req.body;
+  
+      // Validate input
+      if (!title || !content) {
+        return res.status(400).json({ error: 'Title and content are required.' });
+      }
+  
       const post = new Post({
         title,
         content,
         category,
         important,
+        imgUrl,
         author: user._id,
       });
       await post.save();
-  
       res.status(201).json(post);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      console.error('Error creating post:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   });
   
@@ -95,3 +104,34 @@ router.patch('/posts/:id', async (req, res) => {
   
 
 module.exports = router;
+
+
+
+
+// router.post('/posts', async (req, res) => {
+//     try {
+//       const token = req.header('Authorization').replace('Bearer ', '');
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+//       // Find the user making the request
+//       const user = await User.findById(decoded.userId);
+//       // Check if the user has the 'admin' role
+//       if (user.role !== 'admin') {
+//         return res.status(403).json({ message: 'Permission denied. Only admin users can create posts.' });
+//       }
+  
+//       const { title, content, category, important } = req.body;
+//       const post = new Post({
+//         title,
+//         content,
+//         category,
+//         important,
+//         author: user._id,
+//       });
+//       await post.save();
+  
+//       res.status(201).json(post);
+//     } catch (error) {
+//       res.status(400).json({ message: error.message });
+//     }
+//   });
