@@ -28,7 +28,8 @@ const PostCard = ({ title, content, category, createdAt, imgUrl }) => {
         <p className="post-title">{title}</p>
         <p className="post-content">{content.length > 50 ? `${content.substring(0, 50)}...` : content}</p>
       </div>
-      <p className="post-meta">{`${categoryName} on ${formattedDate}`}</p>
+      <p className="post-meta">{` on ${formattedDate}`}</p> 
+      {/* ${categoryName} */}
     </div>
   );
 };
