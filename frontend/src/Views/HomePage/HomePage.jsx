@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import "./HomePage.css";
 import Navbar from '../../Components/NavBar/Nav';
 import NewsTicker from '../../Components/NewsTicker/NewsTicker';
-import PostList from '../../Components/PostsLists';
+import PostList from '../../Components/PostsList/PostsLists';
 import Footer from '../../Components/Footer/Footer';
-import PostCard from '../../Components/PostCard/PostCard';
+// import PostCard from '../../Components/PostCard/PostCard';
 import CategoryComponent from '../Category/CategoryComponent';
 import PostComponent from '../Post/PostComponent';
 
@@ -47,13 +47,6 @@ const HomePage = () => {
     setOverlayVisible(false);
   };
 
-  // const handleNewsTickerToggle = () => {
-  //   setNewsTickerVisible(!isNewsTickerVisible);
-  // };
-
-  // const handleIframeToggle = () => {
-  //   setIframeVisible(!isIframeVisible);
-  // };
 
   const handlePostComponentToggle = () => {
     setPostComponentVisible(true);

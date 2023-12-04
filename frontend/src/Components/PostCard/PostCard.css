@@ -7,10 +7,12 @@
     transition: transform 0.3s ease-in-out;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem;
   }
   
   .post-card:hover {
     transform: scale(1.05);
+    cursor: pointer;
   }
 
   .post-image {
@@ -38,4 +40,43 @@
     line-height: 1.4;
     
   }
+  
+  .full-screen-post {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 2rem;
+    scrollbar-width: none;
+  }
+  .full-screen-post::-webkit-scrollbar {
+    width: 0;
+  }
+  
+  
+  .full-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    
+  }
+  
+  .full-post-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
   
