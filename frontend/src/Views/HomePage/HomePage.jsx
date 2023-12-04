@@ -4,18 +4,16 @@ import Navbar from '../../Components/NavBar/Nav';
 import NewsTicker from '../../Components/NewsTicker/NewsTicker';
 import PostList from '../../Components/PostsList/PostsLists';
 import Footer from '../../Components/Footer/Footer';
-// import PostCard from '../../Components/PostCard/PostCard';
 import CategoryComponent from '../Category/CategoryComponent';
 import PostComponent from '../Post/PostComponent';
-
+import Magazine from '../../Components/Magazine/Magazine';
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [isCategoryVisible, setCategoryVisible] = useState(false);
-  // const [isNewsTickerVisible, setNewsTickerVisible] = useState(true);
-  // const [isIframeVisible, setIframeVisible] = useState(true);
   const [isPostComponentVisible, setPostComponentVisible] = useState(false);
   const [isHomePageVisible, setHomePageVisible] = useState(true);
+  const [isMagazineVisible, setMagazineVisible] = useState(false); // New state
 
 
 
@@ -39,12 +37,11 @@ const HomePage = () => {
   };
 
   const handleCategoryToggle = () => {
-    // setNewsTickerVisible(true);
-    // setIframeVisible(true);
     setCategoryVisible(true);
     setPostComponentVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
+    setMagazineVisible(false);
   };
 
 
@@ -53,10 +50,20 @@ const HomePage = () => {
     setCategoryVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
+    setMagazineVisible(false);
   };
 
   const handleHomePageToggle = () => {
     setHomePageVisible(true);
+    setPostComponentVisible(false);
+    setCategoryVisible(false);
+    setOverlayVisible(false);
+    setMagazineVisible(false);
+  };
+
+  const handleMagazineToggle = () => {
+    setMagazineVisible(true);
+    setHomePageVisible(false);
     setPostComponentVisible(false);
     setCategoryVisible(false);
     setOverlayVisible(false);
@@ -67,13 +74,16 @@ const HomePage = () => {
       <Navbar
         onHomePageToggle={handleHomePageToggle}
         onCategoryToggle={handleCategoryToggle}
-        // onNewsTickerToggle={handleNewsTickerToggle}
-        // onIframeToggle={handleIframeToggle}
         onPostComponentToggle={handlePostComponentToggle}
+        setMagazineVisible={handleMagazineToggle}
       />
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isMagazineVisible &&(
         <NewsTicker />
       )}
+
+      {isMagazineVisible && <Magazine />}
+
+
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
         <div className="video-container">
           <iframe

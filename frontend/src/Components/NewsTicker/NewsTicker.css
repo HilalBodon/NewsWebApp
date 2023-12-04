@@ -1,6 +1,6 @@
 .news-ticker {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     background-color: #aa2626;
     color: white;

@@ -1,30 +1,7 @@
-// import React from 'react';
-// import './Sidebar.css';
-
-// const Sidebar = ({ isOpen, onClose }) => {
-
-//     const handleOverlayClick = () => {
-//         if (isOpen) {
-//           onClose();
-//         }
-//       };
-
-//         return (
-//     <div>
-//       <div className={`overlay ${isOpen ? 'open' : ''}`} onClick={handleOverlayClick}></div>
-//       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
-
-
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen, onClose, onCategoryToggle }) => {
+const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -47,15 +24,27 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle }) => {
     }
   };
 
+  const handleCategoryClick = (category) => {
+    if (category.type === 'Magazine') {
+      onMagazineToggle();
+    } else {
+      onCategoryToggle(category);
+    }
+  };
+
+  
   return (
     <div>
       <div className={`overlay ${isOpen ? 'open' : ''}`} onClick={handleOverlayClick}></div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <button onClick={onCategoryToggle}>Toggle Categories</button>
         <ul>
           {categories.map((category) => (
-            <li key={category._id}>{category.name}</li>
+            <li key={category._id} onClick={() => handleCategoryClick(category)}>
+            {category.name}
+          </li>
           ))}
+          {/* onClick event to trigger the Magazine component */}
+          {/* <li onClick={onMagazineToggle}>Magazine</li> */}
         </ul>
       </div>
     </div>

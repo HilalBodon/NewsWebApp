@@ -1,4 +1,3 @@
-/* Sidebar.css */
 .sidebar {
     width: 0;
     height: 100%;
@@ -10,7 +9,10 @@
     transition: 0.5s;
     padding-top: 60px;
     z-index: 1;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
   
   .sidebar.open {
@@ -23,6 +25,7 @@
     padding: 0;
     margin: 0;
     color: white;
+    
   }
   
   .sidebar-list li {
