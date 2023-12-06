@@ -13,7 +13,7 @@ const HomePage = () => {
   const [isCategoryVisible, setCategoryVisible] = useState(false);
   const [isPostComponentVisible, setPostComponentVisible] = useState(false);
   const [isHomePageVisible, setHomePageVisible] = useState(true);
-  const [isMagazineVisible, setMagazineVisible] = useState(false); // New state
+  const [isMagazineVisible, setMagazineVisible] = useState(false);
 
 
 
@@ -36,12 +36,27 @@ const HomePage = () => {
     setOverlayVisible(!isOverlayVisible);
   };
 
-  const handleCategoryToggle = () => {
+  // const handleCategoryToggle = () => {
+  //   setCategoryVisible(true);
+  //   setPostComponentVisible(false);
+  //   setHomePageVisible(false);
+  //   setOverlayVisible(false);
+  //   setMagazineVisible(false);
+  // };
+
+  const handleCategoryToggle = (category) => {
+    // console.log('Category toggled:', category);
     setCategoryVisible(true);
     setPostComponentVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
     setMagazineVisible(false);
+  
+    if (category.name === 'Magazine') {
+      handleMagazineToggle();
+    } else {
+      console.log('else in handle category:', category);
+    }
   };
 
 
@@ -75,8 +90,8 @@ const HomePage = () => {
         onHomePageToggle={handleHomePageToggle}
         onCategoryToggle={handleCategoryToggle}
         onPostComponentToggle={handlePostComponentToggle}
-        setMagazineVisible={handleMagazineToggle}
-      />
+        onMagazineToggle={handleMagazineToggle}
+        />
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isMagazineVisible &&(
         <NewsTicker />
       )}

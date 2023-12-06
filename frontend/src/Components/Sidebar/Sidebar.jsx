@@ -25,10 +25,11 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle }) => {
   };
 
   const handleCategoryClick = (category) => {
-    if (category.type === 'Magazine') {
+    if (category.name === 'Magazine') {
       onMagazineToggle();
     } else {
       onCategoryToggle(category);
+      console.log(category.name);
     }
   };
 
@@ -43,8 +44,6 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle }) => {
             {category.name}
           </li>
           ))}
-          {/* onClick event to trigger the Magazine component */}
-          {/* <li onClick={onMagazineToggle}>Magazine</li> */}
         </ul>
       </div>
     </div>
@@ -52,3 +51,5 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle }) => {
 };
 
 export default Sidebar;
+
+{/* <li onClick={onMagazineToggle}>Magazine</li> */}

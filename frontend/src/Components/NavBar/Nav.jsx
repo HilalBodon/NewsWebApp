@@ -5,7 +5,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import SearchBar from '../SearchBar/SearchBar';
 import Magazine from '../Magazine/Magazine';
 
-const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, setMagazineVisible }) => {
+const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, onMagazineToggle }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [showMagazine, setShowMagazine] = useState(false);
 
@@ -18,8 +18,7 @@ const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, s
   };
 
   const handleCategoryToggle = (category) => {
-    console.log('Category toggled:', category);
-    // Implement your logic for category toggle here
+    // console.log('Category toggled:', category);
   };
 
   const handleMagazineToggle = () => {
@@ -37,12 +36,11 @@ const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, s
         <li className="nav-item" onClick={onHomePageToggle}>Home</li>
         <li className="nav-item" onClick={onPostComponentToggle}>Posts</li>
         <li className="nav-item" onClick={onCategoryToggle}>Categories</li>
-
       </ul>
 
       <div className="searchBar-div"><SearchBar onSearch={handleSearch} /></div>
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle} onMagazineToggle={handleMagazineToggle} />
-      {showMagazine && <Magazine />}
+      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle} onMagazineToggle={onMagazineToggle} />
+      {/* {showMagazine && <Magazine/>} */}
 
     </nav>
   );

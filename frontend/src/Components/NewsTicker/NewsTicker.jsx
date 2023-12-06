@@ -24,7 +24,7 @@ const NewsTicker = () => {
       <div className="news-container" id="news-container">
         {importantPosts.map((post) => (
             <div className="news-item" key={post._id}>
-            {post.content}
+            {post.title}
           </div>
         ))}
       </div>
