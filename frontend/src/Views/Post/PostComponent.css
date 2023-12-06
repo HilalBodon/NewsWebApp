@@ -1,5 +1,150 @@
 .post-container {
-    /* max-width: 600px; */
+    margin: 0 auto;
+    padding: 20px;
+    overflow-y: hidden;
+  }
+  
+  .post-form {
+    padding: 15px;
+    margin: 10px 0 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #3498db;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .post-content{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: aliceblue;
+    }
+  
+  .post-form input,
+  .post-form textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .post-form label {
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  
+  .post-form label input {
+    margin-left: 5px;
+  }
+  
+  .post-form button {
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .post-form button.create-button {
+    background-color: #28a745;
+  }
+  
+  .post-form button.update-button {
+    background-color: #007bff;
+  }
+  
+  .post-form button:hover {
+    background-color: #555;
+  }
+  
+  .post-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .post-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInListItem 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  
+  .post-item .button-container {
+    margin-left: auto; 
+    display: flex;
+    gap: 10px;
+  }
+    
+  .edit-button {
+    background-color: #3498db;
+  }
+  
+  .delete-button {
+    background-color: brown;
+  }
+  
+  .edit-button:hover,
+  .delete-button:hover {
+    background-color: #424242;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInListItem {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  /* .public-DraftEditor-content {
+    font-size: 16px;
+    color: #333;
+   } */
+  
+  
+
+
+
+
+
+
+
+
+
+
+/* .post-container {
     margin: 0 auto;
     padding: 20px;
     width: 100vw;
@@ -74,4 +219,4 @@
     margin-right: 10px;
   }
   
-  
+   */
