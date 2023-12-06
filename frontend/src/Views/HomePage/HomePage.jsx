@@ -7,6 +7,7 @@ import Footer from '../../Components/Footer/Footer';
 import CategoryComponent from '../Category/CategoryComponent';
 import PostComponent from '../Post/PostComponent';
 import Magazine from '../../Components/Magazine/Magazine';
+
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
@@ -15,8 +16,6 @@ const HomePage = () => {
   const [isHomePageVisible, setHomePageVisible] = useState(true);
   const [isMagazineVisible, setMagazineVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null); 
-
-
 
   // useEffect(() => {
   //   const fetchPosts = async () => {
@@ -37,7 +36,6 @@ const HomePage = () => {
       try {
         let url = 'http://localhost:8080/api/posts?sort=createdAt,important';
   
-        // If a category is selected, append it to the URL
         if (selectedCategory) {
           url += `&category=${selectedCategory}`;
         }
@@ -51,38 +49,33 @@ const HomePage = () => {
     };
   
     fetchPosts();
-  }, [selectedCategory]); // Trigger the effect when selectedCategory changes
+  }, [selectedCategory]); 
   
 
   const handleOverlayToggle = () => {
     setOverlayVisible(!isOverlayVisible);
   };
 
-  // const handleCategoryToggle = () => {
-  //   setCategoryVisible(true);
-  //   setPostComponentVisible(false);
-  //   setHomePageVisible(false);
-  //   setOverlayVisible(false);
-  //   setMagazineVisible(false);
-  // };
 
   const handleCategoryToggle = (category) => {
-    console.log('Category toggled:', category);  
-    if (category.name === 'Magazine') {
-      handleMagazineToggle();
-    } else {
     setCategoryVisible(true);
     setPostComponentVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
     setMagazineVisible(false);
-  }
+  
   };
 
-  const handleCategoryClick = (category) => {
-    // setSelectedCategory(category);
-    console.log('Category clicked in parent:', category);
-    // handleCategoryToggle(category);
+
+const handleCategoryClick = (category) => {
+  if (category === 'Magazine') {
+    setMagazineVisible(true);
+    setHomePageVisible(false);
+    setCategoryVisible(false);
+    setPostComponentVisible(false);
+    setOverlayVisible(false);
+    setSelectedCategory(null); 
+  } else {
     setSelectedCategory(category);
     setHomePageVisible(true);
     setCategoryVisible(false);
@@ -90,6 +83,7 @@ const HomePage = () => {
     setOverlayVisible(false);
     setMagazineVisible(false);
   }
+};
 
   const handlePostComponentToggle = () => {
     setPostComponentVisible(true);
@@ -107,21 +101,12 @@ const HomePage = () => {
     setMagazineVisible(false);
   };
 
-  const handleMagazineToggle = () => {
-    setMagazineVisible(true);
-    setHomePageVisible(false);
-    setPostComponentVisible(false);
-    setCategoryVisible(false);
-    setOverlayVisible(false);
-  };
-
   return (
     <div>
       <Navbar
         onHomePageToggle={handleHomePageToggle}
         onCategoryToggle={handleCategoryToggle}
         onPostComponentToggle={handlePostComponentToggle}
-        onMagazineToggle={handleMagazineToggle}
         onCategoryClick={handleCategoryClick}
         />
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isMagazineVisible &&(
@@ -143,27 +128,6 @@ const HomePage = () => {
       )}
       <hr />
   
-          {/* <div>
-            <div className="text-2xl">All Postssss</div>
-            {posts.map((post) => (
-              <div className="flex justify-center text-gray-400" key={post._id}>
-                <h3>{post.title}</h3>
-                <p>{post.content}</p>
-                <p>Important: {post.important ? 'Yes' : 'No'}</p>
-                <p>Created At: {new Date(post.createdAt).toLocaleString()}</p>
-                <p>{post.imgUrl}</p>
-              </div>
-            ))}
-            {isOverlayVisible && (
-              <div className="overlay" onClick={handleOverlayToggle}>
-                <div className="overlay-content">
-                  <PostCard />
-                </div>
-              </div>
-            )}
-          </div> */}
-
-
     {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
         <div>
           <div className='cards-div'>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle, onCategoryClick }) => {
+const Sidebar = ({ isOpen, onClose, onCategoryClick }) => {
     const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -25,11 +25,9 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle, onCatego
   };
 
   const handleCategoryClick = (category) => {
-    if (category.name === 'Magazine') {
-      onMagazineToggle();
-    } else {
+
       onCategoryClick(category.name);
-    }
+    
   };
 
   
@@ -50,5 +48,3 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle, onCatego
 };
 
 export default Sidebar;
-
-{/* <li onClick={onMagazineToggle}>Magazine</li> */}
