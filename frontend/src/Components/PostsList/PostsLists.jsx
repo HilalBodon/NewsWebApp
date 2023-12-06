@@ -29,12 +29,12 @@ const PostList = ({ posts, selectedCategory }) => {
   }, [posts]);
 
   const handleCardClick = (post) => {
-    console.log('Card clicked:', post);
+    // console.log('Card clicked:', post);
     setSelectedPost(post);
   };
 
   const handleCloseFullScreen = () => {
-    console.log('Closing full-screen view');
+    // console.log('Closing full-screen view');
     setSelectedPost(null);
   };
 
