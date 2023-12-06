@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle }) => {
-  const [categories, setCategories] = useState([]);
+const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle, onCategoryClick }) => {
+    const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,8 +28,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryToggle, onMagazineToggle }) => {
     if (category.name === 'Magazine') {
       onMagazineToggle();
     } else {
-      onCategoryToggle(category);
-      console.log(category.name);
+      onCategoryClick(category.name);
     }
   };
 

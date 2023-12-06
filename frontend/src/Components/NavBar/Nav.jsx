@@ -4,8 +4,9 @@ import './Navbar.css';
 import Sidebar from '../Sidebar/Sidebar';
 import SearchBar from '../SearchBar/SearchBar';
 import Magazine from '../Magazine/Magazine';
+import CategoryContents from '../../Views/CategoryContent/CategoryContent';
 
-const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, onMagazineToggle }) => {
+const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, onMagazineToggle, onCategoryClick }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [showMagazine, setShowMagazine] = useState(false);
 
@@ -18,7 +19,12 @@ const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, o
   };
 
   const handleCategoryToggle = (category) => {
-    // console.log('Category toggled:', category);
+    console.log('Category toggled:', category);
+  };
+
+  const handleCategoryClick = (category) => {
+    console.log('Category toggled:', category);
+    onCategoryClick(category);
   };
 
   const handleMagazineToggle = () => {
@@ -39,7 +45,7 @@ const Navbar = ({ onHomePageToggle , onCategoryToggle , onPostComponentToggle, o
       </ul>
 
       <div className="searchBar-div"><SearchBar onSearch={handleSearch} /></div>
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle} onMagazineToggle={onMagazineToggle} />
+      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle} onMagazineToggle={onMagazineToggle}  onCategoryClick={handleCategoryClick} />
       {/* {showMagazine && <Magazine/>} */}
 
     </nav>

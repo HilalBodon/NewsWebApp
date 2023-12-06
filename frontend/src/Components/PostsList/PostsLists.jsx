@@ -3,7 +3,7 @@ import PostCard from '../PostCard/PostCard';
 import FullScreenPost from '../PostCard/FullScreenPost';
 import './PostsList.css'; // Import the CSS file with the styles
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, selectedCategory }) => {
   const [categoryNames, setCategoryNames] = useState({});
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -38,8 +38,13 @@ const PostList = ({ posts }) => {
     setSelectedPost(null);
   };
 
-  // Group posts by category
-  const postsByCategory = posts.reduce((acc, post) => {
+  // Filter posts by selected category
+  const filteredPosts = selectedCategory
+    ? posts.filter((post) => categoryNames[post.category] === selectedCategory)
+    : posts;
+
+  // Group filtered posts by category
+  const postsByCategory = filteredPosts.reduce((acc, post) => {
     const categoryName = categoryNames[post.category];
 
     if (!acc[categoryName]) {
@@ -90,9 +95,17 @@ export default PostList;
 
 
 
+
+
+
+
+
+
 // import React, { useState, useEffect } from 'react';
 // import PostCard from '../PostCard/PostCard';
-// import FullScreenPost from '../PostCard/FullScreenPost'; 
+// import FullScreenPost from '../PostCard/FullScreenPost';
+// import './PostsList.css'; // Import the CSS file with the styles
+
 // const PostList = ({ posts }) => {
 //   const [categoryNames, setCategoryNames] = useState({});
 //   const [selectedPost, setSelectedPost] = useState(null);
@@ -142,22 +155,24 @@ export default PostList;
 //   }, {});
 
 //   return (
-//     <div>
+//     <div className="post-list-container">
 //       {Object.entries(postsByCategory).map(([categoryName, categoryPosts]) => (
-//         <div key={categoryName}>
-//           <h2 className='my-5'>{categoryName}</h2>
-//           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '2rem'}}>
-//             {categoryPosts.map((post) => (
-//               <PostCard
-//                 key={post._id}
-//                 title={post.title}
-//                 content={post.content}
-//                 category={post.category}
-//                 createdAt={post.createdAt}
-//                 imgUrl={post.imgUrl}
-//                 onCardClick={() => handleCardClick(post)}
-//               />
-//             ))}
+//         <div key={categoryName} className="category-container">
+//           <div className='h2'>{categoryName}</div>
+//           <div className="scroll-container ">
+//             <div className="scroll-content">
+//               {categoryPosts.map((post) => (
+//                 <PostCard
+//                   key={post._id}
+//                   title={post.title}
+//                   content={post.content}
+//                   category={post.category}
+//                   createdAt={post.createdAt}
+//                   imgUrl={post.imgUrl}
+//                   onCardClick={() => handleCardClick(post)}
+//                 />
+//               ))}
+//             </div>
 //           </div>
 //           <hr className='bold' />
 //         </div>
@@ -171,3 +186,4 @@ export default PostList;
 // };
 
 // export default PostList;
+

@@ -14,23 +14,45 @@ const HomePage = () => {
   const [isPostComponentVisible, setPostComponentVisible] = useState(false);
   const [isHomePageVisible, setHomePageVisible] = useState(true);
   const [isMagazineVisible, setMagazineVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null); 
 
 
 
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:8080/api/posts?sort=createdAt,important');
+  //       const data = await response.json();
+  //       setPosts(data);
+  //     } catch (error) {
+  //       console.error('Error fetching posts:', error);
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/posts?sort=createdAt,important');
+        let url = 'http://localhost:8080/api/posts?sort=createdAt,important';
+  
+        // If a category is selected, append it to the URL
+        if (selectedCategory) {
+          url += `&category=${selectedCategory}`;
+        }
+  
+        const response = await fetch(url);
         const data = await response.json();
         setPosts(data);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
-
+  
     fetchPosts();
-  }, []);
+  }, [selectedCategory]); // Trigger the effect when selectedCategory changes
+  
 
   const handleOverlayToggle = () => {
     setOverlayVisible(!isOverlayVisible);
@@ -45,20 +67,29 @@ const HomePage = () => {
   // };
 
   const handleCategoryToggle = (category) => {
-    // console.log('Category toggled:', category);
+    console.log('Category toggled:', category);  
+    if (category.name === 'Magazine') {
+      handleMagazineToggle();
+    } else {
     setCategoryVisible(true);
     setPostComponentVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
     setMagazineVisible(false);
-  
-    if (category.name === 'Magazine') {
-      handleMagazineToggle();
-    } else {
-      console.log('else in handle category:', category);
-    }
+  }
   };
 
+  const handleCategoryClick = (category) => {
+    // setSelectedCategory(category);
+    console.log('Category clicked in parent:', category);
+    // handleCategoryToggle(category);
+    setSelectedCategory(category);
+    setHomePageVisible(true);
+    setCategoryVisible(false);
+    setPostComponentVisible(false);
+    setOverlayVisible(false);
+    setMagazineVisible(false);
+  }
 
   const handlePostComponentToggle = () => {
     setPostComponentVisible(true);
@@ -91,6 +122,7 @@ const HomePage = () => {
         onCategoryToggle={handleCategoryToggle}
         onPostComponentToggle={handlePostComponentToggle}
         onMagazineToggle={handleMagazineToggle}
+        onCategoryClick={handleCategoryClick}
         />
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isMagazineVisible &&(
         <NewsTicker />
@@ -132,13 +164,13 @@ const HomePage = () => {
           </div> */}
 
 
-        { isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
+    {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
         <div>
           <div className='cards-div'>
-            <PostList posts={posts} onCardClick={handleOverlayToggle} />
-          </div>     
+            <PostList posts={posts} selectedCategory={selectedCategory} onCardClick={handleOverlayToggle} />
+          </div>
         </div>
-        )}
+      )}
 
       {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && (
         <div>
