@@ -1,13 +1,12 @@
 // import React, { useState, useEffect } from 'react';
 
-// const MagazinePage = () => {
+// const Magazine = () => {
 //   const [magazinePosts, setMagazinePosts] = useState([]);
 
 //   useEffect(() => {
 //     const fetchMagazinePosts = async () => {
 //       try {
-//         // Fetch magazine posts from your API endpoint
-//         const response = await fetch('http://localhost:8080/api/magazine-posts');
+//         const response = await fetch('http://localhost:8080/api/posts/magazine');
 //         const data = await response.json();
 //         setMagazinePosts(data);
 //       } catch (error) {
@@ -24,7 +23,6 @@
 //       <ul>
 //         {magazinePosts.map((post) => (
 //           <li key={post._id}>
-//             {/* You can customize the link appearance and behavior based on your needs */}
 //             <a href={post.downloadLink} download>
 //               {post.title}
 //             </a>
@@ -35,7 +33,7 @@
 //   );
 // };
 
-// export default MagazinePage;
+// export default Magazine;
 
 
 import React from 'react';

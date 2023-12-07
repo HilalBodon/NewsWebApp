@@ -18,7 +18,7 @@ router.post('/posts', async (req, res) => {
         return res.status(403).json({ error: 'Permission denied. Only admin users can create posts.' });
       }
   
-      const { title, content, category, important, imgUrl } = req.body;
+      const { title, content, category, important, imgUrl,pdfUrl } = req.body;
   
       // Validate input
       if (!title || !content) {
@@ -31,13 +31,14 @@ router.post('/posts', async (req, res) => {
         category,
         important,
         imgUrl,
+        pdfUrl,
         author: user._id,
       });
       await post.save();
       res.status(201).json(post);
     } catch (error) {
       console.error('Error creating post:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: 'Internal Serverrrrrrrrrrrr Error' });
     }
   });
   
@@ -103,35 +104,16 @@ router.patch('/posts/:id', async (req, res) => {
   });
   
 
+  // Endpoint to get Magazine posts
+// router.get('/magazine', async (req, res) => {
+//   try {
+//     const magazinePosts = await Post.find({ category: 'Magazine' });
+//     res.json(magazinePosts);
+//   } catch (error) {
+
+//     console.error('Error fetching magazine posts:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
 module.exports = router;
-
-
-
-
-// router.post('/posts', async (req, res) => {
-//     try {
-//       const token = req.header('Authorization').replace('Bearer ', '');
-//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  
-//       // Find the user making the request
-//       const user = await User.findById(decoded.userId);
-//       // Check if the user has the 'admin' role
-//       if (user.role !== 'admin') {
-//         return res.status(403).json({ message: 'Permission denied. Only admin users can create posts.' });
-//       }
-  
-//       const { title, content, category, important } = req.body;
-//       const post = new Post({
-//         title,
-//         content,
-//         category,
-//         important,
-//         author: user._id,
-//       });
-//       await post.save();
-  
-//       res.status(201).json(post);
-//     } catch (error) {
-//       res.status(400).json({ message: error.message });
-//     }
-//   });
