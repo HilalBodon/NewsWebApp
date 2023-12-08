@@ -36,15 +36,15 @@
 // export default Magazine;
 
 
-import React from 'react';
+// import React from 'react';
 
-const Magazine = () => {
-  return (
-    <div>
-      <h2>Magazine Component</h2>
-      {/* Add your content for the Magazine component */}
-    </div>
-  );
-};
+// const Magazine = () => {
+//   return (
+//     <div>
+//       <h2>Magazine Component</h2>
+//       {/* Add your content for the Magazine component */}
+//     </div>
+//   );
+// };
 
-export default Magazine;
+// export default Magazine;

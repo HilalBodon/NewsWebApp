@@ -4,7 +4,7 @@ import './Navbar.css';
 import Sidebar from '../Sidebar/Sidebar';
 import SearchBar from '../SearchBar/SearchBar';
 
-const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, onCategoryClick }) => {
+const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, onCategoryClick, updateCategories }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -20,7 +20,6 @@ const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, on
   };
 
   const handleCategoryClick = (category) => {
-    // console.log('Category toggled:', category);
     onCategoryClick(category);
   };
 
@@ -37,7 +36,8 @@ const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, on
       </ul>
 
       <div className="searchBar-div"><SearchBar onSearch={handleSearch} /></div>
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle} onCategoryClick={handleCategoryClick} />
+      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle}
+       onCategoryClick={handleCategoryClick} updateCategories={updateCategories} />
 
     </nav>
   );

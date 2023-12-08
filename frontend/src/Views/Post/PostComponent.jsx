@@ -4,7 +4,8 @@ import './PostComponent.css';
 const API_URL = 'http://localhost:8080/api';
 const API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTY0ZTlmN2NkZGU2MDFmNTZjMmJhNDgiLCJpYXQiOjE3MDIwMzM3MDMsImV4cCI6MTcwMjA3NjkwM30.oVl8bK8K6OAj8wuppTwMTdLKQ1qquPll0sZZIaQ-EXY';
 
-const PostComponent = () => {
+const PostComponent = ({ updatePosts }) => {
+
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
@@ -16,6 +17,7 @@ const PostComponent = () => {
     imgUrl: '',
     pdfUrl:'',
   });
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -126,7 +128,7 @@ const handleCreateOrUpdate = async () => {
       if (!response.ok) {
         // Rest of the error handling code...
       }
-  
+      updatePosts();
       fetchPosts();
       setEditingPost(null);
       setPostData({
@@ -144,10 +146,6 @@ const handleCreateOrUpdate = async () => {
     }
   };
   
-  
-  
-
-
 
   const handleDelete = async (postId) => {
     try {
@@ -160,7 +158,8 @@ const handleCreateOrUpdate = async () => {
             Authorization: `Bearer ${API_TOKEN}`,
           },
         });
-
+        
+        updatePosts();
         fetchPosts();
       }
     } catch (error) {
@@ -256,3 +255,4 @@ const handleCreateOrUpdate = async () => {
 };
 
 export default PostComponent;
+// ------------------------

@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen, onClose, onCategoryClick }) => {
+const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories  }) => {
     const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/categories');
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+    useEffect(() => {
+      const fetchCategories = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/categories');
+          const data = await response.json();
+          setCategories(data);
+        } catch (error) {
+          console.error('Error fetching categories:', error);
+        }
+      };
+    
+      fetchCategories();
+    }, [categories]);
+    
+    
 
   const handleOverlayClick = () => {
     if (isOpen) {

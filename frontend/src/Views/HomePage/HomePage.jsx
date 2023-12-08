@@ -6,7 +6,6 @@ import PostList from '../../Components/PostsList/PostsLists';
 import Footer from '../../Components/Footer/Footer';
 import CategoryComponent from '../Category/CategoryComponent';
 import PostComponent from '../Post/PostComponent';
-// import Magazine from '../../Components/Magazine/Magazine';
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -14,32 +13,30 @@ const HomePage = () => {
   const [isCategoryVisible, setCategoryVisible] = useState(false);
   const [isPostComponentVisible, setPostComponentVisible] = useState(false);
   const [isHomePageVisible, setHomePageVisible] = useState(true);
-  // const [isMagazineVisible, setMagazineVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [categories, setCategories] = useState([]); // Added this line
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:8080/api/posts?sort=createdAt,important');
-  //       const data = await response.json();
-  //       setPosts(data);
-  //     } catch (error) {
-  //       console.error('Error fetching posts:', error);
-  //     }
-  //   };
+  const fetchCategoriesData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/categories');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
-  //   fetchPosts();
-  // }, []);
+
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         let url = 'http://localhost:8080/api/posts?sort=createdAt,important';
-  
+
         if (selectedCategory) {
           url += `&category=${selectedCategory}`;
         }
-  
+
         const response = await fetch(url);
         const data = await response.json();
         setPosts(data);
@@ -47,10 +44,29 @@ const HomePage = () => {
         console.error('Error fetching posts:', error);
       }
     };
-  
+
+    const fetchData = async () => {
+      try {
+        const updatedCategories = await fetchCategoriesData();
+        setCategories(updatedCategories);
+      } catch (error) {
+        console.error('Error updating categories:', error);
+      }
+    };
+
+    fetchData();
+
     fetchPosts();
-  }, [selectedCategory]); 
+  }, [selectedCategory, updateTrigger]); 
+
+
   
+  const handleUpdateTrigger = () => {
+    setUpdateTrigger((prev) => !prev);
+    console.log('Posts updated in HomePage!');
+
+  };
+
 
   const handleOverlayToggle = () => {
     setOverlayVisible(!isOverlayVisible);
@@ -62,27 +78,27 @@ const HomePage = () => {
     setPostComponentVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
-    // setMagazineVisible(false);
   
   };
 
 
+  const handleUpdateSidebar = async () => {
+    try {
+      const updatedCategories = await fetchCategoriesData();
+      setCategories(updatedCategories);
+    } catch (error) {
+      console.error('Error updating sidebar:', error);
+    }
+  };
+  
+
+
 const handleCategoryClick = (category) => {
-  // if (category === 'Magazine') {
-  //   setMagazineVisible(true);
-  //   setHomePageVisible(false);
-  //   setCategoryVisible(false);
-  //   setPostComponentVisible(false);
-  //   setOverlayVisible(false);
-  //   setSelectedCategory(null); 
-  // } else {
     setSelectedCategory(category);
     setHomePageVisible(true);
     setCategoryVisible(false);
     setPostComponentVisible(false);
-    setOverlayVisible(false);
-    // setMagazineVisible(false);
-  
+    setOverlayVisible(false);  
 };
 
   const handlePostComponentToggle = () => {
@@ -90,7 +106,6 @@ const handleCategoryClick = (category) => {
     setCategoryVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
-    // setMagazineVisible(false);
   };
 
   const handleHomePageToggle = () => {
@@ -98,7 +113,6 @@ const handleCategoryClick = (category) => {
     setPostComponentVisible(false);
     setCategoryVisible(false);
     setOverlayVisible(false);
-    // setMagazineVisible(false);
   };
 
   return (
@@ -108,13 +122,11 @@ const handleCategoryClick = (category) => {
         onCategoryToggle={handleCategoryToggle}
         onPostComponentToggle={handlePostComponentToggle}
         onCategoryClick={handleCategoryClick}
+        updateCategories={handleUpdateSidebar} 
         />
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
         <NewsTicker />
       )}
-
-      {/* {isMagazineVisible && <Magazine />} */}
-
 
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
         <div className="video-container">
@@ -138,13 +150,13 @@ const handleCategoryClick = (category) => {
 
       {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && (
         <div>
-          <CategoryComponent />
+      <CategoryComponent updateCategories={handleUpdateSidebar} />
         </div>
       )}
 
     {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible &&(
-      <PostComponent/>
-    )}
+        <PostComponent updatePosts={handleUpdateTrigger} />
+        )}
 
       <Footer />
     </div>

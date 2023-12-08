@@ -60,8 +60,10 @@ const FullScreenPost = ({ post, onClose }) => {
           <img src={post.imgUrl} alt="" />
           <h2 className='text-xl font-medium m-2'>{post.title}</h2>
           <p>{post.content}</p>
-          <a href={post.pdfUrl} download className='text-blue-400'>تحميل العدد</a>
-          {/* <a href="#" className='text-blue-400' onClick={() => downloadPdf(post.pdfUrl)}>تحميل العدد</a> */}
+          
+          {post.pdfUrl ? (
+            <a href={post.pdfUrl} download className='text-blue-400'>تحميل العدد</a>
+          ) : null}
           
           <p className='text-gray-700 mt-2'> {new Date(post.createdAt).toLocaleString()}</p>
         </div>
