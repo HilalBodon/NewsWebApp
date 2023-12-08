@@ -30,7 +30,7 @@ router.post('/posts', async (req, res) => {
         content,
         category,
         important,
-        imgUrl,
+        // imgUrl,
         pdfUrl,
         author: user._id,
       });
@@ -105,15 +105,15 @@ router.patch('/posts/:id', async (req, res) => {
   
 
   // Endpoint to get Magazine posts
-// router.get('/magazine', async (req, res) => {
-//   try {
-//     const magazinePosts = await Post.find({ category: 'Magazine' });
-//     res.json(magazinePosts);
-//   } catch (error) {
+router.get('/magazine', async (req, res) => {
+  try {
+    const magazinePosts = await Post.find({ category: 'Magazine' });
+    res.json(magazinePosts);
+  } catch (error) {
 
-//     console.error('Error fetching magazine posts:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
+    console.error('Error fetching magazine posts:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

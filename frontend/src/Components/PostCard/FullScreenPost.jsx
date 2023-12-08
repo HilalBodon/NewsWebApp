@@ -36,14 +36,33 @@ const FullScreenPost = ({ post, onClose }) => {
     // return () => fullScreenPost.removeEventListener('click', handleClick);
   }, []);
 
+
+  // const downloadPdf = (pdfUrl) => {
+  //   // Create an anchor element
+  //   const anchor = document.createElement('a');
+  //   anchor.href = pdfUrl;
+  //   anchor.target = '_blank'; // Open the link in a new tab
+  //   anchor.download = 'downloaded_file.pdf'; // Set the default download file name
+  
+  //   // Trigger a click event on the anchor to start the download
+  //   document.body.appendChild(anchor);
+  //   anchor.click();
+  
+  //   // Remove the anchor from the DOM
+  //   document.body.removeChild(anchor);
+  // };
+  
+
   return (
     <div className="full-screen-post" onClick={onClose}>
       <div className="full-post-content" onClick={(e) => e.stopPropagation()}>
         <div className="full-post-container">
-          <img src={post.imgUrl} alt="Post Image" />
+          <img src={post.imgUrl} alt="" />
           <h2 className='text-xl font-medium m-2'>{post.title}</h2>
           <p>{post.content}</p>
-          {/* <p>Category: {post.category}</p> */}
+          <a href={post.pdfUrl} download className='text-blue-400'>تحميل العدد</a>
+          {/* <a href="#" className='text-blue-400' onClick={() => downloadPdf(post.pdfUrl)}>تحميل العدد</a> */}
+          
           <p className='text-gray-700 mt-2'> {new Date(post.createdAt).toLocaleString()}</p>
         </div>
       </div>
