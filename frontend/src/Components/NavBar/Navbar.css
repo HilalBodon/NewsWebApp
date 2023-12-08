@@ -1,6 +1,7 @@
 /* Navbar CSS */
 
 .navbar {
+  height: 12vh;
   position: fixed;
   top: 0;
   left: 0;

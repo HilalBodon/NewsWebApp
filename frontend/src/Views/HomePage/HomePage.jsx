@@ -116,7 +116,7 @@ const handleCategoryClick = (category) => {
   };
 
   return (
-    <div>
+    <div className='homePage-style'>
       <Navbar
         onHomePageToggle={handleHomePageToggle}
         onCategoryToggle={handleCategoryToggle}
