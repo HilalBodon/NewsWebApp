@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import './Navbar.css';
+import logoimg from "./logoimg.png";
 import Sidebar from '../Sidebar/Sidebar';
 import SearchBar from '../SearchBar/SearchBar';
 
@@ -28,14 +29,15 @@ const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, on
       <div className="menu-icon" onClick={toggleSidebar}>
         <MenuIcon />
       </div>
-      <div className="logo">شبكة أخبار </div>
       <ul className="nav-list">
         <li className="nav-item" onClick={onHomePageToggle}>Home</li>
         <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts </li>
         <li className="nav-item" onClick={onCategoryToggle}> Manage Categories</li>
       </ul>
-
       <div className="searchBar-div"><SearchBar onSearch={handleSearch} /></div>
+      <div className="logo">
+      <img src={logoimg} alt="Logo" />
+      </div>
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle}
        onCategoryClick={handleCategoryClick} updateCategories={updateCategories} />
 

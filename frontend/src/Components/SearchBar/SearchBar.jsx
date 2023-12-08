@@ -13,13 +13,13 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <div className="search-bar">
-      <input className='text-slate-700'
+      <input className='search-style'
         type="text"
         placeholder="Search..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <button onClick={handleSearch}><FaMagnifyingGlass  className='text-2xl'/></button>
+      <button onClick={handleSearch}><FaMagnifyingGlass  className='magnifier-style'/></button>
     </div>
   );
 };

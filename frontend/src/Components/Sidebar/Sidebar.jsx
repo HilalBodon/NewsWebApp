@@ -37,7 +37,8 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories  }) => {
     <div>
       <div className={`overlay ${isOpen ? 'open' : ''}`} onClick={handleOverlayClick}></div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <ul>
+      <div className='roaya-name'>مركز زاوية رؤية الثقافية </div> 
+        <ul className='list-styling'>
           {categories.map((category) => (
             <li key={category._id} onClick={() => handleCategoryClick(category)}>
             {category.name}
