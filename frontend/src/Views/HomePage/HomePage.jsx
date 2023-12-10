@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import "./HomePage.css";
 import Navbar from '../../Components/NavBar/Nav';
@@ -6,6 +7,8 @@ import PostList from '../../Components/PostsList/PostsLists';
 import Footer from '../../Components/Footer/Footer';
 import CategoryComponent from '../Category/CategoryComponent';
 import PostComponent from '../Post/PostComponent';
+import MoreSettings from '../MoreSettings/MoreSettings';
+import VideoSection from '../VideoSection/VideoSection';
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -15,7 +18,16 @@ const HomePage = () => {
   const [isHomePageVisible, setHomePageVisible] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null); 
   const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [categories, setCategories] = useState([]); // Added this line
+  const [categories, setCategories] = useState([]);
+  const [isSettingsVisible , setSettingsVisible]= useState(false);
+  const [showNewsTicker, setShowNewsTicker] = useState(true);
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoLink, setVideoLink] = useState('');
+
+  const convertToEmbedLink = (youtubeUrl) => {
+    const videoId = youtubeUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null;
+  };
 
   const fetchCategoriesData = async () => {
     try {
@@ -59,14 +71,10 @@ const HomePage = () => {
     fetchPosts();
   }, [selectedCategory, updateTrigger]); 
 
-
-  
   const handleUpdateTrigger = () => {
     setUpdateTrigger((prev) => !prev);
     console.log('Posts updated in HomePage!');
-
   };
-
 
   const handleOverlayToggle = () => {
     setOverlayVisible(!isOverlayVisible);
@@ -78,9 +86,16 @@ const HomePage = () => {
     setPostComponentVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
-  
+    setSettingsVisible(false);
   };
 
+  const handleSettingsToggle = () => {
+    setSettingsVisible(true);
+    setCategoryVisible(false);
+    setPostComponentVisible(false);
+    setHomePageVisible(false);
+    setOverlayVisible(false);
+  }
 
   const handleUpdateSidebar = async () => {
     try {
@@ -90,30 +105,48 @@ const HomePage = () => {
       console.error('Error updating sidebar:', error);
     }
   };
-  
 
-
-const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setHomePageVisible(true);
     setCategoryVisible(false);
     setPostComponentVisible(false);
-    setOverlayVisible(false);  
-};
+    setOverlayVisible(false);
+    setSettingsVisible(false);
+  };
 
   const handlePostComponentToggle = () => {
     setPostComponentVisible(true);
     setCategoryVisible(false);
     setHomePageVisible(false);
     setOverlayVisible(false);
+    setSettingsVisible(false);
   };
 
-  const handleHomePageToggle = () => {
+    const handleHomePageToggle = () => {
     setHomePageVisible(true);
     setPostComponentVisible(false);
     setCategoryVisible(false);
     setOverlayVisible(false);
+    setSettingsVisible(false);
   };
+
+  const handleNewsTickerToggle = (show) => {
+    setShowNewsTicker(show);
+  };
+
+  const handleVideoToggle = (show) => {
+    setShowVideo(show);
+  };
+
+
+  const handleUpdateVideoLink = (newVideoLink) => {
+    const embedLink = convertToEmbedLink(newVideoLink);
+    console.log('Updated video link:', embedLink);
+    setVideoLink(embedLink || '');
+    setShowVideo(!!embedLink);
+  };
+
 
   return (
     <div className='homePage-style'>
@@ -123,24 +156,20 @@ const handleCategoryClick = (category) => {
         onPostComponentToggle={handlePostComponentToggle}
         onCategoryClick={handleCategoryClick}
         updateCategories={handleUpdateSidebar} 
-        />
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
+        onSettingsToggle={handleSettingsToggle}
+      />
+
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showNewsTicker && (
         <NewsTicker />
       )}
 
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
-        <div className="video-container">
-          <iframe
-            src="https://www.youtube.com/embed/bNyUyrR0PHo"
-            title="Playing Video From YouTube"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      )}
+
+{isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
+        <VideoSection initialVideoLink={videoLink} videoLink={videoLink} />
+        )}
       <hr />
   
-    {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && (
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible &&(
         <div>
           <div className='cards-div'>
             <PostList posts={posts} selectedCategory={selectedCategory} onCardClick={handleOverlayToggle} />
@@ -148,15 +177,21 @@ const handleCategoryClick = (category) => {
         </div>
       )}
 
-      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && (
+      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && !isSettingsVisible &&(
         <div>
-      <CategoryComponent updateCategories={handleUpdateSidebar} />
+          <CategoryComponent updateCategories={handleUpdateSidebar} />
         </div>
       )}
 
-    {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible &&(
+      {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible && !isSettingsVisible &&(
         <PostComponent updatePosts={handleUpdateTrigger} />
-        )}
+      )}
+
+      {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible &&(
+        <div>
+          <MoreSettings onNewsTickerToggle={handleNewsTickerToggle} onVideoToggle={handleVideoToggle} onUpdateVideoLink={handleUpdateVideoLink} />
+        </div>
+      )}
 
       <Footer />
     </div>
@@ -164,3 +199,4 @@ const handleCategoryClick = (category) => {
 };
 
 export default HomePage;
+

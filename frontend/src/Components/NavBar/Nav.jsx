@@ -4,8 +4,9 @@ import './Navbar.css';
 import logoimg from "./logoimg.png";
 import Sidebar from '../Sidebar/Sidebar';
 import SearchBar from '../SearchBar/SearchBar';
+import MoreSettings from '../../Views/MoreSettings/MoreSettings';
 
-const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, onCategoryClick, updateCategories }) => {
+const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, onCategoryClick, updateCategories, onNewsTickerToggle }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -31,18 +32,19 @@ const Navbar = ({ onHomePageToggle , onPostComponentToggle, onCategoryToggle, on
       </div>
       <ul className="nav-list">
         <li className="nav-item" onClick={onHomePageToggle}>Home</li>
-        <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts </li>
-        <li className="nav-item" onClick={onCategoryToggle}> Manage Categories</li>
+        <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
+        <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
+        <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
       </ul>
       <div className="searchBar-div"><SearchBar onSearch={handleSearch} /></div>
       <div className="logo">
-      <img src={logoimg} alt="Logo" />
+        <img src={logoimg} alt="Logo" />
       </div>
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} onCategoryToggle={handleCategoryToggle}
-       onCategoryClick={handleCategoryClick} updateCategories={updateCategories} />
-
+        onCategoryClick={handleCategoryClick} updateCategories={updateCategories} />
     </nav>
   );
 };
 
 export default Navbar;
+

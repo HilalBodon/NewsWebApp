@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import './Footer.css';
 import { FaFacebook,FaWhatsapp, FaInstagram } from 'react-icons/fa'; 
-import AboutUs from './AboutUs/AboutUs';
+import AboutUs from './aboutUs/aboutUs';
 import {  } from 'react-icons/fa6';
-import HomePage from '../../Views/HomePage/HomePage';
 
 const Footer = () => {
 

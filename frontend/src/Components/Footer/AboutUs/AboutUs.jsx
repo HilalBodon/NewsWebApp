@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './AboutUs.css'; 
+import './aboutUs.css'; 
 const AboutUs = ({ onClose }) => {
   useEffect(() => {
     const aboutUsOverlay = document.querySelector('.about-us-overlay');

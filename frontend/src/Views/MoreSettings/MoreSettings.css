@@ -1,0 +1,6 @@
+.more-settings-main{
+    display: flex;
+    flex-direction: column;
+    padding : 0.75rem;
+    gap: 0.75rem;
+}
