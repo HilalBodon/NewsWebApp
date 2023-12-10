@@ -14,16 +14,17 @@ router.get('/settings', async (req, res) => {
   });
   
   router.post('/settings', async (req, res) => {
-    const { showNewsTicker, showVideo } = req.body;
+    const { showNewsTicker, showVideo, videoLink } = req.body;
+    console.log('Received data:', { showNewsTicker, showVideo, videoLink });
   
     try {
-      // Use findOneAndUpdate to create or update the settings
-      await Setting.findOneAndUpdate({}, { showNewsTicker, showVideo }, { upsert: true });
+      await Setting.findOneAndUpdate({}, { showNewsTicker, showVideo, videoLink }, { upsert: true });
       res.json({ success: true });
     } catch (error) {
       console.error('Error updating settings:', error);
       res.status(500).send('Internal Server Error');
     }
   });
+  
 
   module.exports = router;

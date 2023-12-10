@@ -21,13 +21,13 @@ const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [isSettingsVisible , setSettingsVisible]= useState(false);
   const [showNewsTicker, setShowNewsTicker] = useState(true);
-  const [showVideo, setShowVideo] = useState(false);
+  const [showVideo, setShowVideo] = useState(true);
   const [videoLink, setVideoLink] = useState('');
 
-  const convertToEmbedLink = (youtubeUrl) => {
-    const videoId = youtubeUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null;
-  };
+  // const convertToEmbedLink = (youtubeUrl) => {
+  //   const videoId = youtubeUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  //   return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null;
+  // };
 
   const fetchCategoriesData = async () => {
     try {
@@ -52,6 +52,7 @@ const HomePage = () => {
         const response = await fetch(url);
         const data = await response.json();
         setPosts(data);
+        
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -70,6 +71,25 @@ const HomePage = () => {
 
     fetchPosts();
   }, [selectedCategory, updateTrigger]); 
+
+
+  
+  useEffect(() => {
+   const fetchVideoLink = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/settings');
+        const settings = await response.json();
+        console.log(settings.videoLink);
+        setVideoLink(settings.videoLink || ''); 
+      } catch (error) {
+        console.error('Error fetching video link:', error);
+      }
+    };
+
+    fetchVideoLink();
+  }, []);
+
+
 
   const handleUpdateTrigger = () => {
     setUpdateTrigger((prev) => !prev);
@@ -140,12 +160,12 @@ const HomePage = () => {
   };
 
 
-  const handleUpdateVideoLink = (newVideoLink) => {
-    const embedLink = convertToEmbedLink(newVideoLink);
-    console.log('Updated video link:', embedLink);
-    setVideoLink(embedLink || '');
-    setShowVideo(!!embedLink);
-  };
+  // const handleUpdateVideoLink = (newVideoLink) => {
+  //   const embedLink = convertToEmbedLink(newVideoLink);
+  //   console.log('Updated video link:', embedLink);
+  //   setVideoLink(embedLink || '');
+  //   setShowVideo(!!embedLink);
+  // };
 
 
   return (
@@ -165,7 +185,8 @@ const HomePage = () => {
 
 
 {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
-        <VideoSection initialVideoLink={videoLink} videoLink={videoLink} />
+        <VideoSection/>
+        // initialVideoLink={videoLink}  showVideo={showVideo} videoLink={videoLink} 
         )}
       <hr />
   
@@ -189,7 +210,8 @@ const HomePage = () => {
 
       {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible &&(
         <div>
-          <MoreSettings onNewsTickerToggle={handleNewsTickerToggle} onVideoToggle={handleVideoToggle} onUpdateVideoLink={handleUpdateVideoLink} />
+          <MoreSettings onNewsTickerToggle={handleNewsTickerToggle} onVideoToggle={handleVideoToggle}  />
+          {/* onUpdateVideoLink={handleUpdateVideoLink} */}
         </div>
       )}
 
