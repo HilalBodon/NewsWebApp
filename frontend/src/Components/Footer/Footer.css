@@ -6,6 +6,7 @@
     justify-content: space-between;
     align-items: center;
   }
+
   .social-media-icons{
     display: flex;
     gap: 15px;

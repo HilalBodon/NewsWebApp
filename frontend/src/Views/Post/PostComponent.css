@@ -19,8 +19,9 @@
 .post-content {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #fff8f0;
   background-color: aliceblue;
+  border-radius: 4px;
 }
 
 .post-form input,
@@ -92,10 +93,6 @@
 
 }
 
-/* .button-container button{
-color: #fff;
-  
-} */
 
 .edit-button {
   background-color: #3498db;

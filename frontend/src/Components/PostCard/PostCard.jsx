@@ -62,7 +62,6 @@ const PostCard = ({ title, content, category, createdAt, imgUrl, onCardClick }) 
 
   const handleClick = () => {
     onCardClick({ title, content, category, createdAt, imgUrl, categoryName });
-    // console.log('Card clicked'); 
   };
 
   return (

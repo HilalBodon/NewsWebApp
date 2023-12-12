@@ -11,6 +11,7 @@ import MoreSettings from '../MoreSettings/MoreSettings';
 import VideoSection from '../VideoSection/VideoSection';
 
 const HomePage = () => {
+
   const [posts, setPosts] = useState([]);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [isCategoryVisible, setCategoryVisible] = useState(false);
@@ -23,11 +24,8 @@ const HomePage = () => {
   const [showNewsTicker, setShowNewsTicker] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
+  const [isLoading, setLoading] = useState(true);
 
-  // const convertToEmbedLink = (youtubeUrl) => {
-  //   const videoId = youtubeUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  //   return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null;
-  // };
 
   const fetchCategoriesData = async () => {
     try {
@@ -58,20 +56,37 @@ const HomePage = () => {
       }
     };
 
-    const fetchData = async () => {
-      try {
-        const updatedCategories = await fetchCategoriesData();
-        setCategories(updatedCategories);
-      } catch (error) {
-        console.error('Error updating categories:', error);
-      }
-    };
+  //   const fetchData = async () => {
+  //     try {
+  //       const updatedCategories = await fetchCategoriesData();
+  //       setCategories(updatedCategories);
+  //     } catch (error) {
+  //       console.error('Error updating categories:', error);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
 
-    fetchPosts();
-  }, [selectedCategory, updateTrigger]); 
+  //   fetchPosts();
+  // }, [selectedCategory, updateTrigger]); 
 
+
+  
+        const fetchData = async () => {
+          try {
+            const updatedCategories = await fetchCategoriesData();
+            setCategories(updatedCategories);
+            setLoading(false); 
+          } catch (error) {
+            console.error('Error updating categories:', error);
+            setLoading(false); 
+          }
+        };
+
+        fetchData();
+        fetchPosts();
+        // fetchVideoLink();
+      }, [selectedCategory, updateTrigger]);
 
   
   useEffect(() => {
@@ -176,16 +191,6 @@ useEffect(() => {
     setShowVideo(show);
   };
   
-
-
-  // const handleUpdateVideoLink = (newVideoLink) => {
-  //   const embedLink = convertToEmbedLink(newVideoLink);
-  //   console.log('Updated video link:', embedLink);
-  //   setVideoLink(embedLink || '');
-  //   setShowVideo(!!embedLink);
-  // };
-
-
   return (
     <div className='homePage-style'>
       <Navbar
@@ -196,19 +201,25 @@ useEffect(() => {
         updateCategories={handleUpdateSidebar} 
         onSettingsToggle={handleSettingsToggle}
       />
+      
+      {isLoading && (
+        <div className="loading-container">
+          <div className="loading-circle"></div>
+        </div>
+      )}
+
 
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showNewsTicker && (
         <NewsTicker />
       )}
 
 
-{isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
         <VideoSection/>
-        // initialVideoLink={videoLink}  showVideo={showVideo} videoLink={videoLink} 
         )}
       <hr />
   
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible &&(
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <div className='cards-div'>
             <PostList posts={posts} selectedCategory={selectedCategory} onCardClick={handleOverlayToggle} />
@@ -216,23 +227,22 @@ useEffect(() => {
         </div>
       )}
 
-      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && !isSettingsVisible &&(
+      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <CategoryComponent updateCategories={handleUpdateSidebar} />
         </div>
       )}
 
-      {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible && !isSettingsVisible &&(
+      {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible && !isSettingsVisible && !isLoading && (
         <PostComponent updatePosts={handleUpdateTrigger} />
       )}
 
-      {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible &&(
+      {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible && !isLoading && (
         <div className='moreSettings-mainStyle'>
-      <MoreSettings
-        onNewsTickerToggle={handleNewsTickerToggle}
-        onVideoToggle={handleVideoToggle}
-      />
-          {/* onUpdateVideoLink={handleUpdateVideoLink} */}
+          <MoreSettings
+            onNewsTickerToggle={handleNewsTickerToggle}
+            onVideoToggle={handleVideoToggle}
+          />
         </div>
       )}
 
@@ -242,4 +252,3 @@ useEffect(() => {
 };
 
 export default HomePage;
-

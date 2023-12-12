@@ -11,7 +11,7 @@ const FullScreenPost = ({ post, onClose }) => {
         <div className="full-post-container">
           <img src={post.imgUrl} alt="" />
           <h2 className='text-xl font-medium m-2'>{post.title}</h2>
-          <p>{post.content}</p>
+          <p className='fullScreen-content'>{post.content}</p>
 
           {post.pdfUrl ? (
             <a href={post.pdfUrl} download className='text-blue-400'>تحميل العدد</a>
