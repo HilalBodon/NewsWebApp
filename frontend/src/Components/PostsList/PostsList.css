@@ -42,12 +42,10 @@
   padding-bottom: 10px;
 }
 
-/* Hide the scrollbar for WebKit browsers */
 .scroll-container::-webkit-scrollbar {
   width: 0;
 }
 
-/* Optional: If you want to hide the scrollbar in Firefox */
 .scroll-container {
   scrollbar-width: none;
 }

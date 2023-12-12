@@ -20,8 +20,8 @@ const HomePage = () => {
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [categories, setCategories] = useState([]);
   const [isSettingsVisible , setSettingsVisible]= useState(false);
-  const [showNewsTicker, setShowNewsTicker] = useState(true);
-  const [showVideo, setShowVideo] = useState(true);
+  const [showNewsTicker, setShowNewsTicker] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
 
   // const convertToEmbedLink = (youtubeUrl) => {
@@ -79,7 +79,6 @@ const HomePage = () => {
       try {
         const response = await fetch('http://localhost:8080/api/settings');
         const settings = await response.json();
-        console.log(settings.videoLink);
         setVideoLink(settings.videoLink || ''); 
       } catch (error) {
         console.error('Error fetching video link:', error);
@@ -88,6 +87,24 @@ const HomePage = () => {
 
     fetchVideoLink();
   }, []);
+
+
+useEffect(() => {
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/settings');
+      const data = await response.json();
+
+      setShowNewsTicker(data.showNewsTicker);
+      setShowVideo(data.showVideo);
+      setVideoLink(data.videoLink || '');
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+    }
+  };
+
+  fetchSettings();
+}, []);
 
 
 
@@ -154,10 +171,11 @@ const HomePage = () => {
   const handleNewsTickerToggle = (show) => {
     setShowNewsTicker(show);
   };
-
+  
   const handleVideoToggle = (show) => {
     setShowVideo(show);
   };
+  
 
 
   // const handleUpdateVideoLink = (newVideoLink) => {
@@ -209,8 +227,11 @@ const HomePage = () => {
       )}
 
       {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible &&(
-        <div>
-          <MoreSettings onNewsTickerToggle={handleNewsTickerToggle} onVideoToggle={handleVideoToggle}  />
+        <div className='moreSettings-mainStyle'>
+      <MoreSettings
+        onNewsTickerToggle={handleNewsTickerToggle}
+        onVideoToggle={handleVideoToggle}
+      />
           {/* onUpdateVideoLink={handleUpdateVideoLink} */}
         </div>
       )}

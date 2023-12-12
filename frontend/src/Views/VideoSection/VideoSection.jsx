@@ -1,39 +1,3 @@
-
-
-// import React, { useState,useEffect } from 'react';
-
-
-
-// const VideoSection = ({ initialVideoLink ,showVideo, videoLink }) => {
-  
-//   const [localVideoLink, setLocalVideoLink] = useState(initialVideoLink || '');
-  
-//   useEffect(() => {
-//     console.log("videooooo",videoLink)
-//     setLocalVideoLink(videoLink);
-//   }, [videoLink]);
-
-
-  
-
-//   return (
-//     <div className="video-section">
-//       <div className="video-container">
-//         <iframe
-//           src={videoLink}
-//           title="Playing Video From YouTube"
-//           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-//           allowFullScreen
-//         ></iframe>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default VideoSection;
-
-
-
 import React, { useState, useEffect } from 'react';
 
 const VideoSection = () => {
@@ -49,7 +13,7 @@ const VideoSection = () => {
       try {
         const response = await fetch('http://localhost:8080/api/settings');
         const settings = await response.json();
-        console.log(settings.videoLink);
+        // console.log(settings.videoLink);
         setVideoLink(convertToEmbedLink(settings.videoLink) || '');
       } catch (error) {
         console.error('Error fetching video link:', error);
