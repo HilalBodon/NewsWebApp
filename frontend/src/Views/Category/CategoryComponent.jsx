@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './CategoryComponent.css';
 
+const API_URL = 'http://localhost:8080/api';
+
 const CategoryComponent = ({ updateCategories }) => {
   const [categories, setCategories] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
   const [categoryName, setCategoryName] = useState('');
   const [error, setError] = useState(null);
-
-  const isAuthenticated = true;
+  const [token, setToken] = useState('');
 
   useEffect(() => {
-    if (isAuthenticated) {
+    // Get token from local storage
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
       fetchCategories();
     }
-  }, [isAuthenticated]);
+  }, []);
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${API_URL}/categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -27,7 +35,7 @@ const CategoryComponent = ({ updateCategories }) => {
 
   const handleCreateOrUpdate = async () => {
     try {
-      if (!isAuthenticated) {
+      if (!token) {
         setError('Authentication required to manage categories.');
         return;
       }
@@ -38,8 +46,8 @@ const CategoryComponent = ({ updateCategories }) => {
       }
 
       const url = editingCategory
-        ? `http://localhost:8080/api/categories/${editingCategory._id}`
-        : 'http://localhost:8080/api/categories';
+        ? `${API_URL}/categories/${editingCategory._id}`
+        : `${API_URL}/categories`;
 
       const method = editingCategory ? 'PUT' : 'POST';
 
@@ -47,6 +55,7 @@ const CategoryComponent = ({ updateCategories }) => {
         method,
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name: categoryName }),
       });
@@ -64,7 +73,11 @@ const CategoryComponent = ({ updateCategories }) => {
 
   const fetchCategoriesData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${API_URL}/categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return await response.json();
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -73,7 +86,7 @@ const CategoryComponent = ({ updateCategories }) => {
 
   const handleDelete = async (categoryId) => {
     try {
-      if (!isAuthenticated) {
+      if (!token) {
         setError('Authentication required to delete categories.');
         return;
       }
@@ -81,8 +94,11 @@ const CategoryComponent = ({ updateCategories }) => {
       const confirmed = window.confirm('Are you sure you want to delete this category?');
 
       if (confirmed) {
-        await fetch(`http://localhost:8080/api/categories/${categoryId}`, {
+        await fetch(`${API_URL}/categories/${categoryId}`, {
           method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         const updatedCategories = await fetchCategoriesData();

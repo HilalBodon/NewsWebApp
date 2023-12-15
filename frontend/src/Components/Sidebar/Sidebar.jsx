@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories  }) => {
-    const [categories, setCategories] = useState([]);
+const Sidebar = ({ isOpen, onClose, 
+  onCategoryClick, updateCategories,
+  onHomePageToggle, onPostComponentToggle,
+  onCategoryToggle, onSettingsToggle, isValidToken }) => {
+
+  const [categories, setCategories] = useState([]);
 
     useEffect(() => {
       const fetchCategories = async () => {
@@ -38,6 +42,17 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories  }) => {
       <div className={`overlay ${isOpen ? 'open' : ''}`} onClick={handleOverlayClick}></div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className='roaya-name'>مركز زاوية رؤية الثقافية </div> 
+
+      {window.innerWidth < 770 && isValidToken && (
+          <ul className='list-styling'>
+            <li className="nav-item" onClick={onHomePageToggle}>Home</li>
+            <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
+            <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
+            <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
+            <hr className="separator"/>
+          </ul>
+        )}
+
         <ul className='list-styling'>
           {categories.map((category) => (
             <li key={category._id} onClick={() => handleCategoryClick(category)}>

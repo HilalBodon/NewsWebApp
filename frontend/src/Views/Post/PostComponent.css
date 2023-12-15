@@ -24,6 +24,12 @@
   border-radius: 4px;
 }
 
+.post-content button{
+background-color: #3498db;
+margin: 0.2rem;
+}
+
+
 .post-form input,
 .post-form textarea {
   flex: 1;

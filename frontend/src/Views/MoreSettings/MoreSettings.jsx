@@ -91,7 +91,7 @@ function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) 
       </div>
 
       <div className='button-container'>
-        <button onClick={handleUpdateVideoLink}>Update Video Link</button>
+        <button className='button-container-button' onClick={handleUpdateVideoLink}>Update Video Link</button>
       </div>
     </div>
   );

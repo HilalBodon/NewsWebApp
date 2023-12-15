@@ -35,7 +35,6 @@
 
 .menu-icon {
   cursor: pointer;
-  font-size: 1.5rem;
   color: rgb(47, 47, 47);
   margin-right: 10px;
 }
@@ -47,7 +46,7 @@
 }
 
 /* Add media query for smaller screens (e.g., mobile) */
-@media (max-width: 768px) {
+@media (max-width: 610px) {
   .nav-list {
     flex-direction: column;
     gap: 0.5rem;
@@ -60,4 +59,11 @@
   .searchBar-div {
     width: 60%;
   }
+}
+
+.logout-btn{
+  background-color: rgba(255, 217, 0, 0.461);
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
 }

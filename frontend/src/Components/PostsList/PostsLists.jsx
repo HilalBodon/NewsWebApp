@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PostCard from '../PostCard/PostCard';
 import FullScreenPost from '../PostCard/FullScreenPost';
-import './PostsList.css'; // Import the CSS file with the styles
+import './PostsList.css'; 
 
 const PostList = ({ posts, selectedCategory }) => {
   const [categoryNames, setCategoryNames] = useState({});
@@ -29,21 +29,17 @@ const PostList = ({ posts, selectedCategory }) => {
   }, [posts]);
 
   const handleCardClick = (post) => {
-    // console.log('Card clicked:', post);
     setSelectedPost(post);
   };
 
   const handleCloseFullScreen = () => {
-    // console.log('Closing full-screen view');
     setSelectedPost(null);
   };
 
-  // Filter posts by selected category
   const filteredPosts = selectedCategory
     ? posts.filter((post) => categoryNames[post.category] === selectedCategory)
     : posts;
 
-  // Group filtered posts by category
   const postsByCategory = filteredPosts.reduce((acc, post) => {
     const categoryName = categoryNames[post.category];
 

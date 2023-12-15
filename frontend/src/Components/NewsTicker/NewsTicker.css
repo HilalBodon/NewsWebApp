@@ -39,19 +39,19 @@
   }
   
   @media (max-width: 768px) {
-    .news-ticker {
-      flex-direction: column; /* Stack items vertically on smaller screens */
-      align-items: flex-start; /* Align items to the start */
+    /* .news-ticker {
+      flex-direction: column; 
+      align-items: flex-start;
     }
   
     .news-container {
-      flex-direction: column; /* Stack news items vertically */
+      flex-direction: column;
       gap: 10px;
-      overflow: auto; /* Enable vertical scrolling if needed */
+      overflow: auto; 
     }
   
     .live-word {
       margin-top: 10px;
-    }
+    } */
   }
   

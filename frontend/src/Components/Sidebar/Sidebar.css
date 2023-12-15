@@ -28,7 +28,7 @@
     color: white;
     
   }
-  
+
   .list-styling li{
   padding:0.5rem;
   }
@@ -51,5 +51,11 @@
   .roaya-name{
     font-size: x-large;
     font-weight: 600;
+  }
+  
+  .separator {
+    border: 1px solid #dddddd; 
+    margin: 0 10px; 
+    width: 150px;
   }
   

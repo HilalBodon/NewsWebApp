@@ -64,7 +64,7 @@
     animation: fadeIn 0.5s ease-in-out forwards; /* Animation for fade-in effect */
   }
   
-  .button-container button {
+  .button-container-button {
     background-color: #4caf50;
     color: white;
     border: none;
@@ -78,7 +78,7 @@
     transition: background-color 0.3s ease;
   }
   
-  .button-container button:hover {
+  .button-container-button:hover {
     background-color: #45a049;
   }
   

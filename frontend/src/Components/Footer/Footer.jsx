@@ -35,7 +35,7 @@ const Footer = () => {
       </div>
 
       <div className="copyright">
-        <p ><b> By Quad Business House</b> 2024 &copy;  All Rights Reserved.</p>
+        <p >By<a href='https://www.quad-bh.com/' target="_blank" rel="noopener noreferrer">  <b>QUAD Digital Media</b></a> 2024 &copy;  All Rights Reserved.</p>
       </div>
 
       <div className="footer-content">
