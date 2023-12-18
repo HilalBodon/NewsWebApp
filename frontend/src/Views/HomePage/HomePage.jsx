@@ -9,6 +9,15 @@ import CategoryComponent from '../Category/CategoryComponent';
 import PostComponent from '../Post/PostComponent';
 import MoreSettings from '../MoreSettings/MoreSettings';
 import VideoSection from '../VideoSection/VideoSection';
+import axios from "axios";
+
+
+const BaseURL = 'https://www.beaapis.com/1';
+const Headers = {
+  'X-BEA-Application-Id': 'Fdo32NoHF7H3ur5tzT0zp7S_QMOnW6zhEVab3U37zEk',
+  'X-BEA-Authorization': 'mDbKLYBJOOqxVlZuW4ov6Vk_66EeqILi3qG7-hOipM0',
+};
+
 
 const HomePage = () => {
 
@@ -17,10 +26,10 @@ const HomePage = () => {
   const [isCategoryVisible, setCategoryVisible] = useState(false);
   const [isPostComponentVisible, setPostComponentVisible] = useState(false);
   const [isHomePageVisible, setHomePageVisible] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [isSettingsVisible , setSettingsVisible]= useState(false);
+  const [isSettingsVisible, setSettingsVisible] = useState(false);
   const [showNewsTicker, setShowNewsTicker] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
@@ -37,9 +46,52 @@ const HomePage = () => {
   };
 
 
-
   useEffect(() => {
     const fetchPosts = async () => {
+
+      let limit = 10;
+      let page = 1;
+      axios({
+        url: BaseURL + '/Posts',
+        method: 'get',
+        params: {
+          "fields": "*",
+          "order": "-objectId",
+          "where": {
+            // "featured": "1"
+          },
+          "limit": limit,
+          "offset": (page-1) * limit
+        },
+        headers: Headers
+     })
+     .then(response => {
+        console.log("NEWWWWW", response.data.results)
+     }) 
+     .catch(err => {
+        console.log(err);
+     });
+
+
+      // fetch(BaseURL + '/Posts/' + stringify() 
+      // // new URLSearchParams({
+      // //   "fields": "*",
+      // //   "order": "-objectId",
+      // //   "where": {
+      // //     "featured": 1,
+      // //     "Title": "N2"
+      // //   },
+      // //   "limit": limit,
+      // //   "offset": (page-1) * limit
+      // // }).toString()
+      // , {
+      //   method: 'GET',
+      //   headers: Headers,
+      // })
+      //   .then(response => response.json())
+      //   .then(response => console.log("NEW", response))
+      //   .catch(err => console.error(err));
+
       try {
         let url = 'http://localhost:8080/api/posts?sort=createdAt,important';
 
@@ -49,52 +101,55 @@ const HomePage = () => {
 
         const response = await fetch(url);
         const data = await response.json();
+
+        console.log("OLD", data);
+
         setPosts(data);
-        
+
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const updatedCategories = await fetchCategoriesData();
-  //       setCategories(updatedCategories);
-  //     } catch (error) {
-  //       console.error('Error updating categories:', error);
-  //     }
-  //   };
+    //   const fetchData = async () => {
+    //     try {
+    //       const updatedCategories = await fetchCategoriesData();
+    //       setCategories(updatedCategories);
+    //     } catch (error) {
+    //       console.error('Error updating categories:', error);
+    //     }
+    //   };
 
-  //   fetchData();
+    //   fetchData();
 
-  //   fetchPosts();
-  // }, [selectedCategory, updateTrigger]); 
+    //   fetchPosts();
+    // }, [selectedCategory, updateTrigger]); 
 
 
-  
-        const fetchData = async () => {
-          try {
-            const updatedCategories = await fetchCategoriesData();
-            setCategories(updatedCategories);
-            setLoading(false); 
-          } catch (error) {
-            console.error('Error updating categories:', error);
-            setLoading(false); 
-          }
-        };
 
-        fetchData();
-        fetchPosts();
-        // fetchVideoLink();
-      }, [selectedCategory, updateTrigger]);
+    const fetchData = async () => {
+      try {
+        const updatedCategories = await fetchCategoriesData();
+        setCategories(updatedCategories);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error updating categories:', error);
+        setLoading(false);
+      }
+    };
 
-  
+    fetchData();
+    fetchPosts();
+    // fetchVideoLink();
+  }, [selectedCategory, updateTrigger]);
+
+
   useEffect(() => {
-   const fetchVideoLink = async () => {
+    const fetchVideoLink = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/settings');
         const settings = await response.json();
-        setVideoLink(settings.videoLink || ''); 
+        setVideoLink(settings.videoLink || '');
       } catch (error) {
         console.error('Error fetching video link:', error);
       }
@@ -104,22 +159,22 @@ const HomePage = () => {
   }, []);
 
 
-useEffect(() => {
-  const fetchSettings = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/settings');
-      const data = await response.json();
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/settings');
+        const data = await response.json();
 
-      setShowNewsTicker(data.showNewsTicker);
-      setShowVideo(data.showVideo);
-      setVideoLink(data.videoLink || '');
-    } catch (error) {
-      console.error('Error fetching settings:', error);
-    }
-  };
+        setShowNewsTicker(data.showNewsTicker);
+        setShowVideo(data.showVideo);
+        setVideoLink(data.videoLink || '');
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    };
 
-  fetchSettings();
-}, []);
+    fetchSettings();
+  }, []);
 
 
 
@@ -175,7 +230,7 @@ useEffect(() => {
     setSettingsVisible(false);
   };
 
-    const handleHomePageToggle = () => {
+  const handleHomePageToggle = () => {
     setHomePageVisible(true);
     setPostComponentVisible(false);
     setCategoryVisible(false);
@@ -186,11 +241,11 @@ useEffect(() => {
   const handleNewsTickerToggle = (show) => {
     setShowNewsTicker(show);
   };
-  
+
   const handleVideoToggle = (show) => {
     setShowVideo(show);
   };
-  
+
   return (
     <div className='homePage-style'>
       <Navbar
@@ -198,10 +253,10 @@ useEffect(() => {
         onCategoryToggle={handleCategoryToggle}
         onPostComponentToggle={handlePostComponentToggle}
         onCategoryClick={handleCategoryClick}
-        updateCategories={handleUpdateSidebar} 
+        updateCategories={handleUpdateSidebar}
         onSettingsToggle={handleSettingsToggle}
       />
-      
+
       {isLoading && (
         <div className="loading-container">
           <div className="loading-circle"></div>
@@ -215,10 +270,10 @@ useEffect(() => {
 
 
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
-        <VideoSection/>
-        )}
+        <VideoSection />
+      )}
       <hr />
-  
+
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <div className='cards-div'>
