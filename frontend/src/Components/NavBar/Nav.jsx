@@ -97,9 +97,8 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
   };
 
   const handleLogout = () => {
-    // Clear the token from local storage
     localStorage.removeItem('token');
-    // Set forceRender to true to trigger a re-render
+    localStorage.removeItem('user');
     setForceRender(true);
   };
 
