@@ -332,10 +332,10 @@ import VideoSection from '../VideoSection/VideoSection';
 import axios from "axios";
 
 
-const BaseURL = 'https://www.beaapis.com/1';
+const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
-  'X-BEA-Application-Id': 'Fdo32NoHF7H3ur5tzT0zp7S_QMOnW6zhEVab3U37zEk',
-  'X-BEA-Authorization': 'mDbKLYBJOOqxVlZuW4ov6Vk_66EeqILi3qG7-hOipM0',
+  'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+  'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
 };
 
 
@@ -615,7 +615,7 @@ const HomePage = () => {
       )}
 
 
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showNewsTicker && (
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
         <NewsTicker />
       )}
 

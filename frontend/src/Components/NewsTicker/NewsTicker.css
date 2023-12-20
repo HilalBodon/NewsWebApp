@@ -12,10 +12,14 @@
   .news-container {
     display: flex;
     gap: 20px;
+    height: 100%;
     animation: scrollNews linear infinite;
-    animation-duration: 20s;
+    animation-duration: 50s;
   }
   
+  .news-container:hover {
+    animation-duration: 100s;
+  }
   .news-item {
     padding: 0 10px;
     overflow: hidden;

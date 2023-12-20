@@ -1,26 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import './MoreSettings.css';
+import axios from 'axios';
+
+const BaseURL = process.env.REACT_APP_BASE_URL;
+const Headers = {
+  'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+  'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
+};
 
 function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) {
   const [showNewsTicker, setShowNewsTicker] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/settings');
-        const data = await response.json();
-        setShowNewsTicker(data.showNewsTicker);
-        setShowVideo(data.showVideo);
-        setVideoLink(data.videoLink || '');
-      } catch (error) {
-        console.error('Error fetching settings:', error);
-      }
-    };
+    useEffect(() => {
 
-    fetchSettings();
-  }, []);
+      const fetchSettings = async () => {
+        try {
+          const response = await axios({
+            url: BaseURL + '/_Config',
+            method: 'get',
+            headers: Headers,
+            params: {
+              "fields":"*"
+            }
+          });
+          //  console.log("hilal3", response.data.results)
+           const data = await response.data;
+  
+          setShowNewsTicker(data.showNewsTicker);
+          setShowVideo(data.showVideo);
+          setVideoLink(data.videoLink || '');
+          console.log("data",data.results)
+        } catch (error) {
+          console.error('Error fetching settings:', error);
+        }
+      };
+
+      fetchSettings();
+    }, []);
+
 
   const handleCheckboxChange = (setter) => {
     setter((prev) => {
@@ -36,25 +55,52 @@ function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) 
     });
   };
 
-  const updateSettings = async (newValue, setter) => {
+
+
+
+  // const updateSettings = async (newValue, setter) => {
+  //   try {
+  //     const response = await fetch('http://localhost:8080/api/settings', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         showNewsTicker: setter === setShowNewsTicker ? newValue : showNewsTicker ? 1 : 0,
+  //         showVideo: setter === setShowVideo ? newValue ? 1 : 0 : showVideo ? 1 : 0,
+  //         videoLink,
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     console.log('Updated settings:', data.success);
+  //   } catch (error) {
+  //     console.error('Error updating settings:', error);
+  //   }
+  // };
+
+
+
+  const updateSettings = async (newValue, setter, showNewsTicker, showVideo, videoLink) => {
     try {
-      const response = await fetch('http://localhost:8080/api/settings', {
+      const response = await axios({
+        url: BaseURL + '/_Config',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+        headers: Headers,
+        data: {
           showNewsTicker: setter === setShowNewsTicker ? newValue : showNewsTicker ? 1 : 0,
           showVideo: setter === setShowVideo ? newValue ? 1 : 0 : showVideo ? 1 : 0,
           videoLink,
-        }),
+        },
       });
-      const data = await response.json();
-      console.log('Updated settings:', data.success);
+  
+      const data = response.data;
+      console.log('Updated settings:', response.data);
     } catch (error) {
       console.error('Error updating settings:', error);
     }
   };
+
+
 
   const handleVideoLinkChange = (event) => {
     setVideoLink(event.target.value);
