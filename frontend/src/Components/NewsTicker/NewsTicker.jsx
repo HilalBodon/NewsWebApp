@@ -12,22 +12,6 @@ const Headers = {
 const NewsTicker = () => {
   const [importantPosts, setImportantPosts] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchImportantPosts = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:8080/api/important-posts');
-  //       const data = await response.json();
-  //       setImportantPosts(data);
-  //       console.log("NEWWWWWsiii", data);
-
-  //     } catch (error) {
-  //       console.error('Error fetching important posts:', error);
-  //     }
-  //   };
-
-  //   fetchImportantPosts();
-  // }, []);
-
   useEffect(() => {
 
     const fetchImportantPosts = async () => {
@@ -43,12 +27,9 @@ const NewsTicker = () => {
 
             "featured": "1"
           },
-          // "limit": limit,
         },
         headers: Headers,
       });
-      console.log("NEWWWWWsiii", response.data.results);
-
       const responseData = response.data;
       const postsData = responseData.results || [];
       setImportantPosts(postsData);
@@ -68,9 +49,11 @@ const NewsTicker = () => {
     <div className="news-ticker">
       <div className="news-container" id="news-container">
         {importantPosts.map((post) => (
-            <div className="news-item" key={post._id}>
-            | {post.Title} |
-          </div>
+          <div className="news-item" key={post._id}>
+          <img className="circle-img" src="https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703103247s964e02c3e85(40xa).png" alt="Image" />
+          <p>{post.Title}</p>  
+          <img className="circle-img" src="https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703103247s964e02c3e85(40xa).png" alt="Image" />
+        </div>
         ))}
       </div>
         <p className='live-word'>آخر المستجدات</p>

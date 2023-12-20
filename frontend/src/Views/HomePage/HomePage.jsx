@@ -485,12 +485,12 @@ const HomePage = () => {
             url: BaseURL + '/_Config',
             method: 'get',
             params: {
-              "fields":"*",
+              "fields":"Value",
               "where":{"Parameter":"videoLink"}
             },
             headers: Headers
           });
-        //  console.log("hilal2", response.data)
+         console.log("videolink", response.data)
 
         const settings = await response.data;
         setVideoLink(settings.videoLink || '');
@@ -513,7 +513,6 @@ const HomePage = () => {
           method: 'get',
           headers: Headers
         });
-        //  console.log("hilal3", response.data.results)
          const data = await response.data;
 
         setShowNewsTicker(data.showNewsTicker);

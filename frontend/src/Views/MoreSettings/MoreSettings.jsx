@@ -25,7 +25,6 @@ function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) 
               "fields":"*"
             }
           });
-          //  console.log("hilal3", response.data.results)
            const data = await response.data;
   
           setShowNewsTicker(data.showNewsTicker);
@@ -41,6 +40,7 @@ function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) 
     }, []);
 
 
+
   const handleCheckboxChange = (setter) => {
     setter((prev) => {
       const newValue = !prev;
@@ -51,6 +51,7 @@ function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) 
       } else if (setter === setShowVideo) {
         onVideoToggle(newValue);
       }
+      console.log(newValue);
       return newValue;
     });
   };
@@ -94,7 +95,7 @@ function MoreSettings({ onNewsTickerToggle, onVideoToggle, onUpdateVideoLink }) 
       });
   
       const data = response.data;
-      console.log('Updated settings:', response.data);
+      console.log('Updated settings:', data);
     } catch (error) {
       console.error('Error updating settings:', error);
     }

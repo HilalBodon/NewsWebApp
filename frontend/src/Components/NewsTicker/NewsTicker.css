@@ -14,15 +14,19 @@
     gap: 20px;
     height: 100%;
     animation: scrollNews linear infinite;
-    animation-duration: 50s;
+    animation-duration: 70s;
+    animation-direction: reverse; 
   }
   
-  .news-container:hover {
-    animation-duration: 100s;
-  }
+
   .news-item {
     padding: 0 10px;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+
   }
   
   @keyframes scrollNews {
@@ -39,7 +43,7 @@
     padding: 0 10px;
     color: rgb(95, 13, 13);
     background-color: #f0f0f0;
-    z-index: 1;
+    z-index: 4;
   }
   
   @media (max-width: 768px) {
@@ -59,3 +63,8 @@
     } */
   }
   
+
+  .circle-img{
+    border-radius: 50%;
+    padding: 0 10px 0 10px;
+  }

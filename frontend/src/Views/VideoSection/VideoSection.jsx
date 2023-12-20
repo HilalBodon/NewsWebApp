@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
+const BaseURL = process.env.REACT_APP_BASE_URL;
+const Headers = {
+
+  'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+  'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
+};
 const VideoSection = () => {
   const [videoLink, setVideoLink] = useState('');
 
@@ -10,11 +17,20 @@ const VideoSection = () => {
 
   useEffect(() => {
     const fetchVideoLink = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/settings');
-        const settings = await response.json();
-        // console.log(settings.videoLink);
-        setVideoLink(convertToEmbedLink(settings.videoLink) || '');
+        try {
+          const response = await axios({
+            url: BaseURL + '/_Config',
+            method: 'get',
+            params: {
+              "fields":"Value",
+              "where":{"Parameter":"videoLink"}
+            },
+            headers: Headers
+          });
+         console.log("videolink from", response.data.results[0].Value)
+         let videoLink = response.data.results[0].Value;
+
+        setVideoLink(convertToEmbedLink(videoLink) || '');
       } catch (error) {
         console.error('Error fetching video link:', error);
       }
