@@ -29,6 +29,8 @@
   display:flex ;
   flex-direction: column;
   align-items: flex-end;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 /* .category-container {
   white-space: nowrap;

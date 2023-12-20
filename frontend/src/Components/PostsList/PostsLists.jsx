@@ -262,11 +262,8 @@ const PostList = ({ posts, selectedCategory }) => {
           <div className="scroll-container ">
             <div className="scroll-content">
               {categoryPosts.map((post) => {
-
-
-                let imgurl2 = "";
+                let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
                 try {
-                  console.log(post);
                   imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
                 } catch (e) {
 

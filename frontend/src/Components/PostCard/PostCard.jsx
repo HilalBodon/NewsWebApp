@@ -13,20 +13,6 @@ const PostCard = ({ Title, content, category, createdAt, imgUrl, onCardClick }) 
   const formattedDate = new Date(createdAt).toLocaleString();
   const [categoryName, setCategoryName] = useState('');
 
-  // useEffect(() => {
-  //   const fetchCategory = async () => {
-  //     try {
-  //       const response = await fetch(`http://localhost:8080/api/categories/${category}`);
-  //       const categoryData = await response.json();
-  //       setCategoryName(categoryData.name);
-  //     } catch (error) {
-  //       console.error('Error fetching category:', error);
-  //     }
-  //   };
-
-  //   fetchCategory();
-  // }, [category]);
-
   useEffect(() => {
   const fetchCategory = async () => {
     try {
@@ -42,8 +28,6 @@ const PostCard = ({ Title, content, category, createdAt, imgUrl, onCardClick }) 
         },
         headers: Headers
       });
-      //  console.log("hilalo", response.data.results)
-
   
       return response.data;
     } catch (error) {
@@ -75,9 +59,8 @@ const PostCard = ({ Title, content, category, createdAt, imgUrl, onCardClick }) 
     <div className="post-card" onClick={handleClick} >
       <img className="post-image" src={imgUrl} alt="Post Image" />
       <div className="post-header">
-        <p className="post-title">{Title.length > 30 ? `...${Title.substring(0, 25)}` : Title}</p>
-        <div dangerouslySetInnerHTML={{ __html: truncatedContent }} />
-        {/* <p >{content.length > 50 ? `...${content.substring(0, 50)}` : content}</p> */}
+        <p className="post-title">{Title.length > 30 ? `...${Title.substring(0, 30)}` : Title}</p>
+        <div className='post-content' dangerouslySetInnerHTML={{ __html: truncatedContent }} />
       </div>
       <p className="post-meta">{` on ${formattedDate}`}</p>
     </div>
