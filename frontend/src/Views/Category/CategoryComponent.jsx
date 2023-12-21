@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './CategoryComponent.css';
+import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
+const BaseURL = process.env.REACT_APP_BASE_URL;
+const Headers = {
+  'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+  'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
+};
 
 const CategoryComponent = ({ updateCategories }) => {
   const [categories, setCategories] = useState([]);
@@ -19,96 +24,98 @@ const CategoryComponent = ({ updateCategories }) => {
     }
   }, []);
 
+
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${API_URL}/categories`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios({
+        url: BaseURL + '/Posts/Categories',
+        method: 'get',
+        headers: Headers
       });
-      const data = await response.json();
-      setCategories(data);
+      return response.data;
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
   };
 
-  const handleCreateOrUpdate = async () => {
-    try {
-      if (!token) {
-        setError('Authentication required to manage categories.');
-        return;
-      }
 
-      if (!categoryName.trim()) {
-        setError('Category name cannot be empty.');
-        return;
-      }
 
-      const url = editingCategory
-        ? `${API_URL}/categories/${editingCategory._id}`
-        : `${API_URL}/categories`;
+  // const handleCreateOrUpdate = async () => {
+  //   try {
+  //     if (!token) {
+  //       setError('Authentication required to manage categories.');
+  //       return;
+  //     }
 
-      const method = editingCategory ? 'PUT' : 'POST';
+  //     if (!categoryName.trim()) {
+  //       setError('Category name cannot be empty.');
+  //       return;
+  //     }
 
-      await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: categoryName }),
-      });
+  //     const url = editingCategory
+  //       ? `${API_URL}/categories/${editingCategory._id}`
+  //       : `${API_URL}/categories`;
 
-      const updatedCategories = await fetchCategoriesData();
-      setCategories(updatedCategories);
-      setEditingCategory(null);
-      setCategoryName('');
-      setError(null);
-      updateCategories();
-    } catch (error) {
-      console.error('Error creating/updating category:', error);
-    }
-  };
+  //     const method = editingCategory ? 'PUT' : 'POST';
 
-  const fetchCategoriesData = async () => {
-    try {
-      const response = await fetch(`${API_URL}/categories`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  };
+  //     await fetch(url, {
+  //       method,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({ name: categoryName }),
+  //     });
 
-  const handleDelete = async (categoryId) => {
-    try {
-      if (!token) {
-        setError('Authentication required to delete categories.');
-        return;
-      }
+  //     const updatedCategories = await fetchCategoriesData();
+  //     setCategories(updatedCategories);
+  //     setEditingCategory(null);
+  //     setCategoryName('');
+  //     setError(null);
+  //     updateCategories();
+  //   } catch (error) {
+  //     console.error('Error creating/updating category:', error);
+  //   }
+  // };
 
-      const confirmed = window.confirm('Are you sure you want to delete this category?');
+  // const fetchCategoriesData = async () => {
+  //   try {
+  //     const response = await fetch(`${API_URL}/categories`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     return await response.json();
+  //   } catch (error) {
+  //     console.error('Error fetching categories:', error);
+  //   }
+  // };
 
-      if (confirmed) {
-        await fetch(`${API_URL}/categories/${categoryId}`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  // const handleDelete = async (categoryId) => {
+  //   try {
+  //     if (!token) {
+  //       setError('Authentication required to delete categories.');
+  //       return;
+  //     }
 
-        const updatedCategories = await fetchCategoriesData();
-        setCategories(updatedCategories);
-        updateCategories();
-      }
-    } catch (error) {
-      console.error('Error deleting category:', error);
-    }
-  };
+  //     const confirmed = window.confirm('Are you sure you want to delete this category?');
+
+  //     if (confirmed) {
+  //       await fetch(`${API_URL}/categories/${categoryId}`, {
+  //         method: 'DELETE',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+
+  //       const updatedCategories = await fetchCategoriesData();
+  //       setCategories(updatedCategories);
+  //       updateCategories();
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting category:', error);
+  //   }
+  // };
 
   const handleEdit = (category) => {
     setEditingCategory(category);
@@ -127,8 +134,8 @@ const CategoryComponent = ({ updateCategories }) => {
           onChange={(e) => setCategoryName(e.target.value)}
         />
         <button
-          className={editingCategory ? 'update-button' : 'create-button'}
-          onClick={handleCreateOrUpdate}
+          // className={editingCategory ? 'update-button' : 'create-button'}
+          // onClick={handleCreateOrUpdate}
         >
           {editingCategory ? 'Update Category' : 'Create Category'}
         </button>
@@ -141,12 +148,12 @@ const CategoryComponent = ({ updateCategories }) => {
             <div className="category-item">
               <span>{category.name}</span>
               <div className="category-buttons">
-                <button className="edit-button" onClick={() => handleEdit(category)}>
+                {/* <button className="edit-button" onClick={() => handleEdit(category)}>
                   Edit
                 </button>
                 <button className="delete-button" onClick={() => handleDelete(category._id)}>
                   Delete
-                </button>
+                </button> */}
               </div>
             </div>
           </li>

@@ -130,26 +130,6 @@ const PostList = ({ posts, selectedCategory }) => {
   }
 
 
-
-  // const filteredPosts = selectedCategory
-  //   ? posts.filter((post) => categoryNames[post.category] === selectedCategory)
-  //   : { results: [] };
-
-  // console.log('filteredPosts:', filteredPosts);
-
-  // const postsByCategory = filteredPosts.results.reduce((acc, post) => {
-  //   const categoryName = categoryNames[post.category];
-
-  //   if (!acc[categoryName]) {
-  //     acc[categoryName] = [];
-  //   }
-
-  //   acc[categoryName].push(post);
-
-  //   return acc;
-  // }, {});
-
-
   return (
     <div className="post-list-container">
       {Object.entries(catPosts).map(([categoryId, categoryPosts]) => (

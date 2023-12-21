@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 const FullScreenPost = ({ post, onClose }) => {
-  console.log(post.images);
+  // console.log(post.images);
   useEffect(() => {
     const fullScreenPost = document.querySelector('.full-screen-post');
     fullScreenPost.scrollTop = 0;

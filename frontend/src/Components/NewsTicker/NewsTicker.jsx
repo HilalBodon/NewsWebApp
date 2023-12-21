@@ -48,13 +48,13 @@ const NewsTicker = () => {
 
     <div className="news-ticker">
       <div className="news-container" id="news-container">
-        {importantPosts.map((post) => (
-          <div className="news-item" key={post._id}>
-          <img className="circle-img" src="https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703103247s964e02c3e85(40xa).png" alt="Image" />
-          <p>{post.Title}</p>  
-          <img className="circle-img" src="https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703103247s964e02c3e85(40xa).png" alt="Image" />
-        </div>
-        ))}
+      {importantPosts.map((post) => (
+  <div className="news-item" key={post._id}>
+    <img className="circle-img" src="https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703103247s964e02c3e85(40xa).png" alt="Image" />
+    <p key={post._id}>{post.Title}</p>
+    <img className="circle-img" src="https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703103247s964e02c3e85(40xa).png" alt="Image" />
+  </div>
+))}
       </div>
         <p className='live-word'>آخر المستجدات</p>
     </div>
