@@ -18,6 +18,35 @@ const Headers = {
 };
 
 
+
+const fetchPosts = async (selectedCategory, setPosts) => {
+  try {
+    let url = BaseURL + '/Posts';
+
+    const response = await axios({
+      url,
+      method: 'get',
+      params: {
+        "fields": "*,categories",
+        "order": "-createdAt",
+        "media": "images,files",
+        "crops": "ax300,ax1000",
+        "limit": "100",
+        "categories": selectedCategory === '1Rav71bqVy' ? null : selectedCategory,
+      },
+      headers: Headers,
+    });
+
+    const responseData = response.data;
+    const postsData = responseData.results || [];
+    setPosts(postsData);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+};
+
+
+
 const HomePage = () => {
 
   const [posts, setPosts] = useState([]);
@@ -48,14 +77,27 @@ const HomePage = () => {
       console.error('Error fetching categories:', error);
     }
   };
-  
+
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const updatedCategories = await fetchCategoriesData();
+        setCategories(updatedCategories);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error updating categories:', error);
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+    fetchPosts(selectedCategory, setPosts); // Call fetchPosts here
+  }, [selectedCategory, updateTrigger]);
+  
+
+  // useEffect(() => {
     // const fetchPosts = async () => {
-
-
-
     //   let limit = 10;
     //   let page = 1;
     //   axios({
@@ -84,33 +126,31 @@ const HomePage = () => {
 
 // ________________________________________________
 
-// const fetchPosts = async () => {
-  const fetchPosts = async () => {
-    try {
-      let url = BaseURL + '/Posts';
 
-      const response = await axios({
-        url,
-        method: 'get',
-        params: {
-          "fields": "*,categories",
-          "order": "-createdAt",
-          "media": "images,files",
-          "crops": "ax300,ax1000",
-          "categories": selectedCategory,
-        },
-        headers: Headers,
-      });
+  // try {
+  //   let url = BaseURL + '/Posts';
 
-      const responseData = response.data;
-      const postsData = responseData.results || [];
-      console.log("second", selectedCategory, postsData);
-      setPosts(postsData);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    }
-  };
+  //   const response = await axios({
+  //     url,
+  //     method: 'get',
+  //     params: {
+  //       "fields": "*,categories",
+  //       "order": "-createdAt",
+  //       "media": "images,files",
+  //       "crops": "ax300,ax1000",
+  //       "limit": "100",
+  //       "categories": selectedCategory === '1Rav71bqVy' ? setSelectedCategory(null) : selectedCategory,
+  //     },
+  //     headers: Headers,
+  //   });
 
+  //   const responseData = response.data;
+  //   const postsData = responseData.results || [];
+  //   // console.log("second", selectedCategory, postsData);
+  //   setPosts(postsData);
+  // } catch (error) {
+  //   console.error('Error fetching posts:', error);
+  // }
 
 // _______________________________________________
 
@@ -143,24 +183,27 @@ const HomePage = () => {
       // } catch (error) {
       //   console.error('Error fetching posts:', error);
       // } 
+    // };
     
-    
-    const fetchData = async () => {
-      try {
-        const updatedCategories = await fetchCategoriesData();
-        setCategories(updatedCategories);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error updating categories:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-    fetchPosts();
-  }, [selectedCategory, updateTrigger]);
 
 
+
+
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const updatedCategories = await fetchCategoriesData();
+  //       setCategories(updatedCategories);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error updating categories:', error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  //   fetchPosts();
+  // }, [selectedCategory, updateTrigger]);
 
 
   useEffect(() => {
@@ -248,12 +291,7 @@ const HomePage = () => {
   };
 
   const handleCategoryClick = (category) => {
-    if (category === 'allCategories') {
-      setSelectedCategory(null);
-    } else {
-      setSelectedCategory(category);
-    }
-    // setSelectedCategory(category);
+    setSelectedCategory(category);
     setHomePageVisible(true);
     setCategoryVisible(false);
     setPostComponentVisible(false);
@@ -287,11 +325,6 @@ const HomePage = () => {
 
 
 
-  const handleShowAllCategories = () => {
-    setSelectedCategory(null);
-  };
-  
-
   return (
     <div className='homePage-style'>
       <Navbar
@@ -301,7 +334,8 @@ const HomePage = () => {
         onCategoryClick={handleCategoryClick}
         updateCategories={handleUpdateSidebar}
         onSettingsToggle={handleSettingsToggle}
-      />
+        fetchPosts={handleCategoryClick}
+        />
 
       {isLoading && (
         <div className="loading-container">
@@ -323,8 +357,6 @@ const HomePage = () => {
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <div className='cards-div'>
-          {/* <button onClick={handleShowAllCategories}>Show All Categories</button> */}
-
             <PostList posts={posts} selectedCategory={selectedCategory} onCardClick={handleOverlayToggle} />
           </div>
         </div>

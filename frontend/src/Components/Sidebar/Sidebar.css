@@ -29,8 +29,9 @@
     
   }
 
-  .list-styling li{
+  .sideBar-list .list-styling li{
   padding:0.5rem;
+  font-size:larger ;
   }
   
 .overlay {

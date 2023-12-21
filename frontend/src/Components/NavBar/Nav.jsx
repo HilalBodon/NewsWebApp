@@ -3,12 +3,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import './Navbar.css';
 import logoimg from "./logoimg.png";
 import Sidebar from '../Sidebar/Sidebar';
+import axios from 'axios';
 
-const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, onCategoryClick, updateCategories }) => {
+const BaseURL = process.env.REACT_APP_BASE_URL;
+const Headers = {
+  'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+  'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
+};
+
+
+const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, onCategoryClick, updateCategories, fetchPosts }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 770);
-  const [forceRender, setForceRender] = useState(false); // State variable for forcing re-render
+  const [forceRender, setForceRender] = useState(false);
   const isValidToken = localStorage.getItem('token') !== null;
+  const [categories, setCategories] = useState([]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -20,14 +29,66 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 
   const handleCategoryClick = (category) => {
     onCategoryClick(category);
-    console.log(category)
+    console.log(category.objectId);
+    console.log(categories);
+    fetchPosts(category.objectId);
+  
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setForceRender(true);
-  };
+  // const fetchPostsByCategory = async (category) => {
+  //   try {
+  //     const response = await axios({
+  //       url: BaseURL + '/Posts',
+  //       method: 'get',
+  //       params: {
+  //         fields: "*,categories",
+  //         order: "-createdAt",
+  //         media: "images,files",
+  //         crops: "ax300,ax1000",
+  //         limit: "100",
+  //         categories: category === '1Rav71bqVy' ? null : category,
+  //       },
+  //       headers: Headers,
+  //     });
+
+  //     const responseData = response.data;
+  //     const postsData = responseData.results || [];
+  //     // Update the parent component with the new posts
+  //     updateCategories(postsData);
+  //   } catch (error) {
+  //     console.error('Error fetching posts:', error);
+  //   }
+  // };
+
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   localStorage.removeItem('user');
+  //   setForceRender(true);
+  // };
+
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      try {
+        const response = await axios({
+          url: BaseURL + '/Posts/Categories',
+          method: 'get',
+          params:{
+          "order": "",
+          "fields": "Name",
+        },
+        headers: Headers,
+
+        });
+        setCategories(response.data.results);
+        console.log("nav cat", response.data.results);
+
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchCategoriesData();
+  }, []);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,12 +102,18 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
     };
   }, []);
 
+
+
   useEffect(() => {
     setForceRender(false);
   }, [forceRender]);
 
+
+
   return (
     <nav className="navbar">
+           {!isScreenLarge && (
+
       <div className="menu-icon" onClick={toggleSidebar}>
         <MenuIcon />
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}
@@ -56,7 +123,8 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
          isValidToken={isValidToken}
          />
       </div>
-
+           )}
+{/* 
       {isScreenLarge && isValidToken && (
         <ul className="nav-list">
           <li className="nav-item" onClick={onHomePageToggle}>Home</li>
@@ -64,16 +132,29 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
           <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
           <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
         </ul>
-      )}
+      )} */}
 
-      {isValidToken && (
+      {/* {isValidToken && (
         <div className="logout-btn" onClick={handleLogout}>
           Logout
         </div>
-      )}
+      )} */}
+     {isScreenLarge && (
+        <div className='wrap-ul'>
+          <ul className='list-styling'>
+            {categories.map((category) => (
+              <li key={category._id} onClick={() => handleCategoryClick(category)}>
+                {category.Name}
+              </li>
+            ))}
+          </ul>
+        </div>
+              )}
 
+        <div className='roaya-letter-logo'>زاوية رؤية 
       <div className="logo">
         <img src={logoimg} alt="Logo" />
+      </div>
       </div>
     </nav>
   );

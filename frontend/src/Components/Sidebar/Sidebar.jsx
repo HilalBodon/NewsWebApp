@@ -23,7 +23,6 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
         headers: Headers,
 
         });
-        // console.log('Categories response:', response.data.results);
         setCategories(response.data.results);
 
       } catch (error) {
@@ -52,7 +51,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className='roaya-name'>مركز زاوية رؤية الثقافية </div>
 
-        {window.innerWidth < 770 && isValidToken && (
+        {/* {window.innerWidth < 770 && isValidToken && (
           <ul className='list-styling'>
             <li className="nav-item" onClick={onHomePageToggle}>Home</li>
             <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
@@ -60,8 +59,8 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
             <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
             <hr className="separator" />
           </ul>
-        )}
-
+        )} */}
+      <div className='sideBar-list'>
         <ul className='list-styling'>
           {categories.map((category) => (
             <li key={category._id} onClick={() => handleCategoryClick(category)}>
@@ -69,6 +68,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
             </li>
           ))}
         </ul>
+        </div>
       </div>
     </div>
   );
