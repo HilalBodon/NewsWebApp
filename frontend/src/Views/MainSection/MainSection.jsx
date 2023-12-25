@@ -40,10 +40,11 @@ import './MainSection.css'; // Import your CSS file
 const MainSection = ({ featuredPosts, onFeaturedPostClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % (featuredPosts?.length || 1));
-    }, 2000); // Adjust the interval time as needed
+    }, 4000); // Adjust the interval time as needed
 
     return () => clearInterval(intervalId);
   }, [featuredPosts]);
@@ -54,15 +55,16 @@ const MainSection = ({ featuredPosts, onFeaturedPostClick }) => {
 
   return (
     <div className="main-section">
+        <div className="right-section">
+        <PostInMainView key={featuredPosts[currentIndex]?.id} post={featuredPosts[currentIndex]} isActive={true} />
+      </div>
       <div className="left-section">
         {/* Render the first 4 posts in the left section */}
         {featuredPosts.slice(0, 4).map((post) => (
           <PostInMainView key={post.id} post={post} isActive={true} />
         ))}
       </div>
-      <div className="right-section">
-        <PostInMainView key={featuredPosts[currentIndex]?.id} post={featuredPosts[currentIndex]} isActive={true} />
-      </div>
+
     </div>
   );
 };

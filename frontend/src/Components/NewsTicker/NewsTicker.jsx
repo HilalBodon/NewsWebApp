@@ -12,6 +12,24 @@ const Headers = {
 const NewsTicker = ({ featuredPosts }) => {
   const [importantPosts, setImportantPosts] = useState([]);
 
+  return (
+    <div className="news-ticker">
+      <div className="news-container" id="news-container">
+        {featuredPosts.map((post) => (
+          <div className="news-item" key={post._id}>
+            <img className="circle-img" src={roayaLogo} width={60} alt="Image" />
+            <p key={post._id}>{post.Title}</p>
+          </div>
+        ))}
+      </div>
+      {/* <div className='live-word'>آخر المستجدات</div> */}
+    </div>
+  );
+};
+
+export default NewsTicker;
+
+
   // useEffect(() => {
 
   //   const fetchImportantPosts = async () => {
@@ -40,25 +58,3 @@ const NewsTicker = ({ featuredPosts }) => {
   // }
   //   fetchImportantPosts();
   // }, []);
-
-
-
-
-  return (
-
-    <div className="news-ticker">
-      <div className="news-container" id="news-container">
-      {featuredPosts.map((post) => (
-  <div className="news-item" key={post._id}>
-    <img className="circle-img" src={roayaLogo} width={60} alt="Image" />
-    <p key={post._id}>{post.Title}</p>
-  </div>
-))}
-      </div>
-        <p className='live-word'>آخر المستجدات</p>
-    </div>
-  );
-};
-
-export default NewsTicker;
-

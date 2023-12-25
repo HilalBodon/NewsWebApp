@@ -1,55 +1,59 @@
-  .news-ticker {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    color: #1c3664;
-    padding: 8px;
-    margin: 2vw;
-    overflow: hidden;
-    white-space: nowrap;
-    /* border-left: linear-gradient(to right, #f3f3f3 38%, rgba(0, 0, 0, 0) 75%); */
-    box-shadow: inset 60px 0px 15px -15px rgba(216, 216, 216, 0.3);
+.news-ticker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  color: #1c3664;
+  margin: 2vw;
+  padding: 10px;
 
-  }
-  
-  .news-container {
-    display: flex;
-    /* gap: 20px; */
-    height: 100%;
-    animation: scrollNews linear infinite;
-    animation-duration: 120s;
-    animation-direction: reverse; 
-  }
-  
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: inset 60px 0px 15px -15px rgba(216, 216, 216, 0.3);
+}
 
-  .news-item {
-    padding: 0 45px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight: 400;
+.news-container {
+  display: flex;
+  height: 100%;
+  animation: scrollNews linear infinite;
+  animation-duration: 200s;
+  animation-direction: reverse;
+}
 
+.news-item {
+  padding: 0 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+@keyframes scrollNews {
+  from {
+    transform: translateX(100%);
   }
-  
-  @keyframes scrollNews {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(-100%);
-    }
+  to {
+    transform: translateX(-100%);
   }
-  
-  .live-word {
-    font-weight: bold;
-    padding: 0 10px;
-    color: rgb(95, 13, 13);
-    background-color: #f0f0f0;
-    z-index: 4;
-  }
+}
+
+.live-word {
+  padding: 15px;
+  color: #f0f0f0;
+  background-color: #801a1a;
+  z-index: 1;
+}
+
+.circle-img {
+  border-radius: 50%;
+  padding: 0 10px 0 10px;
+  margin: 0 45px 0 10px;
+}
+
   
   @media (max-width: 768px) {
     /* .news-ticker {
@@ -69,8 +73,3 @@
   }
   
 
-  .circle-img{
-    border-radius: 50%;
-    padding: 0 10px 0 10px;
-    margin: 0 45px 0 10px;
-  }
