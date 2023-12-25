@@ -18,6 +18,15 @@
     white-space: wrap;
     align-items: center;
     justify-content: center;
+    
+  }
+  .right-section .post-content,  .right-section .post-title, .right-section .post-meta {
+    background: linear-gradient(45deg, #df1717, #ad0000);
+    color: white ;
+    line-height: 1.8;
+    border-color: #ad0000;
+    border-radius: 0 0 8px 8px;
+    font-size: larger;
   }
 
   .right-section  img{
@@ -76,6 +85,10 @@
   @media (max-width: 1050px) {
     .main-section {
       justify-content: center;
+    }
+
+    .right-section  img{
+      height: 40vh;
     }
   
     .left-section,
