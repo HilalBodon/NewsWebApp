@@ -9,6 +9,7 @@ import PostComponent from '../Post/PostComponent';
 import MoreSettings from '../MoreSettings/MoreSettings';
 import VideoSection from '../VideoSection/VideoSection';
 import axios from "axios";
+import MainSection from '../MainSection/MainSection';
 
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
@@ -62,6 +63,7 @@ const HomePage = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
   const [isLoading, setLoading] = useState(true);
+  const [featuredPosts, setFeaturedPosts] = useState([]);
 
 
 
@@ -70,6 +72,7 @@ const HomePage = () => {
       const response = await axios({
         url: BaseURL + '/Posts/Categories',
         method: 'get',
+        
         headers: Headers
       });
       return response.data;
@@ -80,6 +83,37 @@ const HomePage = () => {
 
 
   useEffect(() => {
+
+    const fetchFeaturedPosts = async () => {
+      try {
+        let url = BaseURL + '/Posts';
+        const response = await axios({
+          url,
+          method: 'get',
+          params: {
+            "fields": "*",
+            "order": "-createdAt",
+            "media": "images,files",
+            "crops": "ax300,ax1000",
+            "limit": "100",
+            "where": {
+              "featured": "1"
+            },
+          },
+          headers: Headers,
+        });
+        const responseData = response.data;
+        const postsData = responseData.results || [];
+        setFeaturedPosts(postsData);
+
+      } catch (error) {
+        console.error('Error fetching featured posts:', error);
+      }
+    };
+
+    fetchFeaturedPosts();
+
+
     const fetchData = async () => {
       try {
         const updatedCategories = await fetchCategoriesData();
@@ -90,9 +124,8 @@ const HomePage = () => {
         setLoading(false);
       }
     };
-
     fetchData();
-    fetchPosts(selectedCategory, setPosts); // Call fetchPosts here
+    fetchPosts(selectedCategory, setPosts); 
   }, [selectedCategory, updateTrigger]);
   
 
@@ -345,8 +378,11 @@ const HomePage = () => {
 
 
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
-        <NewsTicker />
-      )}
+          <>
+          <NewsTicker featuredPosts={featuredPosts} />
+          <MainSection featuredPosts={featuredPosts}/>
+          </>
+          )}
 
 
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (

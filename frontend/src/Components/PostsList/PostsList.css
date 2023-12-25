@@ -30,7 +30,7 @@
   flex-direction: column;
   align-items: flex-end;
   font-size: 1.7rem;
-  font-weight: 700;
+  /* font-weight: 700; */
   padding: 10px ;
 }
 /* .category-container {

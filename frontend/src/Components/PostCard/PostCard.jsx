@@ -64,7 +64,7 @@ const PostCard = ({ Title, content, category, createdAt, imgUrl, onCardClick }) 
         <p className="post-title">{Title.length > 30 ? `...${Title.substring(0, 30)}` : Title}</p>
         <div className='post-content' dangerouslySetInnerHTML={{ __html: truncatedContent }} />
       </div>
-      <p className="post-meta">{` on ${formattedDate}`}</p>
+      <p className="post-meta">{`${formattedDate}`}</p>
     </div>
   );
 };

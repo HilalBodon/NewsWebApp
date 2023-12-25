@@ -41,8 +41,8 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
   };
 
   const handleCategoryClick = (category) => {
-    onCategoryClick(category.objectId);
-    console.log(category.objectId)
+    onCategoryClick(category);
+    // console.log(category)
   };
 
   return (
@@ -60,7 +60,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
             <hr className="separator" />
           </ul>
         )} */}
-      <div className='sideBar-list'>
+        <div className='sideBar-list'>
         <ul className='list-styling'>
           {categories.map((category) => (
             <li key={category._id} onClick={() => handleCategoryClick(category)}>
@@ -68,7 +68,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
             </li>
           ))}
         </ul>
-        </div>
+          </div>
       </div>
     </div>
   );

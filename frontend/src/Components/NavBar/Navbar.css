@@ -5,7 +5,8 @@
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  column-gap:4vw;
   align-items: center;
   background-color: #ffffff;
   color: rgb(47, 47, 47);
@@ -37,7 +38,10 @@
   cursor: pointer;
   color: rgb(47, 47, 47);
   margin-right: 10px;
+  position: fixed;
+  left: 10px; 
 }
+
 
 .searchBar-div {
   display: flex;
@@ -73,11 +77,11 @@
   align-items: center;
   justify-content: center;
   column-gap: 1rem;
-  font-size: x-large;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font-size: xx-large;
+  /* font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700; */
   font-style: italic;
-  color: rgb(31, 31, 31);
+  color: #1c3664;
   min-width: fit-content;
 }
 
@@ -88,15 +92,17 @@
   flex-direction: row;
   flex-wrap: wrap;
   row-gap: 5px;
-  column-gap: 1.5vw;
+  column-gap: 0.6vw;
   justify-content: center;
 }
 
 .wrap-ul .list-styling li {
   margin: 0 5px 0 5px; 
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 400;
+  color: #1c3664;
   transition: font-size 0.3s;
+  font-size: 1.2rem;
 }
 
 .wrap-ul .list-styling li:hover {

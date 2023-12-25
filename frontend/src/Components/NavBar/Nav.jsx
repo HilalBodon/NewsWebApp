@@ -29,9 +29,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 
   const handleCategoryClick = (category) => {
     onCategoryClick(category);
-    console.log(category.objectId);
-    console.log(categories);
-    fetchPosts(category.objectId);
+    fetchPosts(category.objectId)
   
   };
 
@@ -80,8 +78,6 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 
         });
         setCategories(response.data.results);
-        console.log("nav cat", response.data.results);
-
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -115,7 +111,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
            {!isScreenLarge && (
 
       <div className="menu-icon" onClick={toggleSidebar}>
-        <MenuIcon />
+        <MenuIcon style={{ fontSize: '2.5rem'}}/>
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}
         onCategoryClick={handleCategoryClick} updateCategories={updateCategories}
         onHomePageToggle={onHomePageToggle} onCategoryToggle={onCategoryToggle}
