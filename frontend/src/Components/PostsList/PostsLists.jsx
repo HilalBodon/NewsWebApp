@@ -3,6 +3,7 @@ import PostCard from '../PostCard/PostCard';
 import FullScreenPost from '../PostCard/FullScreenPost';
 import './PostsList.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
@@ -14,6 +15,73 @@ const Headers = {
 const PostList = ({ posts, selectedCategory }) => {
   const [categoryNames, setCategoryNames] = useState({});
   const [selectedPost, setSelectedPost] = useState(null);
+  const navigate = useNavigate();
+
+
+  const handleCardClick = (post) => {
+    setSelectedPost(post);
+    navigate(`/posts/${post.objectId}`);
+
+  };
+
+  const handleCloseFullScreen = () => {
+    setSelectedPost(null);
+  };
+
+  let catPosts = {};
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    let category = post.categories[0];
+    post['categoryName'] = category.Name;
+    if (!catPosts.hasOwnProperty(category.objectId)) catPosts[category.objectId] = [];
+    catPosts[category.objectId].push(post);
+  }
+
+
+  return (
+    <div className="post-list-container">
+      {Object.entries(catPosts).map(([categoryId, categoryPosts]) => (
+        <div key={categoryId} className="category-container">
+          <div className='h2'>{categoryPosts[0].categoryName}</div>
+          <div className="scroll-container ">
+            <div className="scroll-content">
+              {categoryPosts.map((post) => {
+                let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
+                try {
+                  imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
+                } catch (e) {
+
+                }
+                return (
+                  <PostCard
+                    key={post._id}
+                    Title={post.Title}
+                    content={post.content}
+                    category={post.category}
+                    createdAt={post.createdAt}
+                    imgUrl={imgurl2}
+                    onCardClick={() => handleCardClick(post)}
+                  />
+                );
+              }
+              )}
+            </div>
+          </div>
+          <hr className='bold' />
+        </div>
+      ))}
+
+      {selectedPost && (
+        <FullScreenPost post={selectedPost} onClose={handleCloseFullScreen} />
+      )}
+    </div>
+  );
+};
+
+export default PostList;
+
+
+
 
 
   // useEffect(() => {
@@ -105,70 +173,4 @@ const PostList = ({ posts, selectedCategory }) => {
 
   //   fetchCategoryNamesAndSet();
   // }, [posts]);
-
-
-
-
-
-
-
-  const handleCardClick = (post) => {
-    setSelectedPost(post);
-  };
-
-  const handleCloseFullScreen = () => {
-    setSelectedPost(null);
-  };
-
-  let catPosts = {};
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
-    let category = post.categories[0];
-    post['categoryName'] = category.Name;
-    if (!catPosts.hasOwnProperty(category.objectId)) catPosts[category.objectId] = [];
-    catPosts[category.objectId].push(post);
-  }
-
-
-  return (
-    <div className="post-list-container">
-      {Object.entries(catPosts).map(([categoryId, categoryPosts]) => (
-        <div key={categoryId} className="category-container">
-          <div className='h2'>{categoryPosts[0].categoryName}</div>
-          <div className="scroll-container ">
-            <div className="scroll-content">
-              {categoryPosts.map((post) => {
-                let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
-                try {
-                  imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
-                } catch (e) {
-
-                }
-                return (
-                  <PostCard
-                    key={post._id}
-                    Title={post.Title}
-                    content={post.content}
-                    category={post.category}
-                    createdAt={post.createdAt}
-                    imgUrl={imgurl2}
-                    onCardClick={() => handleCardClick(post)}
-                  />
-                );
-              }
-              )}
-            </div>
-          </div>
-          <hr className='bold' />
-        </div>
-      ))}
-
-      {selectedPost && (
-        <FullScreenPost post={selectedPost} onClose={handleCloseFullScreen} />
-      )}
-    </div>
-  );
-};
-
-export default PostList;
 

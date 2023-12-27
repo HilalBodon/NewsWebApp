@@ -4,6 +4,8 @@ import './Navbar.css';
 import logoimg from "./logoimg.png";
 import Sidebar from '../Sidebar/Sidebar';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -12,7 +14,7 @@ const Headers = {
 };
 
 
-const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, onCategoryClick, updateCategories, fetchPosts }) => {
+const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, onCategoryClick, updateCategories, fetchPosts,showCategories = true  }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 770);
   const [forceRender, setForceRender] = useState(false);
@@ -23,9 +25,9 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
     setSidebarOpen(!isSidebarOpen);
   };
 
-  const handleCategoryToggle = (category) => {
-    console.log('Category toggled:', category);
-  };
+  // const handleCategoryToggle = (category) => {
+  //   console.log('Category toggled:', category);
+  // };
 
   const handleCategoryClick = (category) => {
     onCategoryClick(category);
@@ -33,36 +35,6 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
   
   };
 
-  // const fetchPostsByCategory = async (category) => {
-  //   try {
-  //     const response = await axios({
-  //       url: BaseURL + '/Posts',
-  //       method: 'get',
-  //       params: {
-  //         fields: "*,categories",
-  //         order: "-createdAt",
-  //         media: "images,files",
-  //         crops: "ax300,ax1000",
-  //         limit: "100",
-  //         categories: category === '1Rav71bqVy' ? null : category,
-  //       },
-  //       headers: Headers,
-  //     });
-
-  //     const responseData = response.data;
-  //     const postsData = responseData.results || [];
-  //     // Update the parent component with the new posts
-  //     updateCategories(postsData);
-  //   } catch (error) {
-  //     console.error('Error fetching posts:', error);
-  //   }
-  // };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem('token');
-  //   localStorage.removeItem('user');
-  //   setForceRender(true);
-  // };
 
   useEffect(() => {
     const fetchCategoriesData = async () => {
@@ -108,8 +80,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 
   return (
     <nav className="navbar">
-           {!isScreenLarge && (
-
+      {!isScreenLarge && (
       <div className="menu-icon" onClick={toggleSidebar}>
         <MenuIcon style={{ fontSize: '2.5rem'}}/>
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}
@@ -120,7 +91,76 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
          />
       </div>
            )}
-{/* 
+
+{showCategories && isScreenLarge && (
+        <div className='wrap-ul'>
+          <ul className='list-styling'>
+            {categories.map((category) => (
+              <li key={category._id} onClick={() => handleCategoryClick(category)}>
+                {category.Name}
+              </li>
+            ))}
+          </ul>
+        </div>
+              )}
+
+{!showCategories && (
+        <div>
+          <Link to="/">
+            <button className='back-button' >العودة الى الرئيسية</button>
+          </Link>
+        </div>
+      )}
+
+        <div className='roaya-letter-logo'>
+          <div className='fading-text'>زاوية رؤية </div>
+      <div className="logo">
+        <img src={logoimg} alt="Logo" />
+      </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+
+
+
+
+  // const fetchPostsByCategory = async (category) => {
+  //   try {
+  //     const response = await axios({
+  //       url: BaseURL + '/Posts',
+  //       method: 'get',
+  //       params: {
+  //         fields: "*,categories",
+  //         order: "-createdAt",
+  //         media: "images,files",
+  //         crops: "ax300,ax1000",
+  //         limit: "100",
+  //         categories: category === '1Rav71bqVy' ? null : category,
+  //       },
+  //       headers: Headers,
+  //     });
+
+  //     const responseData = response.data;
+  //     const postsData = responseData.results || [];
+  //     // Update the parent component with the new posts
+  //     updateCategories(postsData);
+  //   } catch (error) {
+  //     console.error('Error fetching posts:', error);
+  //   }
+  // };
+
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   localStorage.removeItem('user');
+  //   setForceRender(true);
+  // };
+
+
+
+  {/* 
       {isScreenLarge && isValidToken && (
         <ul className="nav-list">
           <li className="nav-item" onClick={onHomePageToggle}>Home</li>
@@ -135,25 +175,3 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
           Logout
         </div>
       )} */}
-     {isScreenLarge && (
-        <div className='wrap-ul'>
-          <ul className='list-styling'>
-            {categories.map((category) => (
-              <li key={category._id} onClick={() => handleCategoryClick(category)}>
-                {category.Name}
-              </li>
-            ))}
-          </ul>
-        </div>
-              )}
-
-        <div className='roaya-letter-logo'>زاوية رؤية 
-      <div className="logo">
-        <img src={logoimg} alt="Logo" />
-      </div>
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;

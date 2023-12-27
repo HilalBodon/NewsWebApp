@@ -42,7 +42,6 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
 
   const handleCategoryClick = (category) => {
     onCategoryClick(category);
-    // console.log(category)
   };
 
   return (
@@ -51,15 +50,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className='roaya-name'>مركز زاوية رؤية الثقافية </div>
 
-        {/* {window.innerWidth < 770 && isValidToken && (
-          <ul className='list-styling'>
-            <li className="nav-item" onClick={onHomePageToggle}>Home</li>
-            <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
-            <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
-            <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
-            <hr className="separator" />
-          </ul>
-        )} */}
+
         <div className='sideBar-list'>
         <ul className='list-styling'>
           {categories.map((category) => (
@@ -75,3 +66,14 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
 };
 
 export default Sidebar;
+
+
+        {/* {window.innerWidth < 770 && isValidToken && (
+          <ul className='list-styling'>
+            <li className="nav-item" onClick={onHomePageToggle}>Home</li>
+            <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
+            <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
+            <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
+            <hr className="separator" />
+          </ul>
+        )} */}

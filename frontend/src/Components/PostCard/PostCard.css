@@ -1,7 +1,7 @@
 .post-card {
     width: 25vw;
-    max-width: 250px;
-    min-width: 150px;
+    max-width: 300px;
+    min-width: 250px;
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;
@@ -51,7 +51,7 @@
     text-align: right;
   }
   
-  .full-screen-post {
+  /* .full-screen-post {
     position: fixed;
     top: 0;
     left: 0;
@@ -79,15 +79,15 @@
     height: 100%;
     z-index: 9998;
     
-  }
+  } */
   
-  .full-post-content {
+  /* .full-post-content {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     max-width: 80vw;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
+  } */
 
   .fullScreen-content{
     width: 100%;
@@ -107,4 +107,8 @@
 .fs-content{
   text-align: right;
 
+}
+
+.full-post-container{
+  padding: 3%;
 }

@@ -11,7 +11,7 @@
   background-color: #ffffff;
   color: rgb(47, 47, 47);
   padding: 0 2% 0 2% ; 
-  z-index: 1000;
+  z-index:22;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
@@ -77,7 +77,7 @@
   align-items: center;
   justify-content: center;
   column-gap: 1rem;
-  font-size: xx-large;
+  font-size: 2rem;
   /* font-family: Arial, Helvetica, sans-serif;
   font-weight: 700; */
   font-style: italic;
@@ -96,7 +96,7 @@
   justify-content: center;
 }
 
-.wrap-ul .list-styling li {
+.wrap-ul .list-styling li ,.back-button{
   margin: 0 5px 0 5px; 
   cursor: pointer;
   font-weight: 400;
@@ -110,3 +110,22 @@
   background-color: aliceblue;
   border-radius: 1rem;
 }
+
+
+/* @keyframes fadeInOut {
+  0% {
+    opacity: 0.75;
+
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.75;
+
+  }
+}
+
+.fading-text {
+  animation: fadeInOut 3s infinite; 
+} */

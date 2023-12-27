@@ -20,8 +20,9 @@
   animation-direction: reverse;
 }
 
+
 .news-item {
-  padding: 0 15px;
+  padding: 0 ;
   overflow: hidden;
   display: flex;
   flex-direction: row;

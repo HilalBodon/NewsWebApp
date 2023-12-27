@@ -10,7 +10,7 @@ import MoreSettings from '../MoreSettings/MoreSettings';
 import VideoSection from '../VideoSection/VideoSection';
 import axios from "axios";
 import MainSection from '../MainSection/MainSection';
-
+import LoadingSpinner from '../LoadingSpinner';
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -64,6 +64,7 @@ const HomePage = () => {
   const [videoLink, setVideoLink] = useState('');
   const [isLoading, setLoading] = useState(true);
   const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [isMainSectionVisible, setMainSectionVisibile] = useState(true);
 
 
 
@@ -128,6 +129,198 @@ const HomePage = () => {
     fetchPosts(selectedCategory, setPosts); 
   }, [selectedCategory, updateTrigger]);
   
+
+
+  useEffect(() => {
+    const fetchVideoLink = async () => {
+        try {
+          const response = await axios({
+            url: BaseURL + '/_Config',
+            method: 'get',
+            params: {
+              "fields":"Value",
+              "where":{"Parameter":"videoLink"}
+            },
+            headers: Headers
+          });
+
+        const settings = await response.data;
+        setVideoLink(settings.videoLink || '');
+      } catch (error) {
+        console.error('Error fetching video link:', error);
+      }
+    };
+
+    fetchVideoLink();
+  }, []);
+
+
+
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await axios({
+          url: BaseURL + '/_Config',
+          method: 'get',
+          headers: Headers
+        });
+         const data = await response.data;
+
+        setShowNewsTicker(data.showNewsTicker);
+        setShowVideo(data.showVideo);
+        setVideoLink(data.videoLink || '');
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+
+
+  const handleUpdateTrigger = () => {
+    setUpdateTrigger((prev) => !prev);
+    console.log('Posts updated in HomePage!');
+  };
+
+  const handleOverlayToggle = () => {
+    setOverlayVisible(!isOverlayVisible);
+  };
+
+
+  const handleCategoryToggle = (category) => {
+    setCategoryVisible(true);
+    setPostComponentVisible(false);
+    setHomePageVisible(false);
+    setOverlayVisible(false);
+    setSettingsVisible(false);
+  };
+
+  const handleSettingsToggle = () => {
+    setSettingsVisible(true);
+    setCategoryVisible(false);
+    setPostComponentVisible(false);
+    setHomePageVisible(false);
+    setOverlayVisible(false);
+  }
+
+  const handleUpdateSidebar = async () => {
+    try {
+      const updatedCategories = await fetchCategoriesData();
+      setCategories(updatedCategories);
+    } catch (error) {
+      console.error('Error updating sidebar:', error);
+    }
+  };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setHomePageVisible(true);
+    setCategoryVisible(false);
+    setPostComponentVisible(false);
+    setOverlayVisible(false);
+    setSettingsVisible(false);
+    setMainSectionVisibile(false)
+  };
+
+  const handlePostComponentToggle = () => {
+    setPostComponentVisible(true);
+    setCategoryVisible(false);
+    setHomePageVisible(false);
+    setOverlayVisible(false);
+    setSettingsVisible(false);
+  };
+
+  const handleHomePageToggle = () => {
+    setHomePageVisible(true);
+    setPostComponentVisible(false);
+    setCategoryVisible(false);
+    setOverlayVisible(false);
+    setSettingsVisible(false);
+  };
+
+  const handleNewsTickerToggle = (show) => {
+    setShowNewsTicker(show);
+  };
+
+  const handleVideoToggle = (show) => {
+    setShowVideo(show);
+  };
+
+
+
+  return (
+    <div className='homePage-style'>
+      <Navbar
+        onHomePageToggle={handleHomePageToggle}
+        onCategoryToggle={handleCategoryToggle}
+        onPostComponentToggle={handlePostComponentToggle}
+        onCategoryClick={handleCategoryClick}
+        updateCategories={handleUpdateSidebar}
+        onSettingsToggle={handleSettingsToggle}
+        fetchPosts={handleCategoryClick}
+        />
+
+      {/* {isLoading && (
+        <div className="loading-container">
+          <div className="loading-circle"></div>
+        </div>
+      )} */}
+
+    {isLoading && <LoadingSpinner />}
+
+      {isHomePageVisible && isMainSectionVisible && !isCategoryVisible && !isPostComponentVisible &&(
+          <>
+          <NewsTicker featuredPosts={featuredPosts} />
+          <MainSection featuredPosts={featuredPosts}/>
+          </>
+          )}
+
+
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
+        <VideoSection />
+      )}
+      <hr />
+
+      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
+        <div>
+          <div className='cards-div'>
+            <PostList posts={posts} selectedCategory={selectedCategory} onCardClick={handleOverlayToggle} />
+          </div>
+        </div>
+      )}
+
+      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
+        <div>
+          <CategoryComponent updateCategories={handleUpdateSidebar} />
+        </div>
+      )}
+
+      {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible && !isSettingsVisible && !isLoading && (
+        <PostComponent updatePosts={handleUpdateTrigger} />
+      )}
+
+      {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible && !isLoading && (
+        <div className='moreSettings-mainStyle'>
+          <MoreSettings
+            onNewsTickerToggle={handleNewsTickerToggle}
+            onVideoToggle={handleVideoToggle}
+          />
+        </div>
+      )}
+
+      <Footer />
+    </div>
+  );
+};
+
+export default HomePage;
+
+
+
+
 
   // useEffect(() => {
     // const fetchPosts = async () => {
@@ -238,188 +431,3 @@ const HomePage = () => {
   //   fetchPosts();
   // }, [selectedCategory, updateTrigger]);
 
-
-  useEffect(() => {
-    const fetchVideoLink = async () => {
-        try {
-          const response = await axios({
-            url: BaseURL + '/_Config',
-            method: 'get',
-            params: {
-              "fields":"Value",
-              "where":{"Parameter":"videoLink"}
-            },
-            headers: Headers
-          });
-
-        const settings = await response.data;
-        setVideoLink(settings.videoLink || '');
-      } catch (error) {
-        console.error('Error fetching video link:', error);
-      }
-    };
-
-    fetchVideoLink();
-  }, []);
-
-
-
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await axios({
-          url: BaseURL + '/_Config',
-          method: 'get',
-          headers: Headers
-        });
-         const data = await response.data;
-
-        setShowNewsTicker(data.showNewsTicker);
-        setShowVideo(data.showVideo);
-        setVideoLink(data.videoLink || '');
-      } catch (error) {
-        console.error('Error fetching settings:', error);
-      }
-    };
-
-    fetchSettings();
-  }, []);
-
-
-
-  const handleUpdateTrigger = () => {
-    setUpdateTrigger((prev) => !prev);
-    console.log('Posts updated in HomePage!');
-  };
-
-  const handleOverlayToggle = () => {
-    setOverlayVisible(!isOverlayVisible);
-  };
-
-
-  const handleCategoryToggle = (category) => {
-    setCategoryVisible(true);
-    setPostComponentVisible(false);
-    setHomePageVisible(false);
-    setOverlayVisible(false);
-    setSettingsVisible(false);
-  };
-
-  const handleSettingsToggle = () => {
-    setSettingsVisible(true);
-    setCategoryVisible(false);
-    setPostComponentVisible(false);
-    setHomePageVisible(false);
-    setOverlayVisible(false);
-  }
-
-  const handleUpdateSidebar = async () => {
-    try {
-      const updatedCategories = await fetchCategoriesData();
-      setCategories(updatedCategories);
-    } catch (error) {
-      console.error('Error updating sidebar:', error);
-    }
-  };
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    setHomePageVisible(true);
-    setCategoryVisible(false);
-    setPostComponentVisible(false);
-    setOverlayVisible(false);
-    setSettingsVisible(false);
-  };
-
-  const handlePostComponentToggle = () => {
-    setPostComponentVisible(true);
-    setCategoryVisible(false);
-    setHomePageVisible(false);
-    setOverlayVisible(false);
-    setSettingsVisible(false);
-  };
-
-  const handleHomePageToggle = () => {
-    setHomePageVisible(true);
-    setPostComponentVisible(false);
-    setCategoryVisible(false);
-    setOverlayVisible(false);
-    setSettingsVisible(false);
-  };
-
-  const handleNewsTickerToggle = (show) => {
-    setShowNewsTicker(show);
-  };
-
-  const handleVideoToggle = (show) => {
-    setShowVideo(show);
-  };
-
-
-
-  return (
-    <div className='homePage-style'>
-      <Navbar
-        onHomePageToggle={handleHomePageToggle}
-        onCategoryToggle={handleCategoryToggle}
-        onPostComponentToggle={handlePostComponentToggle}
-        onCategoryClick={handleCategoryClick}
-        updateCategories={handleUpdateSidebar}
-        onSettingsToggle={handleSettingsToggle}
-        fetchPosts={handleCategoryClick}
-        />
-
-      {isLoading && (
-        <div className="loading-container">
-          <div className="loading-circle"></div>
-        </div>
-      )}
-
-
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&(
-          <>
-          <NewsTicker featuredPosts={featuredPosts} />
-          <MainSection featuredPosts={featuredPosts}/>
-          </>
-          )}
-
-
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
-        <VideoSection />
-      )}
-      <hr />
-
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
-        <div>
-          <div className='cards-div'>
-            <PostList posts={posts} selectedCategory={selectedCategory} onCardClick={handleOverlayToggle} />
-          </div>
-        </div>
-      )}
-
-      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
-        <div>
-          <CategoryComponent updateCategories={handleUpdateSidebar} />
-        </div>
-      )}
-
-      {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible && !isSettingsVisible && !isLoading && (
-        <PostComponent updatePosts={handleUpdateTrigger} />
-      )}
-
-      {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible && !isLoading && (
-        <div className='moreSettings-mainStyle'>
-          <MoreSettings
-            onNewsTickerToggle={handleNewsTickerToggle}
-            onVideoToggle={handleVideoToggle}
-          />
-        </div>
-      )}
-
-      <Footer />
-    </div>
-  );
-};
-
-export default HomePage;

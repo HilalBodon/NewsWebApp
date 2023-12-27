@@ -62,7 +62,7 @@
   
   .post-image {
     height:37vh;
-    object-fit: cover;
+    object-fit: fill;
   }
   
   .post-content {
@@ -99,5 +99,6 @@
   
     .post-view {
       flex-basis: calc(100% - 0.7rem);
+      margin-bottom:20px;
     }
   }
