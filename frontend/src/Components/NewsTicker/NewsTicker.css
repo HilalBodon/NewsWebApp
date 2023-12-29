@@ -1,12 +1,11 @@
 .news-ticker {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
+  /* align-items: center; */
+  justify-content: center;
   background-color: white;
   color: #1c3664;
   margin: 2vw;
   padding: 10px;
-
   overflow: hidden;
   white-space: nowrap;
   box-shadow: inset 60px 0px 15px -15px rgba(216, 216, 216, 0.3);
@@ -16,14 +15,14 @@
   display: flex;
   height: 100%;
   animation: scrollNews linear infinite;
-  animation-duration: 200s;
+  animation-duration: 20s;
   animation-direction: reverse;
 }
 
 
 .news-item {
   padding: 0 ;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -31,6 +30,7 @@
   font-size: 1.2rem;
   font-weight: 400;
   text-align: center;
+  padding-right: 45px;
 }
 
 @keyframes scrollNews {
@@ -52,7 +52,7 @@
 .circle-img {
   border-radius: 50%;
   padding: 0 10px 0 10px;
-  margin: 0 45px 0 10px;
+  margin: 0 30px 0 15px;
 }
 
   

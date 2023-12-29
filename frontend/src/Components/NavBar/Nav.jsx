@@ -88,6 +88,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
         onHomePageToggle={onHomePageToggle} onCategoryToggle={onCategoryToggle}
          onPostComponentToggle={onPostComponentToggle} onSettingsToggle={onSettingsToggle}
          isValidToken={isValidToken}
+         showCategories={showCategories}
          />
       </div>
            )}
@@ -104,7 +105,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
         </div>
               )}
 
-{!showCategories && (
+{!showCategories && isScreenLarge &&(
         <div>
           <Link to="/">
             <button className='back-button' >العودة الى الرئيسية</button>
@@ -113,8 +114,8 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
       )}
 
         <div className='roaya-letter-logo'>
-          <div className='fading-text'>زاوية رؤية </div>
-      <div className="logo">
+        <div className='fading-text'>زاوية رؤية </div>
+        <div className="logo">
         <img src={logoimg} alt="Logo" />
       </div>
       </div>

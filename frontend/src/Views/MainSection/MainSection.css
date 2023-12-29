@@ -48,7 +48,13 @@
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
+    cursor: pointer;
   }
+
+  .post-view:hover {
+    transform: scale(1.05);
+  }
+
 
   /* .post-view {
     opacity: 1;
@@ -101,4 +107,12 @@
       flex-basis: calc(100% - 0.7rem);
       margin-bottom:20px;
     }
+  }
+
+  .custom-video-section iframe{
+   display: flex;
+   flex: 1;
+   width: -webkit-fill-available;
+   height: 100%;
+   border-radius:8px;
   }

@@ -144,8 +144,10 @@ const HomePage = () => {
             headers: Headers
           });
 
-        const settings = await response.data;
-        setVideoLink(settings.videoLink || '');
+        const settings = await response.data.results[0];
+
+        setVideoLink(settings?.Value || '');
+        // console.log(videoLink)
       } catch (error) {
         console.error('Error fetching video link:', error);
       }
@@ -163,13 +165,16 @@ const HomePage = () => {
         const response = await axios({
           url: BaseURL + '/_Config',
           method: 'get',
+          params: {
+            "fields": "Value",
+            "where": {"Parameter": "showVideo"}
+          },
           headers: Headers
         });
-         const data = await response.data;
-
-        setShowNewsTicker(data.showNewsTicker);
-        setShowVideo(data.showVideo);
-        setVideoLink(data.videoLink || '');
+         const data = await response.data.results;
+        // setShowNewsTicker(data.showNewsTicker);
+        setShowVideo(data[0].Value);
+        // setVideoLink(data.videoLink || '');
       } catch (error) {
         console.error('Error fetching settings:', error);
       }
@@ -222,7 +227,7 @@ const HomePage = () => {
     setPostComponentVisible(false);
     setOverlayVisible(false);
     setSettingsVisible(false);
-    setMainSectionVisibile(false)
+    setMainSectionVisibile(category === "1Rav71bqVy");
   };
 
   const handlePostComponentToggle = () => {
@@ -241,14 +246,13 @@ const HomePage = () => {
     setSettingsVisible(false);
   };
 
-  const handleNewsTickerToggle = (show) => {
-    setShowNewsTicker(show);
-  };
+  // const handleNewsTickerToggle = (show) => {
+  //   setShowNewsTicker(show);
+  // };
 
-  const handleVideoToggle = (show) => {
-    setShowVideo(show);
-  };
-
+  // const handleVideoToggle = (show) => {
+  //   setShowVideo(show);
+  // };
 
 
   return (
@@ -274,14 +278,14 @@ const HomePage = () => {
       {isHomePageVisible && isMainSectionVisible && !isCategoryVisible && !isPostComponentVisible &&(
           <>
           <NewsTicker featuredPosts={featuredPosts} />
-          <MainSection featuredPosts={featuredPosts}/>
+          <MainSection featuredPosts={featuredPosts} showVideo={showVideo} />
           </>
           )}
 
 
-      {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && showVideo && (
+      {/* {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&  showVideo === "1" && (
         <VideoSection />
-      )}
+      )} */}
       <hr />
 
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
@@ -302,14 +306,14 @@ const HomePage = () => {
         <PostComponent updatePosts={handleUpdateTrigger} />
       )}
 
-      {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible && !isLoading && (
+      {/* {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible && !isLoading && (
         <div className='moreSettings-mainStyle'>
           <MoreSettings
             onNewsTickerToggle={handleNewsTickerToggle}
             onVideoToggle={handleVideoToggle}
           />
         </div>
-      )}
+      )} */}
 
       <Footer />
     </div>

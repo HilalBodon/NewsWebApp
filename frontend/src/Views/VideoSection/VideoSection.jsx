@@ -7,7 +7,7 @@ const Headers = {
   'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
   'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
 };
-const VideoSection = () => {
+const VideoSection = ({ className }) => {
   const [videoLink, setVideoLink] = useState('');
 
   const convertToEmbedLink = (youtubeUrl) => {
@@ -27,7 +27,7 @@ const VideoSection = () => {
             },
             headers: Headers
           });
-         console.log("videolink from", response.data.results[0].Value)
+        //  console.log("videolink from", response.data.results[0].Value)
          let videoLink = response.data.results[0].Value;
 
         setVideoLink(convertToEmbedLink(videoLink) || '');
@@ -40,8 +40,8 @@ const VideoSection = () => {
   }, []);
 
   return (
-    <div className="video-section">
-      <div className="video-container">
+    <div className='video-section flex-1'>
+      <div className={`video-container ${className}`}>
         <iframe
           src={videoLink}
           title="Playing Video From YouTube"

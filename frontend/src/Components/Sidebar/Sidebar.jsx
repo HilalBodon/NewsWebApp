@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Add this import statement
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -8,7 +9,7 @@ const Headers = {
   'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
 };
 
-const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, isValidToken }) => {
+const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, isValidToken, showCategories }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -17,11 +18,10 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
         const response = await axios({
           url: BaseURL + '/Posts/Categories',
           method: 'get',
-          params:{
-          "fields": "Name",
-        },
-        headers: Headers,
-
+          params: {
+            "fields": "Name",
+          },
+          headers: Headers,
         });
         setCategories(response.data.results);
 
@@ -29,10 +29,9 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
         console.error('Error fetching categories:', error);
       }
     };
-  
+
     fetchCategoriesData();
   }, []);
-  
 
   const handleOverlayClick = () => {
     if (isOpen) {
@@ -50,8 +49,14 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className='roaya-name'>مركز زاوية رؤية الثقافية </div>
 
-
         <div className='sideBar-list'>
+        {!showCategories ? (
+        <div>
+          <Link to="/">
+            <button className='back-button'>العودة الى الرئيسية</button>
+          </Link>
+        </div>
+      ) : (
         <ul className='list-styling'>
           {categories.map((category) => (
             <li key={category._id} onClick={() => handleCategoryClick(category)}>
@@ -59,13 +64,16 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
             </li>
           ))}
         </ul>
-          </div>
+      )}
+
+        </div>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
 
 
         {/* {window.innerWidth < 770 && isValidToken && (
