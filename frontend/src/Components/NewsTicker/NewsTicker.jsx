@@ -1,33 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './NewsTicker.css';
-import axios from 'axios';
-import roayaLogo from "./roayaLogo.png";
-
-const BaseURL = process.env.REACT_APP_BASE_URL;
-const Headers = {
-  'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
-  'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
-};
+import roayaLogo from './roayaLogo.png';
 
 const NewsTicker = ({ featuredPosts }) => {
-  const [importantPosts, setImportantPosts] = useState([]);
-
   return (
     <div className="news-ticker">
-      <div className="news-container" id="news-container">
-        {featuredPosts.map((post) => (
-          <div className="news-item" key={post._id}>
-            <img className="circle-img" src={roayaLogo} width={60} alt="Image" />
-            <p key={post._id}>{post.Title}</p>
-          </div>
-        ))}
+      <div className="ticker-wrap">
+        <div className="ticker-label">آخر المستجدات</div>
+        <div className="news-container">
+          {featuredPosts.map((post) => (
+            <div className="news-item" key={post._id}>
+              <img className="circle-img" src={roayaLogo} width={60} alt="Image" />
+              <p>{post.Title}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      {/* <div className='live-word'>آخر المستجدات</div> */}
     </div>
   );
 };
 
 export default NewsTicker;
+
 
 
   // useEffect(() => {

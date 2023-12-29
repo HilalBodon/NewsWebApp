@@ -103,10 +103,11 @@
   color: #1c3664;
   transition: font-size 0.3s;
   font-size: 1.2rem;
+
 }
 
 .wrap-ul .list-styling li:hover {
-  font-size: 1.1rem; 
+  font-size: 1.15rem; 
   background-color: aliceblue;
   border-radius: 1rem;
 }
