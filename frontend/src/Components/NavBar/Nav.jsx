@@ -60,7 +60,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 
   useEffect(() => {
     const handleResize = () => {
-      setIsScreenLarge(window.innerWidth > 770);
+      setIsScreenLarge(window.innerWidth > 1100);
     };
 
     window.addEventListener('resize', handleResize);

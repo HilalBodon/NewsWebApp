@@ -88,17 +88,25 @@
     margin: 10px;
   }
   
-  @media (max-width: 1050px) {
+  @media (max-width: 1000px) {
     .main-section {
       justify-content: center;
+      flex-direction: column;
     }
 
     .right-section  img{
       height: 40vh;
     }
+
+
+    .custom-video-section iframe{
+      height: 50vh !important;
+      margin-bottom: 4vh;
+    }
   
     .left-section,
-    .right-section {
+    .right-section,
+    .custom-video-section {
       flex: 1;
       justify-content: center;
     }

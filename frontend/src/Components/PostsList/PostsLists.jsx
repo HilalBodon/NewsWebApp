@@ -17,7 +17,6 @@ const PostList = ({ posts, selectedCategory }) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const navigate = useNavigate();
 
-
   const handleCardClick = (post) => {
     setSelectedPost(post);
     navigate(`/posts/${post.objectId}`);
@@ -59,6 +58,7 @@ const PostList = ({ posts, selectedCategory }) => {
                     content={post.content}
                     category={post.category}
                     createdAt={post.createdAt}
+                    videoUrl={post.videoUrl}
                     imgUrl={imgurl2}
                     onCardClick={() => handleCardClick(post)}
                   />

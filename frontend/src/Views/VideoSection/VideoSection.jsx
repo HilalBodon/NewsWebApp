@@ -42,7 +42,7 @@ const VideoSection = ({ className }) => {
   return (
     <div className='video-section flex-1'>
       <div className={`video-container ${className}`}>
-        <iframe
+        <iframe className={`${className}`}
           src={videoLink}
           title="Playing Video From YouTube"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -49,7 +49,6 @@
   width: 40vw;
 }
 
-/* Add media query for smaller screens (e.g., mobile) */
 @media (max-width: 610px) {
   .nav-list {
     flex-direction: column;
