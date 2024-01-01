@@ -1,10 +1,95 @@
+// import React, { useState, useEffect } from 'react';
+// import PostCard from '../PostCard/PostCard';
+// import FullScreenPost from '../PostCard/FullScreenPost';
+// import './PostsList.css';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
+
+
+// const BaseURL = process.env.REACT_APP_BASE_URL;
+// const Headers = {
+//   'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+//   'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
+// };
+
+// const PostList = ({ posts, selectedCategory }) => {
+//   const [categoryNames, setCategoryNames] = useState({});
+//   const [selectedPost, setSelectedPost] = useState(null);
+//   const navigate = useNavigate();
+
+//   const handleCardClick = (post) => {
+//     setSelectedPost(post);
+//     navigate(`/posts/${post.objectId}`);
+
+//   };
+
+//   const handleCloseFullScreen = () => {
+//     setSelectedPost(null);
+//   };
+
+//   let catPosts = {};
+//   for (let i = 0; i < posts.length; i++) {
+//     const post = posts[i];
+//     let category = post.categories[0];
+//     post['categoryName'] = category.Name;
+//     if (!catPosts.hasOwnProperty(category.objectId)) catPosts[category.objectId] = [];
+//     catPosts[category.objectId].push(post);
+//   }
+
+
+//   return (
+//     <div className="post-list-container">
+//       {Object.entries(catPosts).map(([categoryId, categoryPosts]) => (
+//         <div key={categoryId} className="category-container">
+//           <div className='h2'>{categoryPosts[0].categoryName}</div>
+//           <div className="scroll-container ">
+//             <div className="scroll-content">
+//               {categoryPosts.map((post) => {
+//                 let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
+//                 try {
+//                   imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
+//                 } catch (e) {
+
+//                 }
+//                 return (
+//                   <PostCard
+//                     key={post._id}
+//                     Title={post.Title}
+//                     content={post.content}
+//                     category={post.category}
+//                     createdAt={post.createdAt}
+//                     videoUrl={post.videoUrl}
+//                     imgUrl={imgurl2}
+//                     onCardClick={() => handleCardClick(post)}
+//                   />
+//                 );
+//               }
+//               )}
+//             </div>
+//           </div>
+//           <hr className='bold' />
+//         </div>
+//       ))}
+
+//       {selectedPost && (
+//         <FullScreenPost post={selectedPost} onClose={handleCloseFullScreen} />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default PostList;
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import PostCard from '../PostCard/PostCard';
 import FullScreenPost from '../PostCard/FullScreenPost';
 import './PostsList.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import Img from "./default-Img.png";
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -13,39 +98,45 @@ const Headers = {
 };
 
 const PostList = ({ posts, selectedCategory }) => {
-  const [categoryNames, setCategoryNames] = useState({});
   const [selectedPost, setSelectedPost] = useState(null);
   const navigate = useNavigate();
 
   const handleCardClick = (post) => {
     setSelectedPost(post);
     navigate(`/posts/${post.objectId}`);
-
   };
 
-  const handleCloseFullScreen = () => {
-    setSelectedPost(null);
-  };
+  const categoriesArray = posts.reduce((accumulator, post) => {
+    const category = post.categories[0];
+    const categoryName = category.Name;
 
-  let catPosts = {};
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
-    let category = post.categories[0];
-    post['categoryName'] = category.Name;
-    if (!catPosts.hasOwnProperty(category.objectId)) catPosts[category.objectId] = [];
-    catPosts[category.objectId].push(post);
-  }
+    const existingCategory = accumulator.find((item) => item.categoryName === categoryName);
 
+    if (existingCategory) {
+      existingCategory.posts.push(post);
+    } else {
+      accumulator.push({
+        categoryName,
+        posts: [post],
+      });
+    }
+
+    return accumulator;
+  }, []);
+
+  categoriesArray.sort((a, b) => a.categoryName.localeCompare(b.categoryName));
+
+  console.log(posts.map(post => post.categories)); // This logs an array of categories for each post
 
   return (
     <div className="post-list-container">
-      {Object.entries(catPosts).map(([categoryId, categoryPosts]) => (
-        <div key={categoryId} className="category-container">
-          <div className='h2'>{categoryPosts[0].categoryName}</div>
-          <div className="scroll-container ">
+      {categoriesArray.map(({ categoryName, posts }, index) => (
+        <div key={index} className="category-container">
+          <div className='h2'>{categoryName}</div>
+          <div className="scroll-container">
             <div className="scroll-content">
-              {categoryPosts.map((post) => {
-                let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
+              {posts.map((post) => {
+                let imgurl2 = Img;
                 try {
                   imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
                 } catch (e) {
@@ -56,15 +147,14 @@ const PostList = ({ posts, selectedCategory }) => {
                     key={post._id}
                     Title={post.Title}
                     content={post.content}
-                    category={post.category}
+                    category={categoryName}
                     createdAt={post.createdAt}
                     videoUrl={post.videoUrl}
                     imgUrl={imgurl2}
                     onCardClick={() => handleCardClick(post)}
                   />
                 );
-              }
-              )}
+              })}
             </div>
           </div>
           <hr className='bold' />
@@ -72,7 +162,7 @@ const PostList = ({ posts, selectedCategory }) => {
       ))}
 
       {selectedPost && (
-        <FullScreenPost post={selectedPost} onClose={handleCloseFullScreen} />
+        <FullScreenPost post={selectedPost} onClose={() => setSelectedPost(null)} />
       )}
     </div>
   );
@@ -84,27 +174,6 @@ export default PostList;
 
 
 
-  // useEffect(() => {
-
-  //   const fetchCategoryNames = async () => {
-  //     try {
-  //       const categoryIds = [...new Set(posts.map((post) => post.category))];
-  //       const categories = {};
-
-  //       for (const categoryId of categoryIds) {
-  //         const response = await fetch(`http://localhost:8080/api/categories/${categoryId}`);
-  //         const categoryData = await response.json();
-  //         categories[categoryId] = categoryData.name;
-  //       }
-
-  //       setCategoryNames(categories);
-  //     } catch (error) {
-  //       console.error('Error fetching category names:', error);
-  //     }
-  //   };
-
-  //   fetchCategoryNames();
-  // }, [posts]);
 
 
 
@@ -112,65 +181,114 @@ export default PostList;
 
 
 
-  // useEffect(() => {
-  //   // console.log('Type of posts:', typeof posts); 
+// import React, { useState, useEffect } from 'react';
+// import PostCard from '../PostCard/PostCard';
+// import FullScreenPost from '../PostCard/FullScreenPost';
+// import './PostsList.css';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
 
-  //   const fetchCategoryNames = async (categoryIds) => {
-  //     try {
-  //       const categories = {};
+// const BaseURL = process.env.REACT_APP_BASE_URL;
+// const Headers = {
+//   'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
+//   'X-BEA-Authorization': process.env.REACT_APP_AUTHORIZATION_TOKEN,
+// };
 
-  //       for (const categoryId of categoryIds) {
-  //         const response = await axios({
-  //           url: `${BaseURL}/Categories/${categoryId}`,
-  //           method: 'get',
-  //           headers: Headers,
-  //         });
+// const PostList = ({ posts, selectedCategory }) => {
+//   const [selectedPost, setSelectedPost] = useState(null);
+//   const navigate = useNavigate();
 
-  //         const categoryData = response.data.results;
-  //         if (categoryData && categoryData.name) {
-  //           categories[categoryId] = categoryData.name;
+//   const handleCardClick = (post) => {
+//     setSelectedPost(post);
+//     navigate(`/posts/${post.objectId}`);
+//   };
 
-  //         } else {
-  //           console.error(`Category data is undefined or missing name for category ID: ${categoryId}`);
-  //         }
-  //       }
-  //       console.log("category data" , categories)
+//   // Array to specify the custom order of categories
+//   const customCategoryOrder = ['أخبار ثقافية' ,'أخبار المخيم', 'صورة وكلمة', 'كبارنا'," أخبار المركز" ,'منصة رؤية'];
 
-  //       return categories;
-  //     } catch (error) {
-  //       console.error('Error fetching category names:', error);
-  //       throw error; // Rethrow the error to handle it in the calling function if needed
-  //     }
-  //   };
+//   // Create an array to store category names and posts
+//   const categoriesArray = posts.reduce((accumulator, post) => {
+//     const category = post.categories[0];
+//     const categoryName = category.Name;
 
-  //   const fetchCategoryNamesAndSet = async () => {
-  //     try {
-  //       if (!Array.isArray(posts)) {
-  //         console.error('Posts is not an array');
-  //         return;
-  //       }
+//     // Find the category in the accumulator array
+//     const existingCategory = accumulator.find((item) => item.categoryName === categoryName);
 
-  //       const categoryIds = [...new Set(posts.map((post) => post.category))];
+//     if (existingCategory) {
+//       // If category already exists, push the post to its posts array
+//       existingCategory.posts.push(post);
+//     } else {
+//       // If category doesn't exist, create a new entry in the accumulator array
+//       accumulator.push({
+//         categoryName,
+//         posts: [post],
+//       });
+//     }
 
-  //       for (const categoryId of categoryIds) {
-  //         if (categoryId) {  
-  //           try {
-  //             const categories = await fetchCategoryNames([categoryId]);
-  //             setCategoryNames((prevCategories) => ({ ...prevCategories, ...categories }));
-  //           } catch (error) {
-  //             console.error('Error fetching category names:', error);
-  //           }
-  //         } else {
+//     return accumulator;
+//   }, []);
 
-  //           console.error('Category ID is undefined');
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching category names:', error);
-  //     }
-  //   };
+//   // Sort categoriesArray based on the custom order
+//   categoriesArray.sort((a, b) => {
+//     const orderA = customCategoryOrder.indexOf(a.categoryName);
+//     const orderB = customCategoryOrder.indexOf(b.categoryName);
 
+//     // If both categories are in the custom order, compare their indices
+//     if (orderA !== -1 && orderB !== -1) {
+//       return orderA - orderB;
+//     }
 
-  //   fetchCategoryNamesAndSet();
-  // }, [posts]);
+//     // If only one category is in the custom order, prioritize it
+//     if (orderA !== -1) {
+//       return -1;
+//     }
 
+//     if (orderB !== -1) {
+//       return 1;
+//     }
+
+//     // If neither category is in the custom order, use default sorting
+//     return a.categoryName.localeCompare(b.categoryName);
+//   });
+
+//   return (
+//     <div className="post-list-container">
+//       {categoriesArray.map(({ categoryName, posts }, index) => (
+//         <div key={index} className="category-container">
+//           <div className='h2'>{categoryName}</div>
+//           <div className="scroll-container">
+//             <div className="scroll-content">
+//               {posts.map((post) => {
+//                 let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
+//                 try {
+//                   imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
+//                 } catch (e) {
+
+//                 }
+//                 return (
+//                   <PostCard
+//                     key={post._id}
+//                     Title={post.Title}
+//                     content={post.content}
+//                     category={post.category}
+//                     createdAt={post.createdAt}
+//                     videoUrl={post.videoUrl}
+//                     imgUrl={imgurl2}
+//                     onCardClick={() => handleCardClick(post)}
+//                   />
+//                 );
+//               })}
+//             </div>
+//           </div>
+//           <hr className='bold' />
+//         </div>
+//       ))}
+
+//       {selectedPost && (
+//         <FullScreenPost post={selectedPost} onClose={() => setSelectedPost(null)} />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default PostList;

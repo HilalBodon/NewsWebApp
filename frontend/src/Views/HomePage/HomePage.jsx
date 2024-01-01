@@ -40,6 +40,8 @@ const fetchPosts = async (selectedCategory, setPosts) => {
 
     const responseData = response.data;
     const postsData = responseData.results || [];
+    console.log(postsData)
+
     setPosts(postsData);
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -63,7 +65,6 @@ const HomePage = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
   const [isLoading, setLoading] = useState(true);
-  const [featuredPosts, setFeaturedPosts] = useState([]);
   const [isMainSectionVisible, setMainSectionVisibile] = useState(true);
 
 
@@ -73,7 +74,7 @@ const HomePage = () => {
       const response = await axios({
         url: BaseURL + '/Posts/Categories',
         method: 'get',
-        
+             
         headers: Headers
       });
       return response.data;
@@ -84,78 +85,48 @@ const HomePage = () => {
 
 
   useEffect(() => {
-
-    const fetchFeaturedPosts = async () => {
-      try {
-        let url = BaseURL + '/Posts';
-        const response = await axios({
-          url,
-          method: 'get',
-          params: {
-            "fields": "*",
-            "order": "-createdAt",
-            "media": "images,files",
-            "crops": "ax300,ax1000",
-            "limit": "100",
-            "where": {
-              "featured": "1"
-            },
-          },
-          headers: Headers,
-        });
-        const responseData = response.data;
-        const postsData = responseData.results || [];
-        setFeaturedPosts(postsData);
-
-      } catch (error) {
-        console.error('Error fetching featured posts:', error);
-      }
-    };
-
-    fetchFeaturedPosts();
-
-
     const fetchData = async () => {
       try {
         const updatedCategories = await fetchCategoriesData();
         setCategories(updatedCategories);
         setLoading(false);
+  
+        fetchPosts(selectedCategory, setPosts);
+  
+        const videoLinkResponse = await axios({
+          url: BaseURL + '/_Config',
+          method: 'get',
+          params: {
+            "fields": "Value",
+            "where": {"Parameter": "videoLink"}
+          },
+          headers: Headers
+        });
+        const videoLinkSettings = videoLinkResponse.data.results[0];
+        setVideoLink(videoLinkSettings?.Value || '');
+  
+        
+        // Fetch settings
+        const settingsResponse = await axios({
+          url: BaseURL + '/_Config',
+          method: 'get',
+          params: {
+            "fields": "Value",
+            "where": {"Parameter": "showVideo"}
+          },
+          headers: Headers
+        });
+        const settingsData = settingsResponse.data.results;
+        setShowVideo(settingsData[0]?.Value);
       } catch (error) {
-        console.error('Error updating categories:', error);
+        console.error('Error fetching data:', error);
         setLoading(false);
       }
     };
-    fetchData();
-    fetchPosts(selectedCategory, setPosts); 
-  }, [selectedCategory, updateTrigger]);
   
-
-
-  useEffect(() => {
-    const fetchVideoLink = async () => {
-        try {
-          const response = await axios({
-            url: BaseURL + '/_Config',
-            method: 'get',
-            params: {
-              "fields":"Value",
-              "where":{"Parameter":"videoLink"}
-            },
-            headers: Headers
-          });
-
-        const settings = await response.data.results[0];
-
-        setVideoLink(settings?.Value || '');
-        // console.log(videoLink)
-      } catch (error) {
-        console.error('Error fetching video link:', error);
-      }
-    };
-
-    fetchVideoLink();
-  }, []);
-
+    fetchData();
+  }, [selectedCategory, updateTrigger]);  
+  
 
 
 
@@ -185,10 +156,10 @@ const HomePage = () => {
 
 
 
-  const handleUpdateTrigger = () => {
-    setUpdateTrigger((prev) => !prev);
-    console.log('Posts updated in HomePage!');
-  };
+  // const handleUpdateTrigger = () => {
+  //   setUpdateTrigger((prev) => !prev);
+  //   console.log('Posts updated in HomePage!');
+  // };
 
   const handleOverlayToggle = () => {
     setOverlayVisible(!isOverlayVisible);
@@ -246,14 +217,6 @@ const HomePage = () => {
     setSettingsVisible(false);
   };
 
-  // const handleNewsTickerToggle = (show) => {
-  //   setShowNewsTicker(show);
-  // };
-
-  // const handleVideoToggle = (show) => {
-  //   setShowVideo(show);
-  // };
-
 
   return (
     <div className='homePage-style'>
@@ -267,27 +230,14 @@ const HomePage = () => {
         fetchPosts={handleCategoryClick}
         />
 
-      {/* {isLoading && (
-        <div className="loading-container">
-          <div className="loading-circle"></div>
-        </div>
-      )} */}
-
     {isLoading && <LoadingSpinner />}
 
       {isHomePageVisible && isMainSectionVisible && !isCategoryVisible && !isPostComponentVisible &&(
           <>
-          <NewsTicker featuredPosts={featuredPosts} />
-          <MainSection featuredPosts={featuredPosts} showVideo={showVideo} />
+          <NewsTicker />
+          <MainSection showVideo={showVideo} />
           </>
           )}
-
-
-      {/* {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible &&  showVideo === "1" && (
-        <VideoSection />
-      )} */}
-      <hr />
-
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <div className='cards-div'>
@@ -295,143 +245,9 @@ const HomePage = () => {
           </div>
         </div>
       )}
-
-      {isCategoryVisible && !isHomePageVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
-        <div>
-          <CategoryComponent updateCategories={handleUpdateSidebar} />
-        </div>
-      )}
-
-      {isPostComponentVisible && !isCategoryVisible && !isHomePageVisible && !isSettingsVisible && !isLoading && (
-        <PostComponent updatePosts={handleUpdateTrigger} />
-      )}
-
-      {/* {isSettingsVisible && !isHomePageVisible && !isPostComponentVisible && !isCategoryVisible && !isLoading && (
-        <div className='moreSettings-mainStyle'>
-          <MoreSettings
-            onNewsTickerToggle={handleNewsTickerToggle}
-            onVideoToggle={handleVideoToggle}
-          />
-        </div>
-      )} */}
-
       <Footer />
     </div>
   );
 };
 
 export default HomePage;
-
-
-
-
-
-  // useEffect(() => {
-    // const fetchPosts = async () => {
-    //   let limit = 10;
-    //   let page = 1;
-    //   axios({
-    //     url: BaseURL + '/Posts',
-    //     method: 'get',
-    //     params: {
-    //       "fields": "*,categories",
-    //       "media": "images",
-    //       "crops": "ax300",
-    //       "order": "-objectId",
-    //       "where": {
-    //         // "featured": "1"
-    //       },
-    //       "limit": limit,
-    //       "offset": (page-1) * limit
-    //     },
-    //     headers: Headers
-    //  })
-    //  .then(response => {
-    //     console.log("NEWWWWW", response.data.results)
-    //  }) 
-    //  .catch(err => {
-    //     console.log(err);
-    //  });
-
-
-// ________________________________________________
-
-
-  // try {
-  //   let url = BaseURL + '/Posts';
-
-  //   const response = await axios({
-  //     url,
-  //     method: 'get',
-  //     params: {
-  //       "fields": "*,categories",
-  //       "order": "-createdAt",
-  //       "media": "images,files",
-  //       "crops": "ax300,ax1000",
-  //       "limit": "100",
-  //       "categories": selectedCategory === '1Rav71bqVy' ? setSelectedCategory(null) : selectedCategory,
-  //     },
-  //     headers: Headers,
-  //   });
-
-  //   const responseData = response.data;
-  //   const postsData = responseData.results || [];
-  //   // console.log("second", selectedCategory, postsData);
-  //   setPosts(postsData);
-  // } catch (error) {
-  //   console.error('Error fetching posts:', error);
-  // }
-
-// _______________________________________________
-
-
-
-      // try {
-      //   let url = BaseURL + '/Posts';
-      //   // let limit = 10;
-      //   //         if (selectedCategory) {
-      //   //           url += `?categories=${selectedCategory}`;
-      //   //           console.log(selectedCategory)
-      //   // }
-    
-      //   const response = await axios({
-      //     url,
-      //     method: 'get',
-      //     params: {
-      //       "fields": "*,categories",
-      //       "order": "-createdAt",
-      //       "media": "images,files",
-      //       "crops": "ax300,ax1000",
-      //       // "limit": limit,
-      //     },
-      //     headers: Headers,
-      //   });
-      //   const responseData = response.data;
-      //   // console.log(responseData)
-      //   const postsData = responseData.results || [];
-      //   setPosts(postsData);
-      // } catch (error) {
-      //   console.error('Error fetching posts:', error);
-      // } 
-    // };
-    
-
-
-
-
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const updatedCategories = await fetchCategoriesData();
-  //       setCategories(updatedCategories);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error('Error updating categories:', error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  //   fetchPosts();
-  // }, [selectedCategory, updateTrigger]);
-

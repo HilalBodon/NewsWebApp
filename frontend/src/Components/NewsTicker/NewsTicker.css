@@ -92,6 +92,7 @@
       overflow: hidden;
       white-space: nowrap;
       box-shadow: inset 60px 0px 15px -15px rgba(216, 216, 216, 0.3);
+      font-size: 1.2rem ;
     }
     
     .ticker-wrap {
@@ -145,13 +146,13 @@
     
     
     .news-ticker {
-      width: 100%;
+      /* width: 100%; */
       padding-left: 15px;
       padding-right: 15px;
-      margin: 2vh 0 2vh 0 ;
-      position: relative;
+      /* margin: 2vh 0 2vh 0 ;
+      position: relative; */
       float: none;
-      width: 100%;
+      /* width: 100%; */
       overflow: hidden;
     }
     

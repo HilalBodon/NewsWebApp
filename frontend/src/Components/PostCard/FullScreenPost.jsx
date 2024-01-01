@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../NavBar/Nav';
 import { RingLoader } from "react-spinners";
+import NewsTicker from '../NewsTicker/NewsTicker';
+import Footer from '../Footer/Footer';
 
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
@@ -47,7 +49,7 @@ if (loading) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: "100vh", // 100% of the viewport height
+          height: "100vh", 
         }}
       >
         <RingLoader color="#36D7B7" loading={true} size={150} />
@@ -67,20 +69,22 @@ if (loading) {
     <div className="full-screen-post" onClick={onClose}>
       <div className="full-post-content" onClick={(e) => e.stopPropagation()}>
       <Navbar showCategories={false} />
+      <NewsTicker/>
         <div className="full-post-container">
           <div className='img-container'>
             <img src={ imgurl2} alt="" />
           </div>
-          <h2 className='text-xl font-medium m-2 fs-content'>{postState.Title}</h2>
+          <h2 className='text-xl font-medium m-2 fs-Title '>{postState.Title}</h2>
           <div dangerouslySetInnerHTML={{ __html: postState.content }} className="fs-content"/>
 
           {postState.pdfUrl ? (
-            <a href={postState.pdfUrl} download className='text-blue-400'>تحميل العدد</a>
-          ) : null}
+            <a href={postState.pdfUrl} download className='text-blue-400 font-bold'>تحميل العدد</a>
+          ) : null} 
           
           <p className='text-gray-700 mt-2'> {new Date(postState.createdAt).toLocaleString()}</p>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -13,7 +13,7 @@ const Headers = {
 const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCardClick }) => {
   const formattedDate = new Date(createdAt).toLocaleString();
   const [categoryName, setCategoryName] = useState('');
-
+console.log(category)
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -43,10 +43,8 @@ const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCar
     const postDetails = { Title, content, category, createdAt, imgUrl, categoryName };
 
     if (videoUrl) {
-      // If videoUrl is available, open a new window or tab with the YouTube link
       window.open(videoUrl, '_blank');
     } else {
-      // If videoUrl is not available, perform the regular onCardClick action
       onCardClick(postDetails);
     }
   };
@@ -82,10 +80,13 @@ const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCar
         <img className="post-image" src={imgUrl} alt="Post Image" />
       )}
       <div className="post-header">
-        <p className="post-title">{Title.length > 30 ? `...${Title.substring(0, 30)}` : Title}</p>
-        <div className='post-content' dangerouslySetInnerHTML={{ __html: truncatedContent }} />
+        <p className="post-title">{Title.length > 100 ? `${Title.substring(0, 100)} ` : Title }</p>
+        {/* <div className='post-content' dangerouslySetInnerHTML={{ __html: truncatedContent }} /> */}
       </div>
-      <p className="post-meta">{`${formattedDate}`}</p>
+      <div className='date-category'>
+      <div className="post-meta">{`${formattedDate}`}</div>
+      <div className='category-card'>{`${category}`}</div>
+      </div>
     </div>
   );
       }

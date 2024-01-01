@@ -104,13 +104,27 @@
     justify-content: center;
     width: 100%;
 }
-.fs-content{
+.fs-Title{
   text-align: right;
-
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: black;
 }
 
+.fs-content{
+font-size: 1.6rem;
+text-align: right;
+line-height: 1.9;
+font-weight: 400;
+color: #4a4a4a;
+}
+
+
 .full-post-container{
-  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  padding: 3vw;
 }
 
 
@@ -133,4 +147,21 @@
   object-fit: cover;
   z-index: 1;
   opacity: 0.9;
+}
+
+.date-category{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+padding: 7px;
+}
+.category-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  background-color: #ff6b00;
+  color: white;
+  font-size: small;
+  border-radius: 4px;
 }
