@@ -53,7 +53,7 @@ const Footer = () => {
         <p>
           By
           <a href="https://www.quad-bh.com/" target="_blank" rel="noopener noreferrer">
-            <b>QUAD Digital Media</b>
+            <i><b> QUAD Digital Media </b></i>
           </a>{' '}
           2024 © All Rights Reserved.
         </p>

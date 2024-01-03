@@ -8,6 +8,9 @@
     flex-wrap: wrap;
     width: -webkit-fill-available;
   }
+   .footer-content{
+    gap: 2vw;
+   }
 
   .social-media-icons{
     display: flex;
@@ -44,6 +47,7 @@
   }
   
   .copyright {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
   }
   

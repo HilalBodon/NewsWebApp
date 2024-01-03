@@ -48,9 +48,7 @@ const NewsTicker = () => {
   return (
     <div className="news-ticker">
       <div className="ticker-wrap">
-        <div className="ticker-label hidden-sm">
-          آخر المستجدات
-        </div>
+
         <div className="news-container">
           {featuredPosts.map((post) => (
             <div className="news-item" key={post._id}>
@@ -58,6 +56,9 @@ const NewsTicker = () => {
               <p>{post.Title}</p>
             </div>
           ))}
+        </div>
+        <div className="ticker-label hidden-sm">
+          آخر المستجدات
         </div>
       </div>
     </div>
