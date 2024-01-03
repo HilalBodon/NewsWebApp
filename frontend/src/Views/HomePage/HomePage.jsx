@@ -4,10 +4,6 @@ import Navbar from '../../Components/NavBar/Nav';
 import NewsTicker from '../../Components/NewsTicker/NewsTicker';
 import PostList from '../../Components/PostsList/PostsLists';
 import Footer from '../../Components/Footer/Footer';
-import CategoryComponent from '../Category/CategoryComponent';
-import PostComponent from '../Post/PostComponent';
-import MoreSettings from '../MoreSettings/MoreSettings';
-import VideoSection from '../VideoSection/VideoSection';
 import axios from "axios";
 import MainSection from '../MainSection/MainSection';
 import LoadingSpinner from '../LoadingSpinner';
@@ -40,7 +36,6 @@ const fetchPosts = async (selectedCategory, setPosts) => {
 
     const responseData = response.data;
     const postsData = responseData.results || [];
-    console.log(postsData)
 
     setPosts(postsData);
   } catch (error) {
@@ -105,7 +100,7 @@ const HomePage = () => {
         const videoLinkSettings = videoLinkResponse.data.results[0];
         setVideoLink(videoLinkSettings?.Value || '');
   
-        
+
         // Fetch settings
         const settingsResponse = await axios({
           url: BaseURL + '/_Config',

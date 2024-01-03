@@ -13,7 +13,9 @@ const Headers = {
 const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCardClick }) => {
   const formattedDate = new Date(createdAt).toLocaleString();
   const [categoryName, setCategoryName] = useState('');
-console.log(category)
+  const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 1200);
+
+
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -35,8 +37,18 @@ console.log(category)
         console.error('Error fetching categories:', error);
       }
     };
+
+    const handleResize = () => {
+      setIsScreenLarge(window.innerWidth > 1200);
+    };
+
+    window.addEventListener('resize', handleResize);
+
     fetchCategory();
 
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, [category]);
 
   const handleClick = () => {
@@ -80,12 +92,14 @@ console.log(category)
         <img className="post-image" src={imgUrl} alt="Post Image" />
       )}
       <div className="post-header">
-        <p className="post-title">{Title.length > 100 ? `${Title.substring(0, 100)} ` : Title }</p>
+        <p className="post-title">{Title.length > 80 ? `${Title.substring(0, 80)} ` : Title }</p>
         {/* <div className='post-content' dangerouslySetInnerHTML={{ __html: truncatedContent }} /> */}
       </div>
       <div className='date-category'>
       <div className="post-meta">{`${formattedDate}`}</div>
+      { isScreenLarge &&(
       <div className='category-card'>{`${category}`}</div>
+      )}
       </div>
     </div>
   );

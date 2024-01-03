@@ -5,7 +5,6 @@ import logoimg from "./logoimg.png";
 import Sidebar from '../Sidebar/Sidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -124,55 +123,3 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 };
 
 export default Navbar;
-
-
-
-
-  // const fetchPostsByCategory = async (category) => {
-  //   try {
-  //     const response = await axios({
-  //       url: BaseURL + '/Posts',
-  //       method: 'get',
-  //       params: {
-  //         fields: "*,categories",
-  //         order: "-createdAt",
-  //         media: "images,files",
-  //         crops: "ax300,ax1000",
-  //         limit: "100",
-  //         categories: category === '1Rav71bqVy' ? null : category,
-  //       },
-  //       headers: Headers,
-  //     });
-
-  //     const responseData = response.data;
-  //     const postsData = responseData.results || [];
-  //     // Update the parent component with the new posts
-  //     updateCategories(postsData);
-  //   } catch (error) {
-  //     console.error('Error fetching posts:', error);
-  //   }
-  // };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem('token');
-  //   localStorage.removeItem('user');
-  //   setForceRender(true);
-  // };
-
-
-
-  {/* 
-      {isScreenLarge && isValidToken && (
-        <ul className="nav-list">
-          <li className="nav-item" onClick={onHomePageToggle}>Home</li>
-          <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
-          <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
-          <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
-        </ul>
-      )} */}
-
-      {/* {isValidToken && (
-        <div className="logout-btn" onClick={handleLogout}>
-          Logout
-        </div>
-      )} */}

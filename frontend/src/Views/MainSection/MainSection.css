@@ -27,6 +27,7 @@
     border-color: #ad0000;
     border-radius: 0 0 8px 8px;
     font-size: larger;
+    padding: 5px;
   }
 
   .right-section  img{
@@ -65,24 +66,21 @@
   } */
 
 
-  
-  .post-image {
+  .left-section .post-image {
     height:37vh;
-    object-fit: fill;
+    object-fit: cover;
   }
   
-  .post-content {
-    padding: 10px;
-  }
+
   
-  .post-title {
+  .left-section .post-title {
     font-size: 18px;
     padding: 0.1rem;
     text-align: right;
     font-weight: 500;
     color: #4a4a4a;
     line-height: 1.6;
-  }
+  } 
   
   .post-view hr {
     margin: 10px;

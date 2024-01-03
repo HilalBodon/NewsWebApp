@@ -1,9 +1,8 @@
 import './App.css';
 import { Route,Routes,BrowserRouter } from 'react-router-dom';
 import HomePage from './Views/HomePage/HomePage';
-// import Login from './Components/Login/Login';
-import FullScreenPost from './Components/PostCard/FullScreenPost'; // Adjust the path
-
+import FullScreenPost from './Components/PostCard/FullScreenPost'; 
+import RoayaTeam from './Components/RoayaTeam/RoayaTeam';
 function App() {
 
   return (
@@ -12,6 +11,7 @@ function App() {
         <Routes>
           <Route path = "/" element={<HomePage/>} />
           <Route path="/posts/:postId" element={<FullScreenPost />} />
+          <Route path="/RoayaTeam" element={<RoayaTeam />} />
         </Routes>
       </BrowserRouter>
      </div>

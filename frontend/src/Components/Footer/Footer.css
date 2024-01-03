@@ -6,6 +6,7 @@
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
+    width: -webkit-fill-available;
   }
 
   .social-media-icons{
