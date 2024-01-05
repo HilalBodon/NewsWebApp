@@ -31,7 +31,6 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
   const handleCategoryClick = (category) => {
     onCategoryClick(category);
     fetchPosts(category.objectId)
-  
   };
 
 

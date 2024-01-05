@@ -25,11 +25,12 @@ const RoayaTeam = () => {
   return (
     <div className="roaya-team-container">
         <Navbar showCategories={false}/>
-        <div className='all-members'>
+        <div className='text-4xl p-6 text-slate-800'>فريق زاوية رؤية</div>
+        <div className='all-members '>
       {teamMembers.map((member) => (
         <div key={member.id} className="team-member">
           <img src={member.imageUrl} alt={`Team Member ${member.id}`} />
-          <p className="member-title">{member.title}</p>
+          <p className="member-title text-xl text-slate-800 m-5">{member.title}</p>
         </div>
       ))}
       </div>

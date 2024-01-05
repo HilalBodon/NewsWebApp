@@ -7,6 +7,7 @@ import Footer from '../../Components/Footer/Footer';
 import axios from "axios";
 import MainSection from '../MainSection/MainSection';
 import LoadingSpinner from '../LoadingSpinner';
+import Img from "../../Components/PostsList/default-Img.png";
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -56,12 +57,12 @@ const HomePage = () => {
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [categories, setCategories] = useState([]);
   const [isSettingsVisible, setSettingsVisible] = useState(false);
-  const [showNewsTicker, setShowNewsTicker] = useState(false);
+  // const [showNewsTicker, setShowNewsTicker] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLink, setVideoLink] = useState('');
   const [isLoading, setLoading] = useState(true);
   const [isMainSectionVisible, setMainSectionVisibile] = useState(true);
-
+  const [adImage, setadImage] = useState('');
 
 
   const fetchCategoriesData = async () => {
@@ -87,7 +88,7 @@ const HomePage = () => {
         setLoading(false);
   
         fetchPosts(selectedCategory, setPosts);
-  
+
         const videoLinkResponse = await axios({
           url: BaseURL + '/_Config',
           method: 'get',
@@ -101,7 +102,6 @@ const HomePage = () => {
         setVideoLink(videoLinkSettings?.Value || '');
   
 
-        // Fetch settings
         const settingsResponse = await axios({
           url: BaseURL + '/_Config',
           method: 'get',
@@ -151,10 +151,45 @@ const HomePage = () => {
 
 
 
-  // const handleUpdateTrigger = () => {
-  //   setUpdateTrigger((prev) => !prev);
-  //   console.log('Posts updated in HomePage!');
-  // };
+
+
+  useEffect(() => {
+    const fetchAdImg = async () => {
+      try {
+        let url = BaseURL + '/Posts';
+  
+        const response = await axios({
+          url,
+          method: 'get',
+          params: {
+            "fields": "*,categories",
+            "order": "-createdAt",
+            "media": "images,files",
+            "crops": "ax300,ax1000",
+            "limit": "100",
+            "categories": selectedCategory === '1Rav71bqVy' ? null : selectedCategory,
+          },
+          headers: Headers,
+        });
+  
+        const responseData = response.data;
+        const adImg = responseData.results || [];
+  
+        const filteredPosts = adImg.filter(post => post.categories.some(category => category.objectId === '1Rav71bqVy'));
+  
+        const imageUrl = filteredPosts.length > 0 ? filteredPosts[0].images?.untitled[0]?.dir + filteredPosts[0].images?.untitled[0]?.imageax300 : null;
+        setadImage(imageUrl || "");
+
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+  
+    fetchAdImg();
+  }, [selectedCategory]);
+  
+
+
 
   const handleOverlayToggle = () => {
     setOverlayVisible(!isOverlayVisible);
@@ -187,6 +222,7 @@ const HomePage = () => {
   };
 
   const handleCategoryClick = (category) => {
+    // console.log(category)
     setSelectedCategory(category);
     setHomePageVisible(true);
     setCategoryVisible(false);
@@ -217,7 +253,7 @@ const HomePage = () => {
     <div className='homePage-style'>
       <Navbar
         onHomePageToggle={handleHomePageToggle}
-        onCategoryToggle={handleCategoryToggle}
+        // onCategoryToggle={handleCategoryToggle} 
         onPostComponentToggle={handlePostComponentToggle}
         onCategoryClick={handleCategoryClick}
         updateCategories={handleUpdateSidebar}
@@ -233,6 +269,9 @@ const HomePage = () => {
           <MainSection showVideo={showVideo} />
           </>
           )}
+      <div className="ad-image">
+        <img src={adImage || ""} alt="" />
+        </div>
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <div className='cards-div'>

@@ -33,6 +33,8 @@ const FullScreenPost = ({ post, onClose }) => {
 
       const postData = response.data.results[0];
       setPost(postData);
+      // console.log(postData)
+
       setLoading(false);
       } catch (error) {
       console.error('Error fetching post details:', error);
@@ -58,35 +60,40 @@ if (loading) {
   };
 
 
-    let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
-    try {
-      imgurl2 = postState.images.untitled[0].dir + postState.images.untitled[0].imageax1000;
-    } catch (e) {
-    console.error('Error getting image URL:', e);
-    }
+    // let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
+    // try {
+    //   imgurl2 = postState.images.untitled[0].dir + postState.images.untitled[0].imageax1000;
+    // } catch (e) {
+    // console.error('Error getting image URL:', e);
+    // }
 
-  return (
-    <div className="full-screen-post" onClick={onClose}>
-      <div className="full-post-content" onClick={(e) => e.stopPropagation()}>
-      <Navbar showCategories={false} />
-      <NewsTicker/>
-        <div className="full-post-container">
-          <div className='img-container'>
-            <img src={ imgurl2} alt="" />
+    return (
+      <div className="full-screen-post" onClick={onClose}>
+        <div className="full-post-content" onClick={(e) => e.stopPropagation()}>
+          <Navbar showCategories={false} />
+          <NewsTicker />
+          <div className="full-post-container">
+            <div className='flex flex-wrap -mx-2 gap-x-7 gap-y-7 justify-around'>
+              {postState.images.untitled.map((image, index) => (
+                <div key={index} className="w-full sm:w-1/2 lg:w-5/12 xl:w-5/12 px-2 mb-4 flex content-center ">
+                  <img src={image.dir + image.imageax1000} alt={`Image ${index}`} className="w-full h-auto rounded-xl" />
+                </div>
+              ))}
+            </div>
+            <h2 className='text-xl font-medium m-2 fs-Title '>{postState.Title}</h2>
+            <div dangerouslySetInnerHTML={{ __html: postState.content }} className="fs-content" />
+    
+            {postState.pdfUrl ? (
+              <a href={postState.pdfUrl} download className='text-blue-400 font-bold'>تحميل العدد</a>
+            ) : null}
+              
+            <p className='text-gray-700 mt-2'> {new Date(postState.createdAt).toLocaleString()}</p>
           </div>
-          <h2 className='text-xl font-medium m-2 fs-Title '>{postState.Title}</h2>
-          <div dangerouslySetInnerHTML={{ __html: postState.content }} className="fs-content"/>
-
-          {postState.pdfUrl ? (
-            <a href={postState.pdfUrl} download className='text-blue-400 font-bold'>تحميل العدد</a>
-          ) : null} 
-          
-          <p className='text-gray-700 mt-2'> {new Date(postState.createdAt).toLocaleString()}</p>
         </div>
+        <Footer />
       </div>
-      <Footer/>
-    </div>
-  );
+    );
+    
 };
 
 export default FullScreenPost;

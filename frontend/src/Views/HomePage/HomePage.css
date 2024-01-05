@@ -64,4 +64,31 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  .ad-image img{
+    width: -webkit-fill-available;
+    height: auto;
+    border-radius: 15px;
+    max-height: 113px;
+    margin:35px 20px 0 20px; 
+    animation: blink 1.3s infinite alternate;
+    box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.3);
+    /* transition: all 0.3s ease-in-out; */
+   }
+
+   /* .ad-image img:hover {
+    transform: scale(1.1);
+  }
+  
+  .ad-image img:active {
+    transform: scale(1.1); 
+  } */
+   @keyframes blink {
+    from {
+      box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.3);
+    }
+    to {
+      box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.5);
+    }
+  }
   

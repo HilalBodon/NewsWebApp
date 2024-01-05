@@ -44,7 +44,7 @@ const Footer = () => {
           من نحن؟
         </span>
         <Link to="/RoayaTeam" className="footer-links">
-          فريق العمل
+          فريق زاوية رؤية
         </Link>
         {isAboutUsOpen && <AboutUs onClose={handleCloseAboutUs} />}
       </div>

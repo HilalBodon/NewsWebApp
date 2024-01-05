@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './PostCard.css';
 import axios from 'axios';
 import youTubeImg from './youTubeImg.png';
-
+import Img from "../PostsList/default-Img.png"
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -14,6 +14,7 @@ const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCar
   const formattedDate = new Date(createdAt).toLocaleString();
   const [categoryName, setCategoryName] = useState('');
   const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 1200);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
 
   useEffect(() => {
@@ -85,12 +86,22 @@ const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCar
         // Render a thumbnail image for YouTube videos with play icon overlay
         <div className="thumbnail-container">
           <img className="overlay-image" src={youTubeImg} alt="YouTube Overlay" />
-          <img className="post-image" src={thumbnailUrl} alt="Video Thumbnail" />
+          <img className="post-image" src={thumbnailUrl} alt="Video Thumbnail" onError={(e) => e.target.src = Img}
+            style={{ display: imageLoaded ? 'block' : 'none' }}
+            onLoad={() => setImageLoaded(true)}/>
+             {!imageLoaded && <img className="post-image" src={Img} alt="Default Image" />}
+
         </div>
       ) : (
-        // Render image if videoUrl is not available
-        <img className="post-image" src={imgUrl} alt="Post Image" />
-      )}
+        <>
+        <img className="post-image" src={imgUrl} alt="Post Image" onError={(e) => e.target.src = Img}
+        style={{ display: imageLoaded ? 'block' : 'none' }}
+        onLoad={() => setImageLoaded(true)}
+      />
+      {!imageLoaded && <img className="post-image" src={Img} alt="Default Image" />}
+      </> 
+       )}
+
       <div className="post-header">
         <p className="post-title">{Title.length > 80 ? `${Title.substring(0, 80)} ` : Title }</p>
         {/* <div className='post-content' dangerouslySetInnerHTML={{ __html: truncatedContent }} /> */}
