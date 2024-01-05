@@ -34,18 +34,19 @@ const Footer = () => {
         <a href="https://wa.me/96179152436" target="_blank" rel="noopener noreferrer">
           <FaWhatsapp />
         </a>
+                <span className="footer-links" onClick={handleGoToTop}>
+          الرئيسية
+        </span>
       </div>
 
       <div className="footer-content">
-        <span className="footer-links" onClick={handleGoToTop}>
-          الرئيسية
-        </span>
-        <span className="footer-links" onClick={handleAboutUsClick}>
-          من نحن؟
-        </span>
+
         <Link to="/RoayaTeam" className="footer-links">
           فريق زاوية رؤية
         </Link>
+        <span className="footer-links " onClick={handleAboutUsClick}>
+          من نحن؟
+        </span>
         {isAboutUsOpen && <AboutUs onClose={handleCloseAboutUs} />}
       </div>
 

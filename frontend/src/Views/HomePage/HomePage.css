@@ -65,11 +65,13 @@
     100% { transform: rotate(360deg); }
   }
 
+
   .ad-image img{
     width: -webkit-fill-available;
+    max-width: 70%;
     height: auto;
     border-radius: 15px;
-    max-height: 113px;
+    max-height: 130px;
     margin:35px 20px 0 20px; 
     animation: blink 1.3s infinite alternate;
     box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.3);
@@ -88,7 +90,7 @@
       box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.3);
     }
     to {
-      box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 20px 40px 33px rgba(0, 0, 0, 0.5);
     }
   }
   

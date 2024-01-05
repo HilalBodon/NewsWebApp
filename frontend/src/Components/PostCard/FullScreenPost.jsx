@@ -44,6 +44,13 @@ const FullScreenPost = ({ post, onClose }) => {
   fetchPostDetails();
 }, [postId]);
 
+useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+}, []);
+
 if (loading) {
   return (
       <div
@@ -59,6 +66,7 @@ if (loading) {
     );
   };
 
+  
 
     // let imgurl2 = "https://www.beacdn.com/apps/W9JxND9QAl/dM2x74v8OE/R5VP8Yv4JA/images/i1703079652sab0a65cd644(600xa).png";
     // try {

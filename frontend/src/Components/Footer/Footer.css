@@ -7,10 +7,12 @@
     align-items: center;
     flex-wrap: wrap;
     width: -webkit-fill-available;
+    row-gap: 10px;
   }
    .footer-content{
-    gap: 2vw;
-   }
+    width: 300px;
+    display: flex;
+    justify-content: space-between;   }
 
   .social-media-icons{
     display: flex;
@@ -34,7 +36,7 @@
     font-size: 1.5rem;
     font-weight: 500;
     font-family:Arial, Helvetica, sans-serif;
-    margin-right: 20px;
+    margin: 0 15px 0 15px;
     text-decoration: none;
     transition: color 0.3s ease-in-out;
   }

@@ -21,6 +21,8 @@
   }
   
   .about-us-content {
+    overflow-x: auto;
+    height: 80%;
     background: #fff;
     color: #606060;
     padding: 20px;

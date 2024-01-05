@@ -63,6 +63,7 @@ const HomePage = () => {
   const [isLoading, setLoading] = useState(true);
   const [isMainSectionVisible, setMainSectionVisibile] = useState(true);
   const [adImage, setadImage] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(false);
 
 
   const fetchCategoriesData = async () => {
@@ -189,6 +190,9 @@ const HomePage = () => {
   }, [selectedCategory]);
   
 
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
 
 
   const handleOverlayToggle = () => {
@@ -269,9 +273,16 @@ const HomePage = () => {
           <MainSection showVideo={showVideo} />
           </>
           )}
-      <div className="ad-image">
-        <img src={adImage || ""} alt="" />
-        </div>
+
+<div className="ad-image flex justify-center w-full">
+  {adImage && (
+    <img src={adImage} alt="AdIMG" onLoad={handleImageLoad} />
+  )}
+
+</div>
+
+
+
       {isHomePageVisible && !isCategoryVisible && !isPostComponentVisible && !isSettingsVisible && !isLoading && (
         <div>
           <div className='cards-div'>
