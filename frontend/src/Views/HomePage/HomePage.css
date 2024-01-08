@@ -68,13 +68,14 @@
 
   .ad-image img{
     width: -webkit-fill-available;
-    max-width: 70%;
+    max-width: 90%;
     height: auto;
     border-radius: 15px;
     max-height: 130px;
     margin:35px 20px 0 20px; 
     animation: blink 1.3s infinite alternate;
     box-shadow: 12px 12px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
     /* transition: all 0.3s ease-in-out; */
    }
 

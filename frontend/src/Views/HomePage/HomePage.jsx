@@ -64,6 +64,7 @@ const HomePage = () => {
   const [isMainSectionVisible, setMainSectionVisibile] = useState(true);
   const [adImage, setadImage] = useState('');
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [adLink, setAdLink] = useState('');
 
 
   const fetchCategoriesData = async () => {
@@ -177,10 +178,12 @@ const HomePage = () => {
         const adImg = responseData.results || [];
   
         const filteredPosts = adImg.filter(post => post.categories.some(category => category.objectId === '1Rav71bqVy'));
-  
-        const imageUrl = filteredPosts.length > 0 ? filteredPosts[0].images?.untitled[0]?.dir + filteredPosts[0].images?.untitled[0]?.imageax300 : null;
-        setadImage(imageUrl || "");
+        console.log(filteredPosts[0].imgUrl);
 
+        const AdImgUrl = filteredPosts.length > 0 ? filteredPosts[0].images?.untitled[0]?.dir + filteredPosts[0].images?.untitled[0]?.imageax300 : null;
+        setadImage(AdImgUrl || "");
+
+        setAdLink(filteredPosts[0].imgUrl || "");
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -192,6 +195,10 @@ const HomePage = () => {
 
   const handleImageLoad = () => {
     setImageLoaded(true);
+  };
+
+  const handleAdClick = () => {
+    window.location.href = adLink;
   };
 
 
@@ -226,7 +233,6 @@ const HomePage = () => {
   };
 
   const handleCategoryClick = (category) => {
-    // console.log(category)
     setSelectedCategory(category);
     setHomePageVisible(true);
     setCategoryVisible(false);
@@ -274,12 +280,12 @@ const HomePage = () => {
           </>
           )}
 
-<div className="ad-image flex justify-center w-full">
-  {adImage && (
-    <img src={adImage} alt="AdIMG" onLoad={handleImageLoad} />
-  )}
+    <div className="ad-image flex justify-center w-full">
+      {adImage && (
+        <img src={adImage} alt="AdIMG" onLoad={handleImageLoad} onClick={handleAdClick} />
+      )}
 
-</div>
+    </div>
 
 
 
