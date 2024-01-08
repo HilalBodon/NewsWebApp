@@ -1,5 +1,5 @@
 .navbar {
-  height: 12vh;
+  height: 10vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -16,8 +16,9 @@
   transition: background-color 0.3s ease;
 }
 
-.logo {
-  width: 4rem
+.logo img {
+  width: 4rem;
+  max-width: 80%;
 }
 
 .nav-list {

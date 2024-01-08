@@ -15,7 +15,7 @@ const Headers = {
 
 const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onSettingsToggle, onCategoryClick, updateCategories, fetchPosts,showCategories = true  }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 770);
+  const [isScreenLarge, setIsScreenLarge] = useState(window.innerWidth > 1100);
   const [forceRender, setForceRender] = useState(false);
   const isValidToken = localStorage.getItem('token') !== null;
   const [categories, setCategories] = useState([]);
@@ -24,9 +24,6 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
     setSidebarOpen(!isSidebarOpen);
   };
 
-  // const handleCategoryToggle = (category) => {
-  //   console.log('Category toggled:', category);
-  // };
 
   const handleCategoryClick = (category) => {
     onCategoryClick(category);
@@ -80,7 +77,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
     <nav className="navbar">
       {!isScreenLarge && (
       <div className="menu-icon" onClick={toggleSidebar}>
-        <MenuIcon style={{ fontSize: '2.5rem'}}/>
+        <MenuIcon style={{ fontSize: '4.5vh'}}/>
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}
         onCategoryClick={handleCategoryClick} updateCategories={updateCategories}
         onHomePageToggle={onHomePageToggle} onCategoryToggle={onCategoryToggle}
@@ -103,7 +100,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
         </div>
               )}
 
-{!showCategories && isScreenLarge &&(
+{!showCategories &&(
         <div>
           <Link to="/">
             <button className='back-button' >العودة الى الرئيسية</button>

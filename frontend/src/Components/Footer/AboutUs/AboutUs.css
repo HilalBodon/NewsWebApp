@@ -22,17 +22,18 @@
   
   .about-us-content {
     overflow-x: auto;
-    height: 80%;
+    height: 90%;
     background: #fff;
     color: #606060;
     padding: 20px;
     border-radius: 8px;
-    max-width: 600px;
+    max-width: 80%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
   
   .about-us-container {
     text-align: center;
+
   }
   
   .about-us-title {
@@ -41,7 +42,8 @@
   }
   
   .about-us-text {
-    line-height: 1.6;
+    line-height: 1.8;
+    text-align: right;
   }
   
   .about-us-close-button {

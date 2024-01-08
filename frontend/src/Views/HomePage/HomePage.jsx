@@ -178,8 +178,6 @@ const HomePage = () => {
         const adImg = responseData.results || [];
   
         const filteredPosts = adImg.filter(post => post.categories.some(category => category.objectId === '1Rav71bqVy'));
-        console.log(filteredPosts[0].imgUrl);
-
         const AdImgUrl = filteredPosts.length > 0 ? filteredPosts[0].images?.untitled[0]?.dir + filteredPosts[0].images?.untitled[0]?.imageax300 : null;
         setadImage(AdImgUrl || "");
 

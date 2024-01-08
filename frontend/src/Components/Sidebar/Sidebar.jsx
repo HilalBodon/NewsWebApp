@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Add this import statement
+import { Link } from 'react-router-dom';
 
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
@@ -20,10 +20,25 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
           method: 'get',
           params: {
             "fields": "Name",
+            "order": "Name",
           },
           headers: Headers,
         });
-        setCategories(response.data.results);
+
+        // Sort the data by Name
+        const sortedCategories = response.data.results.sort((a, b) => a.Name.localeCompare(b.Name));
+
+        // Find the index of the category you want to appear first (e.g., "Main Category")
+        const mainCategoryIndex = sortedCategories.findIndex(category => category.Name === 'الرئيسية');
+
+        // If the category is found, move it to the front of the array
+        if (mainCategoryIndex !== -1) {
+          const mainCategory = sortedCategories.splice(mainCategoryIndex, 1)[0];
+          sortedCategories.unshift(mainCategory);
+        }
+
+        // Set the sorted and reordered categories in state
+        setCategories(sortedCategories);
 
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -48,7 +63,7 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
       <div className={`overlay ${isOpen ? 'open' : ''}`} onClick={handleOverlayClick}></div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className='roaya-name'>مركز زاوية رؤية الثقافية </div>
-
+      <br />
         <div className='sideBar-list'>
         {!showCategories ? (
         <div>
@@ -74,14 +89,3 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
 
 export default Sidebar;
 
-
-
-        {/* {window.innerWidth < 770 && isValidToken && (
-          <ul className='list-styling'>
-            <li className="nav-item" onClick={onHomePageToggle}>Home</li>
-            <li className="nav-item" onClick={onPostComponentToggle}>Manage Posts</li>
-            <li className="nav-item" onClick={onCategoryToggle}>Manage Categories</li>
-            <li className="nav-item" onClick={onSettingsToggle}>More Settings</li>
-            <hr className="separator" />
-          </ul>
-        )} */}
