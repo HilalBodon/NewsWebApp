@@ -88,14 +88,14 @@
 }
 
 
-.scroll-container {
+/* .scroll-container {
   overflow-y: hidden;
   display: flex;
   flex-direction: row-reverse;
   gap: 20px;
   padding-bottom: 10px;
     overflow-x: auto;
-    white-space: nowrap; /* Ensure the children are in a single line */
+    white-space: nowrap; 
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -110,7 +110,7 @@
   gap: 20px;
   padding-bottom: 10px;
   position: relative;
-  white-space: nowrap; /* Ensure the children are in a single line */
+  white-space: nowrap; 
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -130,12 +130,10 @@
 
 
 .arrow {
-  /* position: absolute; */
   top: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* transform: translateY(-50%); */
   z-index: 1;;
   width:50px;
   height: 50px;
@@ -144,7 +142,6 @@
   font-weight: 500;
   font-size: 3rem;
   color: #ff8025;
-/* background-color: #ffcb93; */
 cursor: pointer;
 }
 
@@ -166,4 +163,19 @@ transition: ease-in-out 0.3s;
   justify-content: center;
   align-items: center;
   gap: 1vw;
+} */
+
+/* .swiper-button-prev, .swiper-rtl .swiper-button-next { */
+  .swiper-button-prev, .swiper-button-next{
+  height: 50px !important;
+  width: 50px !important;
+  border-radius: 50%;
+  background-color: #ff8025;
+  color: white;
+  font-weight: 900;
+}
+
+:root {
+  --swiper-theme-color: #ffffff !important;
+  --swiper-navigation-size:20px !important;
 }

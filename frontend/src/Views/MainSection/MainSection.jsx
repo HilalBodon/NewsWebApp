@@ -31,7 +31,7 @@ const MainSection = ({ onFeaturedPostClick, showVideo }) => {
                 "order": "-createdAt",
                 "media": "images,files",
                 "crops": "ax300,ax1000",
-                "limit": "100",
+                "limit": "2000",
                 "where": {
                   "featured": "1"
                 },

@@ -103,7 +103,7 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 {!showCategories &&(
         <div>
           <Link to="/">
-            <button className='back-button' >العودة الى الرئيسية</button>
+            <button className='back-button' > الرئيسية</button>
           </Link>
         </div>
       )}

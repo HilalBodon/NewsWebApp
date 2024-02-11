@@ -19,11 +19,3 @@ function App() {
 }
 
 export default App;
-
-
-// const handleLogin = (token) => {
-//   console.log('Logged in with token:', token);
-// };
-
-{/* <Route path="/Login" element={<Login/>}/> */}
-{/* // onLogin={handleLogin} */}

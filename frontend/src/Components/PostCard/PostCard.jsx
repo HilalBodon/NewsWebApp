@@ -78,7 +78,12 @@ const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCar
   };
   const truncatedContent = truncateHtml(content, 50);
 
-
+  // const modifyDate = (dateString) => {
+  //   const originalDate = new Date(dateString);
+  //   const modifiedDate = new Date(originalDate);
+  //   modifiedDate.setHours(originalDate.getHours() + 4);
+  //   return modifiedDate.toLocaleString('en-US', { timeZone: 'GMT' });
+  // };
 
   return (
     <div className="post-card" onClick={handleClick}>

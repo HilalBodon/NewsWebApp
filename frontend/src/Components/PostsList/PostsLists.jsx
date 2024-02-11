@@ -5,6 +5,14 @@ import './PostsList.css';
 import { useNavigate } from 'react-router-dom';
 import Img from "./default-Img.png";
 
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+  
+
 const BaseURL = process.env.REACT_APP_BASE_URL;
 const Headers = {
   'X-BEA-Application-Id': process.env.REACT_APP_API_KEY,
@@ -14,19 +22,7 @@ const Headers = {
 const PostList = ({ posts, selectedCategory }) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const navigate = useNavigate();
-
-
-  const [visibleCategoryIndex, setVisibleCategoryIndex] = useState(0);
-
-  // const handleArrowClick = (direction) => {
-  //   if (direction === 'left' && visibleCategoryIndex > 0) {
-  //     setVisibleCategoryIndex(visibleCategoryIndex - 1);
-  //   } else if (direction === 'right' && visibleCategoryIndex < categoriesArray.length - 1) {
-  //     setVisibleCategoryIndex(visibleCategoryIndex + 1);
-  //   }
-  // };
-
-
+  const isMobile = window.innerWidth < 480;
 
 
   const handleCardClick = (post) => {
@@ -34,7 +30,6 @@ const PostList = ({ posts, selectedCategory }) => {
     navigate(`/posts/${post.objectId}`);
   };
 
-  // Filter out posts from the "main" category
   const filteredPosts = posts.filter(post => {
     const category = post.categories[0];
     return category.Name !== 'الرئيسية';
@@ -60,43 +55,43 @@ const PostList = ({ posts, selectedCategory }) => {
 
   categoriesArray.sort((a, b) => a.categoryName.localeCompare(b.categoryName));
 
+  const swiperConfig = {
+    modules: [Navigation, Pagination, Scrollbar, A11y],
+    spaceBetween: 15,
+    slidesPerView: isMobile ? 1.2 : 4,
+    // direction: isMobile ? 'vertical' : 'horizontal',
+    navigation: true,
+    height: isMobile ? '500px' : '400px',
+  //   onSwiper: (swiper) => console.log(swiper),
+    // onSlideChange: () => console.log('slide change'),
+  };
 
   return (
     <div className="post-list-container">
-
-
       {categoriesArray.map(({ categoryName, posts }, index) => (
         <div key={index} className="category-container">
           <div className='h2'>{categoryName}</div>
-          
-          <div className="scroll-container">
-            <div className="scroll-content">
-              {posts.map((post) => {
-                let imgurl2 = Img;
-                try {
-                  imgurl2 = post.images.untitled[0].dir + post.images.untitled[0].imageax300;
-                } catch (e) {
 
-                }
-                return (
+          <div className="swiper-container-wrapper">
+          <Swiper {...swiperConfig}>
+              {posts.map((post) => (
+                <SwiperSlide key={post._id}>
                   <PostCard
-                    key={post._id}
                     Title={post.Title}
                     content={post.content}
                     category={categoryName}
                     createdAt={post.createdAt}
                     videoUrl={post.videoUrl}
-                    imgUrl={imgurl2}
+                    imgUrl={post.images?.untitled[0]?.dir + post.images?.untitled[0]?.imageax300 || Img}
                     onCardClick={() => handleCardClick(post)}
                   />
-                );
-              })}
-            </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
           <hr className='bold' />
         </div>
       ))}
-
       {selectedPost && (
         <FullScreenPost post={selectedPost} onClose={() => setSelectedPost(null)} />
       )}
@@ -105,6 +100,9 @@ const PostList = ({ posts, selectedCategory }) => {
 };
 
 export default PostList;
+
+
+
 
 
 
