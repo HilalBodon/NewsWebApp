@@ -58,7 +58,7 @@ const PostList = ({ posts, selectedCategory }) => {
   const swiperConfig = {
     modules: [Navigation, Pagination, Scrollbar, A11y],
     spaceBetween: 15,
-    slidesPerView: isMobile ? 1.2 : 4,
+    slidesPerView: isMobile ? 1 : 4,
     navigation: true,
     height: isMobile ? '500px' : '400px',
   };

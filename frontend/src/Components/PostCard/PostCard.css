@@ -1,4 +1,5 @@
 .post-card {
+  
     width: 25vw;
     max-width: 300px;
     min-width: 250px;
@@ -183,8 +184,12 @@ padding: 7px;
   border-radius: 4px;
 }
 
-
-.ltr-text>* {
+@media screen and (max-width: 600px) {
+  .post-card{
+    left: 53px;
+  }
+}
+/* .ltr-text>* {
   direction: ltr;
   text-align: left;
 }
@@ -192,4 +197,4 @@ padding: 7px;
 .rtl-text>* {
   direction: rtl;
   text-align: right;
-}
+} */
