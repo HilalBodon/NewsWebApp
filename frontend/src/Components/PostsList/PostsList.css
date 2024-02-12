@@ -165,15 +165,17 @@ transition: ease-in-out 0.3s;
   gap: 1vw;
 } */
 
-/* .swiper-button-prev, .swiper-rtl .swiper-button-next { */
+
+
   .swiper-button-prev, .swiper-button-next{
   height: 50px !important;
   width: 50px !important;
   border-radius: 50%;
-  background-color: #ff8025;
+  background-color: #ff8025c6;
   color: white;
   font-weight: 900;
 }
+
 
 :root {
   --swiper-theme-color: #ffffff !important;

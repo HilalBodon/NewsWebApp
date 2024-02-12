@@ -59,11 +59,8 @@ const PostList = ({ posts, selectedCategory }) => {
     modules: [Navigation, Pagination, Scrollbar, A11y],
     spaceBetween: 15,
     slidesPerView: isMobile ? 1.2 : 4,
-    // direction: isMobile ? 'vertical' : 'horizontal',
     navigation: true,
     height: isMobile ? '500px' : '400px',
-  //   onSwiper: (swiper) => console.log(swiper),
-    // onSlideChange: () => console.log('slide change'),
   };
 
   return (
