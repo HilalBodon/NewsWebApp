@@ -91,11 +91,11 @@ const Navbar = ({ onHomePageToggle, onPostComponentToggle, onCategoryToggle, onS
 {showCategories && isScreenLarge && (
         <div className='wrap-ul'>
           <ul className='list-styling'>
-            {categories.map((category) => (
-              <li key={category._id} onClick={() => handleCategoryClick(category)}>
-                {category.Name}
-              </li>
-            ))}
+             {categories.map((category) => (
+          <li key={category.objectId} onClick={() => handleCategoryClick(category)}>
+            {category.Name}
+          </li>
+        ))}
           </ul>
         </div>
               )}

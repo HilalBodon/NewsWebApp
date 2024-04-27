@@ -4,10 +4,16 @@ import Navbar from '../NavBar/Nav';
 import Footer from '../Footer/Footer';
 
 function importAll(r) {
-  return r.keys().map(r);
+  try {
+    return r.keys().map(r);
+  } catch (error) {
+    console.error('Error importing images:', error);
+    return [];
+  }
 }
 
-const teamImages = importAll(require.context('./TeamImages/', false, /\.(png|jpe?g|svg)$/));
+
+const teamImages = importAll(require.context('./TeamImages/', false, /\.(png|jpg|jpeg|svg)$/));
 
 const RoayaTeam = () => {
   const teamMembers = teamImages.map((imageUrl, index) => {
