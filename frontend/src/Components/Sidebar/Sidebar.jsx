@@ -72,13 +72,22 @@ const Sidebar = ({ isOpen, onClose, onCategoryClick, updateCategories, onHomePag
           </Link>
         </div>
       ) : (
-        <ul className='list-styling'>
-          {categories.map((category) => (
-            <li key={category._id} onClick={() => handleCategoryClick(category)}>
-              {category.Name}
-            </li>
-          ))}
-        </ul>
+        // <ul className='list-styling'>
+        //   {categories.map((category) => (
+        //     <li key={category._id} onClick={() => handleCategoryClick(category)}>
+        //       {category.Name}
+        //     </li>
+        //   ))}
+        // </ul>
+
+      <ul className='list-styling'>
+      {categories.map((category, index) => (
+        <li key={`${category._id}-${index}`} onClick={() => handleCategoryClick(category)}>
+          {category.Name}
+        </li>
+      ))}
+    </ul>
+
       )}
 
         </div>

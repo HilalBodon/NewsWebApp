@@ -62,10 +62,29 @@ const PostCard = ({ Title, content, category, createdAt, videoUrl, imgUrl, onCar
     }
   };
 
+  // const getYouTubeThumbnail = (videoUrl) => {
+  //   const videoId = videoUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  //   return videoId ? `https://img.youtube.com/vi/${videoId[1]}/maxresdefault.jpg` : null;
+  // };
+
   const getYouTubeThumbnail = (videoUrl) => {
     const videoId = videoUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return videoId ? `https://img.youtube.com/vi/${videoId[1]}/maxresdefault.jpg` : null;
+    if (videoId) {
+      // Try fetching different resolutions in order of preference
+      const resolutions = ['hqdefault', 'mqdefault', 'default'];
+      for (const resolution of resolutions) {
+        const thumbnailUrl = `https://img.youtube.com/vi/${videoId[1]}/${resolution}.jpg`;
+        // Check if the thumbnail exists
+        const img = new Image();
+        img.src = thumbnailUrl;
+        if (img.complete || img.height > 0) {
+          return thumbnailUrl;
+        }
+      }
+    }
+    return null;
   };
+  
 
   const thumbnailUrl = getYouTubeThumbnail(videoUrl);
 

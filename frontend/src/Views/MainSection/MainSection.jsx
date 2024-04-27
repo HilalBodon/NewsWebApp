@@ -80,14 +80,26 @@ return (
       </div>
     )}
     <div className="left-section">
-      {featuredPosts.slice(0, 4).map((post) => (
+      {/* {featuredPosts.slice(0, 4).map((post) => (
         <PostInMainView
           key={post.id}
           post={post}
           isActive={true}
           onClick={() => handlePostClick(post)}
         />
+      ))} */}
+
+      {featuredPosts.slice(0, 4).map((post, index) => (
+        <PostInMainView
+          key={`${post.id}-${index}`} // Using a combination of post.id and index
+          post={post}
+          isActive={true}
+          onClick={() => handlePostClick(post)}
+        />
       ))}
+
+
+
     </div>
   </div>
 );

@@ -71,19 +71,20 @@ const PostList = ({ posts, selectedCategory }) => {
 
           <div className="swiper-container-wrapper">
           <Swiper {...swiperConfig}>
-              {posts.map((post) => (
-                <SwiperSlide key={post._id}>
-                  <PostCard
-                    Title={post.Title}
-                    content={post.content}
-                    category={categoryName}
-                    createdAt={post.createdAt}
-                    videoUrl={post.videoUrl}
-                    imgUrl={post.images?.untitled[0]?.dir + post.images?.untitled[0]?.imageax300 || Img}
-                    onCardClick={() => handleCardClick(post)}
-                  />
-                </SwiperSlide>
-              ))}
+          {posts.map((post, index) => (
+          <SwiperSlide key={`${post._id}-${index}`}>
+            <PostCard
+              Title={post.Title}
+              content={post.content}
+              category={categoryName}
+              createdAt={post.createdAt}
+              videoUrl={post.videoUrl}
+              imgUrl={post.images?.untitled[0]?.dir + post.images?.untitled[0]?.imageax300 || Img}
+              onCardClick={() => handleCardClick(post)}
+            />
+          </SwiperSlide>
+        ))}
+
             </Swiper>
           </div>
           <hr className='bold' />

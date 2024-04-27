@@ -29,7 +29,7 @@ const fetchPosts = async (selectedCategory, setPosts) => {
         "order": "-createdAt",
         "media": "images,files",
         "crops": "ax300,ax1000",
-        "limit": "2000",
+        "limit": "10000",
         "categories": selectedCategory === '1Rav71bqVy' ? null : selectedCategory,
       },
       headers: Headers,
@@ -168,7 +168,7 @@ const HomePage = () => {
             "order": "-createdAt",
             "media": "images,files",
             "crops": "ax300,ax1000",
-            "limit": "100",
+            "limit": "10000",
             "categories": selectedCategory === '1Rav71bqVy' ? null : selectedCategory,
           },
           headers: Headers,
@@ -237,9 +237,9 @@ const HomePage = () => {
     setPostComponentVisible(false);
     setOverlayVisible(false);
     setSettingsVisible(false);
-    setMainSectionVisibile(category === "1Rav71bqVy");
+    setMainSectionVisibile(category === "qQnvwJ6PL8");
   };
-
+  // 1Rav71bqVy
   const handlePostComponentToggle = () => {
     setPostComponentVisible(true);
     setCategoryVisible(false);
