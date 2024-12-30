@@ -30,28 +30,56 @@ const PostList = ({ posts, selectedCategory }) => {
     navigate(`/posts/${post.objectId}`);
   };
 
+  // console.log(posts)
+  // const filteredPosts = posts.filter(post => {
+  //   const category = post.categories[0];
+  //   return category.Name !== 'الرئيسية';
+  // });
+
   const filteredPosts = posts.filter(post => {
-    const category = post.categories[0];
-    return category.Name !== 'الرئيسية';
+    const category = post.categories && post.categories[0];
+    return category && category.Name !== 'الرئيسية';
   });
+  
+
+  // const categoriesArray = filteredPosts.reduce((accumulator, post) => {
+  //   const category = post.categories[0];
+  //   const categoryName = category.Name;
+
+  //   const existingCategory = accumulator.find((item) => item.categoryName === categoryName);
+
+  //   if (existingCategory) {
+  //     existingCategory.posts.push(post);
+  //   } else {
+  //     accumulator.push({
+  //       categoryName,
+  //       posts: [post],
+  //     });
+  //   }
+
+  //   return accumulator;
+  // }, []);
 
   const categoriesArray = filteredPosts.reduce((accumulator, post) => {
-    const category = post.categories[0];
-    const categoryName = category.Name;
-
-    const existingCategory = accumulator.find((item) => item.categoryName === categoryName);
-
-    if (existingCategory) {
-      existingCategory.posts.push(post);
-    } else {
-      accumulator.push({
-        categoryName,
-        posts: [post],
-      });
+    const category = post.categories && post.categories[0];
+    const categoryName = category ? category.Name : '';
+  
+    if (categoryName) {
+      const existingCategory = accumulator.find((item) => item.categoryName === categoryName);
+  
+      if (existingCategory) {
+        existingCategory.posts.push(post);
+      } else {
+        accumulator.push({
+          categoryName,
+          posts: [post],
+        });
+      }
     }
-
+  
     return accumulator;
   }, []);
+  
 
   categoriesArray.sort((a, b) => a.categoryName.localeCompare(b.categoryName));
 

@@ -237,7 +237,7 @@ const HomePage = () => {
     setPostComponentVisible(false);
     setOverlayVisible(false);
     setSettingsVisible(false);
-    setMainSectionVisibile(category === "qQnvwJ6PL8");
+    setMainSectionVisibile(category === "1Rav71bqVy");
   };
   // 1Rav71bqVy
   const handlePostComponentToggle = () => {
